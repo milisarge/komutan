@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title>Komutan Giriş Paneli</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Giriş Bilgileri</h1>
+      <br>
+      <form action="/giris" method="post">
+        <input type="text" placeholder="kullanıcı" id="username" name="username" value="{{
+          request.form.username }}">
+         <input type="password" placeholder="şifre" id="password" name="password" value="{{
+          request.form.password }}">
+        <input class="btn btn-default" type="submit" value="giriş">
+      </form>
+      {% if error %}
+        <p class="error"><strong>Hata:</strong> {{ error }}
+      {% endif %}
+    </div>
+  </body>
+</html>

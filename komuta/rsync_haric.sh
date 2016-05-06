@@ -1,0 +1,1 @@
+rsync -av --exclude=.cache --exclude=.mozilla /home/ben /media/ben/thumbdrive/

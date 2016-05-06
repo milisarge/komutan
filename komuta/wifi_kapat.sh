@@ -1,0 +1,1 @@
+nmcli radio wifi off

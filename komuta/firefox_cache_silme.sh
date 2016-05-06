@@ -1,0 +1,1 @@
+rm  ~/.mozilla/firefox/*default/cook?

@@ -1,0 +1,8 @@
+
+komuta/paketdepo.ayar
+komuta/paketmd5.txt
+nohup.out
+kondarma/*
+log/*
+!kondarma/beni.oku
+*.pyc

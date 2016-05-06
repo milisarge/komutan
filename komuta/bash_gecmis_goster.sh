@@ -1,0 +1,1 @@
+cat /root/.bash_history

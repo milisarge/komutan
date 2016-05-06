@@ -1,0 +1,1 @@
+cp komuta/.gtkrc-2.0 /root/

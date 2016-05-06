@@ -1,0 +1,1 @@
+lynis --check-all -Q

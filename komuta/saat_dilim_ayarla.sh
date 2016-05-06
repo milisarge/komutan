@@ -1,0 +1,1 @@
+export TZ="/usr/share/zoneinfo/Europe/Athens"

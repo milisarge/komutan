@@ -1,0 +1,10 @@
+#hintbox{
+    display:none;
+    position: absolute;
+    font-size: 12 px;
+    background-color: #669999;
+    color: #000000;
+    border: 1px solid black;
+    padding: 8px;
+    border-radius:5px;
+}  

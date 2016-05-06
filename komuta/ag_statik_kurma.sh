@@ -1,0 +1,1 @@
+nmcli con add con-name statik_bagli ifname "*" type ethernet ip4 192.168.100.100/24 gw4 192.168.100.1

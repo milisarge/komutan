@@ -1,0 +1,1 @@
+nmcli con mod statik_bagli ipv4.dns "8.8.8.8 8.8.4.4"
