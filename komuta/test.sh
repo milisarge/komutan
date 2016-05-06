@@ -1,1 +1,1 @@
-echo "komutan sunucu"
+echo "test"

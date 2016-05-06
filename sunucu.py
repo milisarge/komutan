@@ -147,6 +147,7 @@ def komutCalistir():
 			komutson=komut
 		if "#python" in komut:
 			onkomut="python "
+		
 		sonuc=arger.komut_kos(komutson,onkomut)
 		return Response(json.dumps(sonuc),mimetype='application/json')
 	else:		

@@ -7,6 +7,8 @@ Users can learn and develop themself in scripting.Komutan will be also widely li
 
 requirements
 
+sqlite
+
 python2.7
 
 python-flask ( pip2 install flask )

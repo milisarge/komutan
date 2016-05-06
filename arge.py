@@ -33,13 +33,15 @@ class Arge:
 			return sorted(flst)
 	
 	def komut_kos(self,komut,onkomut=""):
+		
 		komut=komut.strip()
 		komckt="kondarma/"+str(randint(0,1000))+".ckt"
 		komkos=komckt+".kos"
 		if onkomut=="":
-			onkomut="sh "
+			onkomut="bash "
 		codecs.open(komkos,"w","utf-8").write(komut)
 		tumkomut=onkomut+" "+komkos+" 2>"+komckt
+		
 		process = subprocess.Popen(tumkomut,stdout=subprocess.PIPE,shell=True)
 		proc_stdout = process.communicate()[0].strip()
 		hsonuc=codecs.open(komckt,"r").read()

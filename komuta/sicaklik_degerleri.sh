@@ -1,1 +1,2 @@
-hddtemp /dev/sda && echo "" && sensors
+hddtemp /dev/sda && echo ""  
+sensors
