@@ -1,3 +1,4 @@
 paket=xorg
-uxterm -hold -e "mps -kur $paket"
-echo "pencereyi kapatınız."
+uxterm -hold -e "mps -kur $paket
+echo 'pencereyi kapatınız.'"
+
