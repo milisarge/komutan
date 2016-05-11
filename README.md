@@ -14,3 +14,5 @@ python2.7
 python-flask ( pip2 install flask )
 
 python-psutil ( pip2 install psutil )
+
+pip install gerekliler/python-stdnum-1.1.tar.gz
