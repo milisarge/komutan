@@ -9,6 +9,8 @@ requirements
 
 sqlite
 
+curl 
+
 python2.7
 
 python-flask ( pip2 install flask )
