@@ -21,9 +21,9 @@ import crypt
 class Arge:
 	
 	def dizin_cek(self,dizin='dizin',uzanti=""):
-		dizinyol='./'+dizin
+		#dizinyol='/'+dizin
 		flst=[]
-		lst=os.listdir(dizinyol)
+		lst=os.listdir(dizin)
 		if uzanti=="":
 			return sorted(lst)
 		else:

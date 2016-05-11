@@ -1,3 +1,4 @@
 paket=xorg
-mps -kk $paket
+uxterm -hold -e "mps -kur $paket
+echo 'pencereyi kapatınız.'"
 

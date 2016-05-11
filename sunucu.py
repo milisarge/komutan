@@ -88,7 +88,37 @@ def komutaModul():
 		return render_template('komutaModul.html',mod=dizin,komutlar=calismalist,kayitmodu='w')	
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
-		
+
+@app.route('/mpsModul', methods=['GET', 'POST'])	
+def mpsModul():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		dizin='/root/talimatname/genel'
+		calismalist=arger.dizin_cek(dizin=dizin)
+		return render_template('mps.html',mod=dizin,komutlar=calismalist,kayitmodu='w')	
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+
+@app.route('/paketlist', methods=['GET', 'POST'])
+def paketlist():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		data=os.listdir("/root/talimatname/genel")
+		print data
+		lst = []
+		for pn in data:
+			d = {}
+			d['isim']=pn
+			lst.append(d)
+		print lst
+		return Response(json.dumps(lst),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+
 @app.route('/surecModul', methods=['GET', 'POST'])	
 def surecModul():
 	if "KULL_ID" not in session:
