@@ -108,14 +108,15 @@ def paketlist():
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
 		data=os.listdir("/root/talimatname/genel")
-		print data
 		lst = []
 		for pn in data:
 			d = {}
 			d['isim']=pn
 			lst.append(d)
-		print lst
-		return Response(json.dumps(lst),mimetype='application/json')
+		if lst:
+			return Response(json.dumps(lst),mimetype='application/json')
+		else:
+			return Response(json.dumps("hata"),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 
@@ -195,8 +196,11 @@ def komutAl():
 			dosya = request.args.get('dosya')
 		else:
 			dosya='test.sh'
-		data=codecs.open(dizin+"/"+dosya,"r").read()
-		return Response(json.dumps(data),mimetype='application/json')
+		try:
+			data=codecs.open(dizin+"/"+dosya,"r").read()
+			return Response(json.dumps(data),mimetype='application/json')
+		except:
+			return Response(json.dumps("hata"),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")
 

@@ -43,7 +43,7 @@ body {
 }
 .formalan{
 	float:left;
-	width:420px;
+	width:520px;
 	height:500px;
 	border:#CCC solid 1px;
 	background-color:#996600 ;
@@ -54,7 +54,7 @@ body {
 }
 .raporalan{
 	float: right;
-	width:800px;
+	width:700px;
 	height:500px;
 	overflow: scroll;
 	white-space: pre;
@@ -138,34 +138,38 @@ hr {
 			$.ajax({
 				url : "/calismaAl?mod="+$('#mod').val() +"&dosya="+komutdosya+"/talimat",
 			}).done(function(data) {
-				$("#calismakod").val(data);
-				if(komutdosya.indexOf('.sh') != -1){
-					$('#arayuz_alan').html("");
-					datalar=data.split("\n");
-					$.each( datalar, function( index, value ){
-					if (( value.indexOf('=') != -1 ) && ( value.indexOf('if ') == -1 )){
-						//console.log(value);
-						 deger=value.split('=')[1];
-						 girdi_ad=value.split('=')[0];
-						 input_tip='text'
-						 if (girdi_ad.toLowerCase().indexOf("sifre") >= 0){
-							input_tip='password';
-						 }
-						 $("#arayuz_alan").append("<div class=element>");
-						 $("#arayuz_alan").append("<dt>"+girdi_ad+"</dt>");
-						 $("<input type="+input_tip+" value="+deger+" />")
-						 .attr("id", girdi_ad)
-						 .attr("name",girdi_ad)
-						 .attr("size",deger.length+4)
-						 .attr("ondblclick","this.value=''")
-						 .appendTo("#arayuz_alan");
-						 $("#arayuz_alan").append("</element>");
-					}
-					});		
+				if (data=="hata"){
+					hataGoster("talimat bulunamadı!");
 				}else{
-					$('#arayuz_alan').html("");
 					$("#calismakod").val(data);
-				}	
+					if(komutdosya.indexOf('.sh') != -1){
+						$('#arayuz_alan').html("");
+						datalar=data.split("\n");
+						$.each( datalar, function( index, value ){
+						if (( value.indexOf('=') != -1 ) && ( value.indexOf('if ') == -1 )){
+							//console.log(value);
+							 deger=value.split('=')[1];
+							 girdi_ad=value.split('=')[0];
+							 input_tip='text'
+							 if (girdi_ad.toLowerCase().indexOf("sifre") >= 0){
+								input_tip='password';
+							 }
+							 $("#arayuz_alan").append("<div class=element>");
+							 $("#arayuz_alan").append("<dt>"+girdi_ad+"</dt>");
+							 $("<input type="+input_tip+" value="+deger+" />")
+							 .attr("id", girdi_ad)
+							 .attr("name",girdi_ad)
+							 .attr("size",deger.length+4)
+							 .attr("ondblclick","this.value=''")
+							 .appendTo("#arayuz_alan");
+							 $("#arayuz_alan").append("</element>");
+						}
+						});		
+					}else{
+						$('#arayuz_alan').html("");
+						$("#calismakod").val(data);
+					}	
+				}
 			});
 				
 			
@@ -303,15 +307,18 @@ hr {
 		<div class=arayuz_alan id=arayuz_alan></div>
 		
 		<div class=element>
-		<input type=text id=paketara name=paketara tabindex="-1" style="margin-left:40px;width: 200px;"/>
+		<input type=text id=paketara name=paketara ondblclick=this.value='' tabindex="-1" style="margin-left:40px;width: 200px;"/>
 		</div>
 		<script>
 		var ajax = new XMLHttpRequest();
 		ajax.open("GET", "/paketlist", true);
 		ajax.onload = function() {
 			var list = JSON.parse(ajax.responseText).map(function(i) { return i.isim; });
-			console.log(list);
-			new Awesomplete(document.querySelector("#paketara"),{ list: list });
+			if (list=="hata"){
+				hataGoster("paketlist boş!");
+			}else{
+				new Awesomplete(document.querySelector("#paketara"),{ list: list });
+			}
 		};
 		ajax.send();
 		</script>
@@ -331,7 +338,7 @@ hr {
 		<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
 		<hr noshade size=2>
 		<div class=element>
-		<textarea id=calismakod name=calismakod value="" ondblclick=this.value='' style="font-size: 14px;;margin-top: 3px;width:400px;height: 200px;"></textarea>
+		<textarea id=calismakod name=calismakod value="" ondblclick=this.value='' style="font-size: 14px;;margin-top: 3px;width:500px;height: 200px; color:white;background-color:black "></textarea>
 		</div>
 		</form>
 		
