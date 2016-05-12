@@ -2,7 +2,7 @@
 <head>
 <title>MPS</title>
 <meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
-<link rel="stylesheet" href="./static/css/reset.css" />
+
 <script src="../static/jquery.js"></script>
 <script src="../static/jquery.min.js"></script>
 <script src="../static/js/jquery-ui.js"></script>
@@ -42,13 +42,11 @@ body {
 	height: 20px;
 }
 .formalan{
-	float:left;
-	width:520px;
-	height:500px;
+	float:center;
+	width:1300px;
+	height:550px;
 	border:#CCC solid 1px;
 	background-color:#996600 ;
-	margin-right: 10px;
-	margin-left: 4px;
 	font-family:monospace;
 	font-weight: bold;
 }
@@ -60,21 +58,23 @@ body {
 	white-space: pre;
 	
 }
-.genelalan {
-	width: 1300px;
-	height: 670;
-	
-}
+
 .operbutonlar{
 	width:auto; 
+	float:center;
 	margin: 5 ;
 	font-family:monospace;
 	font-weight: bold;
 }
-.element{
-	width:470px; 
-	margin: 10 ;
+.arayuz_alan{
 	float:center;
+	width:auto;
+}
+.element{
+	margin-left: 10px ;
+	margin-top: 10px ;
+	margin-bottom: 10px ;
+	width:auto;
 	font-family:monospace;
 	font-weight: bold;
 }
@@ -307,7 +307,7 @@ hr {
 		<div class=arayuz_alan id=arayuz_alan></div>
 		
 		<div class=element>
-		<input type=text id=paketara name=paketara ondblclick=this.value='' tabindex="-1" style="margin-left:40px;width: 200px;"/>
+			<input type=text id=paketara name=paketara ondblclick=this.value='' tabindex="-1" style="width: 200px;margin-top: 10px;"/>
 		</div>
 		<script>
 		var ajax = new XMLHttpRequest();
@@ -323,11 +323,11 @@ hr {
 		ajax.send();
 		</script>
 		
-		<div class=element>
-		<input type="submit" name="calistir" id="calistir" value="Çalıştır" tabindex="-1"/>
+		<div class=element >
+		<input type="submit" name="calistir" id="calistir" value="Çalıştır" tabindex="-1" />
 		</div>
 		<hr noshade size=2>
-		<div class=element style="margin-top: 30px";>
+		<div class=element style="margin-top: 30px;">
 			<input type=submit id=komutgg name=komutgg  value=arayüz tabindex="-1" >
 			<input type=text id=yenicalisma name=yenicalisma  value=yeni.sh tabindex="-1" style="width: 150px;"/>
 			<input type="submit" name="yeniKaydet" id="yeniKaydet" value="Yeni Kaydet" tabindex="-1"/>
@@ -338,20 +338,14 @@ hr {
 		<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
 		<hr noshade size=2>
 		<div class=element>
-		<textarea id=calismakod name=calismakod value="" ondblclick=this.value='' style="font-size: 14px;;margin-top: 3px;width:500px;height: 200px; color:white;background-color:black "></textarea>
+		<textarea id=calismakod name=calismakod value="" ondblclick=this.value='' style="font-size: 14px;margin-top: 3px;width:900px;height: 300px; color:white;background-color:black "></textarea>
 		</div>
 		</form>
 		
 		
 		
 	</div>
-	<div id='genelalan' class="genelalan" tabindex="-1">
-		<div class=raporalan id=raporalan>
-			<div id='yukleniyor'  class='yukleniyor'><img src='/static/yukleniyor.gif'/></div>
-		</div>
-		
-		<div id="fsb"></div>
-	</div>
+	
 </div>
 </body>
 </HTML>
