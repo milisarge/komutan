@@ -101,6 +101,30 @@ def mpsModul():
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 
+@app.route('/mpsFaal', methods=['GET', 'POST'])
+def mpsFaal():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		print request.args
+		data="bos"
+		if 'faal' in request.args:
+			faal = request.args.get('faal')
+			if faal=="kur":
+				print "kurulum"
+				paket=request.form["paketara"]
+				if paket!="":
+					print paket
+					data="tamam"
+				else:
+					data="boş paket"
+		else:
+			data="parametre eksik"
+		return Response(json.dumps(data),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+
 @app.route('/paketlist', methods=['GET', 'POST'])
 def paketlist():
 	if "KULL_ID" not in session:
