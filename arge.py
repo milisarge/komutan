@@ -138,10 +138,10 @@ class Arge:
 		return None
 		
 	def sifre_kontrol(self,isim,sifre):
-		saltkom="getent shadow "+isim+" | cut -d$ -f3"
+		saltkom="sudo getent shadow "+isim+" | cut -d$ -f3"
 		process = subprocess.Popen(saltkom,stdout=subprocess.PIPE,shell=True)
 		salt = process.communicate()[0].strip()
-		epasskom="getent shadow "+isim+" | cut -d: -f2"
+		epasskom="sudo getent shadow "+isim+" | cut -d: -f2"
 		process = subprocess.Popen(epasskom,stdout=subprocess.PIPE,shell=True)
 		epass = process.communicate()[0].strip()
 		match=crypt.crypt(sifre,"$6$"+salt)

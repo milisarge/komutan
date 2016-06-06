@@ -48,10 +48,6 @@ def giris():
 	if request.method == 'POST':
 		isim=request.form['username']
 		sifre=request.form['password']
-		#eski bash kontrol
-		#sifre_kontkom="komuta/sifre_kontrol.sh "+isim+" "+sifre+" > kondarma/onay"
-		#os.system(sifre_kontkom)
-		#onayson=open("kondarma/onay","r").read()
 		onayson=arger.sifre_kontrol(isim,sifre)
 		print "giris onayi:",onayson
 		if(onayson):
