@@ -1,0 +1,23 @@
+.modal-footer {   border-top: 0px; }
+
+body {
+    background: url('/static/bootstrap/img/bg.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    margin: 20px 20px 20px 20px;
+}
+
+a.list-group-item {
+	opacity: 0.5;
+}
+
+.panel{
+	border-radius: 5px;
+	opacity: 0.8;
+}
+
+.beyaz{
+	color: #fff;
+}

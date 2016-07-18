@@ -1,8 +1,9 @@
 <html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>komuta</title>
+<title>Komuta Merkezi</title>
 <meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
-<link rel="stylesheet" href="./static/css/reset.css" />
+<link rel="stylesheet" href="./static/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="./static/bootstrap/css/styles.css" />
 <script src="../static/jquery.js"></script>
 <script src="../static/jquery.min.js"></script>
 <script src="../static/js/jquery-ui.js"></script>
@@ -15,91 +16,6 @@
 	href="{{url_for('static', filename='css/table2.css')}}" type="text/css"
 	id="" media="print, projection, screen">
 
-<style type="text/css">
-body {
-	margin: 0px auto;
-	padding: 0px 0px;
-	font-family: calibri;
-	
-}
-.anasablon {
-	width: auto;
-	height: auto;
-	
-}
-.mheader {
-	font-family: Arial, Verdana;
-	text-shadow: 2px 2px 2px #ccc;
-	display: block;
-	float: left;
-	font-weight: bold;
-	padding-left: 10px;
-	text-align: left;
-	font-size: 15px;
-	width: 1300px;
-	height: 20px;
-}
-.formalan{
-	float:left;
-	width:420px;
-	height:500px;
-	border:#CCC solid 1px;
-	background-color:#996600 ;
-	margin-right: 10px;
-	margin-left: 4px;
-	font-family:monospace;
-	font-weight: bold;
-}
-.raporalan{
-	float: right;
-	width:800px;
-	height:500px;
-	overflow: scroll;
-	white-space: pre;
-	
-}
-.genelalan {
-	width: 1300px;
-	height: 670;
-	
-}
-.operbutonlar{
-	width:auto; 
-	margin: 5 ;
-	font-family:monospace;
-	font-weight: bold;
-}
-.element{
-	width:470px; 
-	margin: 10 ;
-	float:center;
-	font-family:monospace;
-	font-weight: bold;
-}
-.sonuc{ 
-    white-space: pre;
-}
-hr {
-	top:5px; 
-	width: 100%;
-	clear: both;
-	margin: auto;
-}
-
-.mheader,.formalan,.raporalan{
-	margin: 3px;
-	padding: 15px;
-	background:#669999;
-	border: 1px solid #cccccc;
-	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
-	-moz-box-shadow: 2px 2px 2px #cccccc;
-	-webkit-box-shadow: 2px 2px 2px #cccccc;
-	box-shadow: 2px 2px 2px #cccccc;
-	
-}
-</style>
 <script>
 	$(document).ready(function() {
 		
@@ -118,7 +34,7 @@ hr {
 			var spans = $('#arayuz_alan').find('input');
 			// Loop through all the spans inside this div
 			spans.each(function(){
-				console.log($(this).attr('id'),$(this).val());
+				console.log($(this).attr('id'),"Çıktı: \n"+$(this).val());
 			})
 			var formOption = {
 				url				: "/komutCalistir",
@@ -150,7 +66,7 @@ hr {
 						 }
 						 $("#arayuz_alan").append("<div class=element>");
 						 $("#arayuz_alan").append("<dt>"+girdi_ad+"</dt>");
-						 $("<input type="+input_tip+" value="+deger+" />")
+						 $("<input class='btn' type="+input_tip+" value="+deger+" />")
 						 .attr("id", girdi_ad)
 						 .attr("name",girdi_ad)
 						 .attr("size",deger.length+4)
@@ -285,35 +201,40 @@ hr {
 </script>
 </head>
 
-<body bgcolor='silver' > 
+<body> 
 <div class=anasablon>
-	<div class="mheader" tabindex="-1">
-		<a href="/"><img src="/static/ana.png" class="hover" hinttext="Anasayfa" style="margin-right:20px;"></a> 
-		<a href="/komutaModul"><img src="/static/komuta.png" class="hover" hinttext="Komuta" style="margin-right:120px;"></a> 
-		<a href="/agModul"><img src="/static/blue.png" class="hover" hinttext="Ag Modulu" style="margin-right:20px;"></a> 
-		<a href="/exit"><img src="/static/cikis.png" class="hover" hinttext="ÇIKIŞ" style="margin-left:40px;"></a> 
-	</div><br>
-	<div class=formalan>
-		
+	<div class="ustpanel">
+		<a href="/"><h3><span class="glyphicon glyphicon-home beyaz col-xs-1"></span></h3></a>
+		<a href="/agModul"><h3><span class="glyphicon glyphicon-signal beyaz col-xs-1"></span></h3></a>
+		<a href="/cikis"><h3><span class="glyphicon glyphicon-remove beyaz col-xs-1"></span></h3></a>
+		<span class="col-xs-12"></span>
+		<br>
+	</div>
+	<br>
+	<br>
+	<h3 class="beyaz">Komuta Merkezi</h3>
+	<p class="beyaz">
+		Komuta Merkezi, faydalı betikler oluşturup çalıştırabilmenizi sağlayan bir kontrol panelidir...
+	</p>
+	<div class="formalan">
 		<form id=raporForm name=raporForm action="{{ url_for('komutaModul') }}" method=post>
-		<div class=element>
-			<label>KOMUTLAR LİSTESİ</label>
-			<select name="calismalist" id="calismalist" class="txt" style="width: 250px;" > 
+		<div class="col-xs-6">
+			<select name="calismalist" id="calismalist" class="btn" style="width: 250px;" > 
 			{% for komut in komutlar %}<option>{{komut}}</option>{% endfor %}
 			</select>
+			<input type="submit" name="calistir" id="calistir" class="btn" value="Çalıştır" tabindex="-1"/>
 		</div>		
 		<div class=element>
 		<div class=arayuz_alan id=arayuz_alan></div>
 		</div>
 		<div class=element>
-		<input type="submit" name="calistir" id="calistir" value="Çalıştır" tabindex="-1"/>
+		
 		</div>
-		<hr noshade size=2>
-		<div class=element style="margin-top: 30px";>
-			<input type=submit id=komutgg name=komutgg  value=arayüz tabindex="-1" >
-			<input type=text id=yenicalisma name=yenicalisma  value=yeni.sh tabindex="-1" style="width: 150px;"/>
-			<input type="submit" name="yeniKaydet" id="yeniKaydet" value="Yeni Kaydet" tabindex="-1"/>
-			<input type="submit" name="guncelle" id="guncelle" value="Güncelle" tabindex="-1"/>
+		<div class="form-group" style="margin-top: 30px"; >
+			<input type=submit id=komutgg name=komutgg  class="btn" value=arayüz tabindex="-1" >
+			<input type=text id=yenicalisma name=yenicalisma class="btn" value=yeni.sh tabindex="-1" style="width: 150px;"/>
+			<input type="submit" name="yeniKaydet" id="yeniKaydet" class="btn" value="Yeni Kaydet" tabindex="-1"/>
+			<input type="submit" name="guncelle" id="guncelle" class="btn" value="Güncelle" tabindex="-1"/>
 		</div>
 		<input id="mod" name="mod"  hidden value="{{mod}}" />
 		<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
@@ -327,7 +248,8 @@ hr {
 		
 	</div>
 	<div id='genelalan' class="genelalan" tabindex="-1">
-		<div class=raporalan id=raporalan>
+		<div class="panel" id="raporalan">
+			Çıktı:
 			<div id='yukleniyor'  class='yukleniyor'><img src='/static/yukleniyor.gif'/></div>
 		</div>
 		
