@@ -1,23 +1,47 @@
-<html>
-  <head>
-    <title>Komutan Giriş Paneli</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
-  </head>
-  <body>
-    <div class="container">
-      <h1>Giriş Bilgileri</h1>
-      <br>
-      <form action="/giris" method="post">
-        <input type="text" placeholder="kullanıcı" id="username" name="username" value="{{
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Komutan Web Giriş</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/static/bootstrap/css/styles.css" rel="stylesheet">
+	</head>
+	<body>
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <h1 class="text-center">Komutan Web Giriş</h1>
+      </div>
+      <div class="modal-body">
+          <form class="form col-md-12 center-block" action="/giris" method="post">
+            <div class="form-group">
+              <input type="text" class="form-control input-lg" placeholder="Kullanıcı" id="username" name="username" value="{{
           request.form.username }}">
-         <input type="password" placeholder="şifre" id="password" name="password" value="{{
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control input-lg" placeholder="Şifre" id="password" name="password" value="{{
           request.form.password }}">
-        <input class="btn btn-default" type="submit" value="giriş">
-      </form>
-      {% if error %}
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary btn-lg btn-block" type="submit" >Giriş Yap</button>
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-12">
+			   {% if error %}
         <p class="error"><strong>Hata:</strong> {{ error }}
       {% endif %}
-    </div>
-  </body>
+		  </div>	
+      </div>
+  </div>
+  </div>
+</div>
+	<!-- script references -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+		<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+	</body>
 </html>
