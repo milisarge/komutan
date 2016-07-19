@@ -108,11 +108,19 @@ def mpsFaal():
 		if 'faal' in request.args:
 			faal = request.args.get('faal')
 			if faal=="kur":
-				print "kurulum"
 				paket=request.form["paketara"]
 				if paket!="":
 					print paket
 					os.system('uxterm -e "mps -kur '+paket+' && sleep 3 && exit" ') 
+					#os.system("killall uxterm")
+					data="tamam"
+				else:
+					data="boş paket"
+			if faal=="sil":
+				paket=request.form["paketara"]
+				if paket!="":
+					print paket
+					os.system('uxterm -e "mps -s '+paket+' && sleep 3 && exit" ') 
 					#os.system("killall uxterm")
 					data="tamam"
 				else:
@@ -176,6 +184,17 @@ def arayuzModul():
 		return render_template('arayuzModul.html',mod=dizin,arayuzler=arayuzlist,kayitmodu='w')	
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
+		
+@app.route('/komutanGuncelle', methods=['GET', 'POST'])	
+def komutanGuncelle():
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		os.system("git pull > kondarma/guncelleme.log")
+		log=open("kondarma/guncelleme.log","r").read()
+		return "<html>güncellendi:<p>"+log+"</html>"
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+
 
 @app.route('/komutCalistir', methods=['GET', 'POST'])
 def komutCalistir():
