@@ -131,7 +131,7 @@ hr {
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
-		$('#paketara').on('blur', function(event){
+		$('#paketara2').on('blur', function(event){
 			komutdosya=$('#paketara').val();
 			$("#calismalist").val(komutdosya+"/talimat");
 			$.ajax({
@@ -172,6 +172,21 @@ hr {
 			});
 				
 			
+		});
+		
+		$('#paketara').on('blur', function(event){
+			var formOption = {
+				url				: "/paketDurum",
+				type			: "POST",
+				success: function (data) {
+					if(data=='tamam'){
+						islemTamam("KURULU");
+					}else{
+						hataGoster("KURULU DEĞİL");
+					}
+				}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
 		$('#yeniKaydet').on('click', function(event){

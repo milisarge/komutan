@@ -150,6 +150,28 @@ def paketlist():
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 
+@app.route('/paketDurum', methods=['GET', 'POST'])
+def paketdurum():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		data="yok"
+		paket=request.form["paketara"]
+		if paket!="":
+			os.system("mps -kk "+paket+" > kondarma/paketdurum.log")
+			kk=open("kondarma/paketdurum.log","r").read()
+			print "--",kk
+			if "kurulu" in kk:
+				data="tamam"
+		else:
+			data="paket tanımsız"
+		
+		return Response(json.dumps(data),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+
+
 @app.route('/surecModul', methods=['GET', 'POST'])	
 def surecModul():
 	if "KULL_ID" not in session:
