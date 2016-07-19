@@ -210,15 +210,19 @@ hr {
 		
 		$('#mpskur').on('click', function(event){
 			event.preventDefault();
-			$.ajax({
+			
+			var formOption = {
 				url : "/mpsFaal?faal=kur",
-			}).done(function(data) {
-				if(data=='tamam'){
-					islemTamam("KURULDU.");
-				}else{
-					hataGoster(data);
-				}
-			});
+				type			: "POST",
+				success: function (data) {
+						if(data=='tamam'){
+							islemTamam("kuruldu.");
+						}else{
+							hataGoster(data);
+						}
+					}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
 		$('#komutgg').on('click', function(event){

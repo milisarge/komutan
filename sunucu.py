@@ -112,6 +112,7 @@ def mpsFaal():
 				paket=request.form["paketara"]
 				if paket!="":
 					print paket
+					
 					data="tamam"
 				else:
 					data="boş paket"
