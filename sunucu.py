@@ -112,7 +112,8 @@ def mpsFaal():
 				paket=request.form["paketara"]
 				if paket!="":
 					print paket
-					
+					os.system('uxterm -e "mps -kur '+paket+' && sleep 3 && exit" ') 
+					#os.system("killall uxterm")
 					data="tamam"
 				else:
 					data="boş paket"
