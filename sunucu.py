@@ -191,7 +191,7 @@ def komutanGuncelle():
 	if ("KULL_ID" in session and girdimi) :
 		os.system("git pull > kondarma/guncelleme.log")
 		log=open("kondarma/guncelleme.log","r").read()
-		return "<html>güncellendi:<p>"+log+"</html>"
+		return "<html>güncellendi:<p>"+log+"<p><a href='/'>ana sayfa</a> </html>"
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 
