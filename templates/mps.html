@@ -11,96 +11,14 @@
 <script src="../static/js/jquery.blockUI.js"></script>
 <script src="../static/js/shortcut.js"></script>
 <link rel="stylesheet" href="/static/js/awesomplete.css" />
+<link rel="stylesheet" href="./static/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="./static/bootstrap/css/styles.css" />
 <script src="/static/js/awesomplete.js"></script>
 <script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
 <link rel="stylesheet"
 	href="{{url_for('static', filename='css/table2.css')}}" type="text/css"
 	id="" media="print, projection, screen">
 
-<style type="text/css">
-body {
-	margin: 0px auto;
-	padding: 0px 0px;
-	font-family: calibri;
-	
-}
-.anasablon {
-	width: auto;
-	height: auto;
-	
-}
-.mheader {
-	font-family: Arial, Verdana;
-	text-shadow: 2px 2px 2px #ccc;
-	display: block;
-	float: left;
-	font-weight: bold;
-	padding-left: 10px;
-	text-align: left;
-	font-size: 15px;
-	width: 1300px;
-	height: 20px;
-}
-.formalan{
-	float:center;
-	width:1300px;
-	height:550px;
-	border:#CCC solid 1px;
-	background-color:#996600 ;
-	font-family:monospace;
-	font-weight: bold;
-}
-.raporalan{
-	float: right;
-	width:700px;
-	height:500px;
-	overflow: scroll;
-	white-space: pre;
-	
-}
-.operbutonlar{
-	width:auto; 
-	float:center;
-	margin: 5 ;
-	font-family:monospace;
-	font-weight: bold;
-}
-.arayuz_alan{
-	float:center;
-	width:auto;
-}
-.element{
-	margin-left: 10px ;
-	margin-top: 10px ;
-	margin-bottom: 10px ;
-	width:auto;
-	font-family:monospace;
-	font-weight: bold;
-}
-.sonuc{ 
-    white-space: pre;
-}
-hr {
-	top:5px; 
-	width: 100%;
-	clear: both;
-	margin: auto;
-}
-
-.mheader,.formalan,.raporalan{
-	margin: 3px;
-	padding: 15px;
-	background:#669999;
-	border: 1px solid #cccccc;
-	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
-	-moz-box-shadow: 2px 2px 2px #cccccc;
-	-webkit-box-shadow: 2px 2px 2px #cccccc;
-	box-shadow: 2px 2px 2px #cccccc;
-	
-}
-</style>
 <script>
 	$(document).ready(function() {
 		
@@ -340,15 +258,25 @@ hr {
 </script>
 </head>
 
-<body bgcolor='silver' > 
+<body> 
 <div class=anasablon>
-	<div class="mheader" tabindex="-1">
-		<a href="/"><img src="/static/ana.png" class="hover" hinttext="Anasayfa" style="margin-right:20px;"></a> 
-		<a href="/mpsModul"><img src="/static/komuta.png" class="hover" hinttext="Komuta" style="margin-right:120px;"></a> 
-		<a href="/agModul"><img src="/static/blue.png" class="hover" hinttext="Ag Modulu" style="margin-right:20px;"></a> 
-		<a href="/exit"><img src="/static/cikis.png" class="hover" hinttext="ÇIKIŞ" style="margin-left:40px;"></a> 
-		<a href="https://github.com/milisarge/komutan" class="hidden-xs github-corner"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#543729; color:#ffcc2f; position: absolute; top: 5; border: 0; right:250;"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
-	</div><br>
+	<div class="ustpanel">
+		<a href="/"><h3><span class="glyphicon glyphicon-home beyaz col-xs-1"></span></h3></a>
+		<a href="/komutaModul"><h3><span class="glyphicon glyphicon-wrench beyaz col-xs-1"></span></h3></a>
+		<a href="/surecModul"><h3><span class="glyphicon glyphicon-tasks beyaz col-xs-1"></span></h3></a>
+		<a href="/agModul"><h3><span class="glyphicon glyphicon-signal beyaz col-xs-1"></span></h3></a>
+		<a href="/servisModul"><h3><span class="glyphicon glyphicon-cog beyaz col-xs-1"></span></h3></a>
+		<a href="/komutanGuncelle"><h3><span class="glyphicon glyphicon-refresh beyaz col-xs-1"></span></h3></a>
+		<a href="/cikis"><h3><span class="glyphicon glyphicon-remove beyaz col-xs-1"></span></h3></a>
+		<span class="col-xs-12"></span>
+		<br>
+	</div>
+	<br>
+	<br>
+	<h3 class="beyaz">Milis Yazılım Merkezi</h3>
+	<p class="beyaz">
+	Milis Yazılım Merkezi sayesinde Milis İşletim Sistemine yazılım yükleyip kaldırabilirsiniz.
+	</p>
 	<div class=formalan>
 		
 		<form id=raporForm name=raporForm action="{{ url_for('mpsModul') }}" method=post>
@@ -356,7 +284,7 @@ hr {
 		<div class=arayuz_alan id=arayuz_alan></div>
 		
 		<div class=element>
-			<input type=text id=paketara name=paketara ondblclick=this.value='' tabindex="-1" style="width:200px;margin-top: 10px;"/>
+			<input type=text id=paketara class="form-control" name=paketara ondblclick=this.value='' tabindex="-1" style="width:200px;margin-top: 10px;"/>
 		</div>
 		
 		<script>
@@ -374,16 +302,16 @@ hr {
 		</script>
 		
 		<div class=element>	
-			
-			<input type="submit" name="mpskur" id="mpskur" value="KUR" tabindex="-1" />
-			<input type="submit" name="mpssil" id="mpssil" value="KALDIR" tabindex="-1" />
+			<br>
+			<input type="submit" class="btn" name="mpskur" id="mpskur" value="KUR" tabindex="-1" />
+			<input type="submit" class="btn" name="mpssil" id="mpssil" value="KALDIR" tabindex="-1" />
 		</div>
-		<hr noshade size=2>
+		<br>
 		<div class=element style="margin-top: 30px;">
-			<input type=submit id=komutgg name=komutgg  value=arayüz tabindex="-1" >
-			<input type=text id=yenicalisma name=yenicalisma  value=yeni.sh tabindex="-1" style="width: 150px;"/>
-			<input type="submit" name="yeniKaydet" id="yeniKaydet" value="Yeni Kaydet" tabindex="-1"/>
-			<input type="submit" name="guncelle" id="guncelle" value="Güncelle" tabindex="-1"/>
+			<input class="btn" type=submit id=komutgg name=komutgg  value=arayüz tabindex="-1" >
+			<input class="btn" type=text id=yenicalisma name=yenicalisma  value=yeni.sh tabindex="-1" style="width: 150px;"/>
+			<input class="btn" type="submit" name="yeniKaydet" id="yeniKaydet" value="Yeni Kaydet" tabindex="-1"/>
+			<input class="btn" type="submit" name="guncelle" id="guncelle" value="Güncelle" tabindex="-1"/>
 		</div>
 		<input id="mod" name="mod"  hidden value="{{mod}}" />
 		<input id="calismalist" name="calismalist"  hidden value="" />
