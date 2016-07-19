@@ -20,6 +20,7 @@ ag_bilgi_komut="ifconfig"#"nmcli con show"
 arger=Arge()
 KULL_ID=-1
 SECRET_KEY = 'sds234fv'
+uxterm_ayar=' -bg black -fg gray -fs 13 '
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -111,7 +112,7 @@ def mpsFaal():
 				paket=request.form["paketara"]
 				if paket!="":
 					print paket
-					os.system('uxterm -e "mps -kur '+paket+' && sleep 3 && exit" ') 
+					os.system('uxterm '+uxterm_ayar+' -e "mps -kur '+paket+' && sleep 3 && exit" ') 
 					#os.system("killall uxterm")
 					data="tamam"
 				else:
@@ -120,7 +121,7 @@ def mpsFaal():
 				paket=request.form["paketara"]
 				if paket!="":
 					print paket
-					os.system('uxterm -e "mps -s '+paket+' && sleep 3 && exit" ') 
+					os.system('uxterm '+uxterm_ayar+' -e "mps -s '+paket+' && sleep 3 && exit" ') 
 					#os.system("killall uxterm")
 					data="tamam"
 				else:
