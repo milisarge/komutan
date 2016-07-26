@@ -143,6 +143,19 @@ def kurulum():
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")
 
+@app.route('/diskbilgi', methods=['GET', 'POST'])
+def diskbilgi():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		data=""
+		disk=request.form["kurdisk"]
+		data+=kurdisk+" bilgisi gelir."
+		return Response(json.dumps(),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+
 @app.route('/paketlist', methods=['GET', 'POST'])
 def paketlist():
 	if "KULL_ID" not in session:

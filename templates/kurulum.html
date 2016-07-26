@@ -1,6 +1,6 @@
 <html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>MPS</title>
+<title>KOMUTAN-KURULUM</title>
 <meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
 
 <script src="../static/jquery.js"></script>
@@ -50,59 +50,13 @@
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
-		$('#paketara2').on('blur', function(event){
-			komutdosya=$('#paketara').val();
-			$("#calismalist").val(komutdosya+"/talimat");
-			$.ajax({
-				url : "/calismaAl?mod="+$('#mod').val() +"&dosya="+komutdosya+"/talimat",
-			}).done(function(data) {
-				if (data=="hata"){
-					hataGoster("talimat bulunamadı!");
-				}else{
-					$("#calismakod").val(data);
-					if(komutdosya.indexOf('.sh') != -1){
-						$('#arayuz_alan').html("");
-						datalar=data.split("\n");
-						$.each( datalar, function( index, value ){
-						if (( value.indexOf('=') != -1 ) && ( value.indexOf('if ') == -1 )){
-							//console.log(value);
-							 deger=value.split('=')[1];
-							 girdi_ad=value.split('=')[0];
-							 input_tip='text'
-							 if (girdi_ad.toLowerCase().indexOf("sifre") >= 0){
-								input_tip='password';
-							 }
-							 $("#arayuz_alan").append("<div class=element>");
-							 $("#arayuz_alan").append("<dt>"+girdi_ad+"</dt>");
-							 $("<input type="+input_tip+" value="+deger+" />")
-							 .attr("id", girdi_ad)
-							 .attr("name",girdi_ad)
-							 .attr("size",deger.length+4)
-							 .attr("ondblclick","this.value=''")
-							 .appendTo("#arayuz_alan");
-							 $("#arayuz_alan").append("</element>");
-						}
-						});		
-					}else{
-						$('#arayuz_alan').html("");
-						$("#calismakod").val(data);
-					}	
-				}
-			});
-				
-			
-		});
-		
-		$('#paketara').on('blur', function(event){
+		$('#kurdisk').on('change', function(event){
+			$("#diskbilgi").html("");
 			var formOption = {
-				url				: "/paketDurum",
-				type			: "POST",
+				url		: "/diskbilgi",
+				type	: "POST",
 				success: function (data) {
-					if(data=='tamam'){
-						islemTamam("KURULU");
-					}else{
-						hataGoster("KURULU DEĞİL");
-					}
+					$("#diskbilgi").html(data);
 				}
 			};
 			$('#raporForm').ajaxSubmit(formOption);
