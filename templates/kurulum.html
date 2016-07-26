@@ -1,0 +1,319 @@
+<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>MPS</title>
+<meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
+
+<script src="../static/jquery.js"></script>
+<script src="../static/jquery.min.js"></script>
+<script src="../static/js/jquery-ui.js"></script>
+<script src="../static/js/jquery.form.min.js"></script>
+<script src="../static/js/jquery.tablesorter.min.js"></script>
+<script src="../static/js/jquery.blockUI.js"></script>
+<script src="../static/js/shortcut.js"></script>
+<link rel="stylesheet" href="/static/css/balloon.min.css">
+<link rel="stylesheet" href="/static/js/awesomplete.css" />
+<link rel="stylesheet" href="./static/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="./static/bootstrap/css/styles.css" />
+<script src="/static/js/awesomplete.js"></script>
+<script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
+<link rel="stylesheet"
+	href="{{url_for('static', filename='css/table2.css')}}" type="text/css"
+	id="" media="print, projection, screen">
+
+<script>
+	$(document).ready(function() {
+		
+		$('#calismakod').hide();
+		$("#yukleniyor").hide();
+		
+		shortcut.add("ctrl+R", function() {
+			//event.preventDefault();
+			$("#calistir").click();
+	    });
+		
+		$('#calistir').on('click', function(event){
+			event.preventDefault();
+			$("#raporalan").html("komut calisiyor....");
+			$("#yukleniyor").show();
+			var spans = $('#arayuz_alan').find('input');
+			// Loop through all the spans inside this div
+			spans.each(function(){
+				console.log($(this).attr('id'),$(this).val());
+			})
+			var formOption = {
+				url				: "/komutCalistir",
+				type			: "POST",
+				target	:"#raporalan",
+				success			: sonucGetir
+				//beforeSubmit 	: kontrolStkHarListSil
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#paketara2').on('blur', function(event){
+			komutdosya=$('#paketara').val();
+			$("#calismalist").val(komutdosya+"/talimat");
+			$.ajax({
+				url : "/calismaAl?mod="+$('#mod').val() +"&dosya="+komutdosya+"/talimat",
+			}).done(function(data) {
+				if (data=="hata"){
+					hataGoster("talimat bulunamadı!");
+				}else{
+					$("#calismakod").val(data);
+					if(komutdosya.indexOf('.sh') != -1){
+						$('#arayuz_alan').html("");
+						datalar=data.split("\n");
+						$.each( datalar, function( index, value ){
+						if (( value.indexOf('=') != -1 ) && ( value.indexOf('if ') == -1 )){
+							//console.log(value);
+							 deger=value.split('=')[1];
+							 girdi_ad=value.split('=')[0];
+							 input_tip='text'
+							 if (girdi_ad.toLowerCase().indexOf("sifre") >= 0){
+								input_tip='password';
+							 }
+							 $("#arayuz_alan").append("<div class=element>");
+							 $("#arayuz_alan").append("<dt>"+girdi_ad+"</dt>");
+							 $("<input type="+input_tip+" value="+deger+" />")
+							 .attr("id", girdi_ad)
+							 .attr("name",girdi_ad)
+							 .attr("size",deger.length+4)
+							 .attr("ondblclick","this.value=''")
+							 .appendTo("#arayuz_alan");
+							 $("#arayuz_alan").append("</element>");
+						}
+						});		
+					}else{
+						$('#arayuz_alan').html("");
+						$("#calismakod").val(data);
+					}	
+				}
+			});
+				
+			
+		});
+		
+		$('#paketara').on('blur', function(event){
+			var formOption = {
+				url				: "/paketDurum",
+				type			: "POST",
+				success: function (data) {
+					if(data=='tamam'){
+						islemTamam("KURULU");
+					}else{
+						hataGoster("KURULU DEĞİL");
+					}
+				}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#yeniKaydet').on('click', function(event){
+			event.preventDefault();
+			$('#kayitmodu').val('w');
+			var formOption = {
+				url				: "/calismaKaydet",
+				type			: "POST",
+				success: function (data) {
+					if(data=='tamam'){
+						islemTamam("Yeni Komut Kaydı Yapıldı.");
+					}else{
+						hataGoster(data);
+					}
+				}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#guncelle').on('click', function(event){
+			event.preventDefault();
+			$('#kayitmodu').val('a');
+			var formOption = {
+				url				: "/calismaKaydet",
+				type			: "POST",
+				success: function (data) {
+						if(data=='tamam'){
+							islemTamam("Komut Güncellendi.");
+						}else{
+							hataGoster(data);
+						}
+					}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#mpskur').on('click', function(event){
+			event.preventDefault();
+			
+			var formOption = {
+				url : "/mpsFaal?faal=kur",
+				type			: "POST",
+				success: function (data) {
+						if(data=='tamam'){
+							islemTamam("İŞLEM TAMAMLANDI");
+						}else{
+							hataGoster(data);
+						}
+					}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#mpssil').on('click', function(event){
+			event.preventDefault();
+			
+			var formOption = {
+				url : "/mpsFaal?faal=sil",
+				type			: "POST",
+				success: function (data) {
+						if(data=='tamam'){
+							islemTamam("İŞLEM TAMAMLANDI");
+						}else{
+							hataGoster(data);
+						}
+					}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#komutgg').on('click', function(event){
+			event.preventDefault();
+			//window.open("/arayuzModul?kd="+$('#paketara').val(),'_newtab');
+			$('#calismakod').toggle();
+		});	
+		
+	});
+	
+	function sonucGetir(res, statusText, xhr, $form) {
+		//console.log(res);
+		if(res!='None'){
+			$('#yukleniyor').hide();
+			$("#raporalan").html("");
+			$("#raporalan").html(res);
+			$("#hareketrapor").tablesorter();
+		}
+	}
+	
+	function islemTamam(message) {
+		// TODO: hata mesajı dön
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#080', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff'
+            }
+        });
+	}
+	
+	function hataGoster(message) {
+		
+		console.log("HATA:" + message);
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#900', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff',
+                
+            }
+        });
+	}
+	
+</script>
+</head>
+
+<body> 
+<div class=anasablon>
+		<div data-balloon="Ana Menü" data-balloon-pos="down" class="col-xs-1"><a href="/"><h3><span class="glyphicon glyphicon-home beyaz"></span></h3></a></div>
+		<div data-balloon="Komuta Merkezi" data-balloon-pos="down" class="col-xs-1"><a href="/komutaModul"><h3><span class="glyphicon glyphicon-wrench beyaz"></span></h3></a></div>
+		<div data-balloon="Süreç Modülü" data-balloon-pos="down" class="col-xs-1"><a href="/surecModul"><h3><span class="glyphicon glyphicon-tasks beyaz"></span></h3></a></div>
+		<div data-balloon="Ağ Modülü" data-balloon-pos="down" class="col-xs-1"><a href="/agModul"><h3><span class="glyphicon glyphicon-signal beyaz"></span></h3></a></div>
+		<div data-balloon="Servis Modülü" data-balloon-pos="down"  class="col-xs-1"><a href="/servisModul"><h3><span class="glyphicon glyphicon-cog beyaz"></span></h3></a></div>
+		<div data-balloon="Komutan Güncelle" data-balloon-pos="down" class="col-xs-1"><a href="/komutanGuncelle"><h3><span class="glyphicon glyphicon-refresh beyaz"></span></h3></a></div>
+		<div data-balloon="Oturumu Kapat" data-balloon-pos="down" class="col-xs-1"><a href="/cikis"><h3><span class="glyphicon glyphicon-remove beyaz"></span></h3></a></div>
+		<span class="col-xs-12"></span>
+		<br>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<h3 class="beyaz">Milis Kurulum</h3>
+	<p class="beyaz">
+	Milis Canlı isoyu sabit diske kurmanıza yardımcı olur.
+	</p>
+	<div class=formalan>
+		
+		<form id=raporForm name=raporForm action="{{ url_for('mpsModul') }}" method=post>
+		
+		<div class=arayuz_alan id=arayuz_alan></div>
+		
+		<select name="kurdisk" id="kurdisk" class="form-control" style="width: 150px;" > 
+		{% for disk in diskler %}
+		<option>{{disk}}</option>
+		{% endfor %}
+		</select>
+		</div>
+		
+		<div class=element>	
+			<br>
+			<input type="submit" class="btn" name="mpskur" id="mpskur" value="KUR" tabindex="-1" />
+			<input type="submit" class="btn" name="mpssil" id="mpssil" value="KALDIR" tabindex="-1" />
+		</div>
+		<br>
+		<div class=element style="margin-top: 30px;">
+			<input class="btn" type=submit id=komutgg name=komutgg  value=arayüz tabindex="-1" >
+			<input class="btn" type=text id=yenicalisma name=yenicalisma  value=yeni.sh tabindex="-1" style="width: 150px;"/>
+			<input class="btn" type="submit" name="yeniKaydet" id="yeniKaydet" value="Yeni Kaydet" tabindex="-1"/>
+			<input class="btn" type="submit" name="guncelle" id="guncelle" value="Güncelle" tabindex="-1"/>
+		</div>
+		<input id="mod" name="mod"  hidden value="{{mod}}" />
+		<input id="calismalist" name="calismalist"  hidden value="" />
+		<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
+		<div class=element>
+		<textarea id=calismakod name=calismakod value="" ondblclick=this.value='' style="font-size: 14px;margin-top: 3px;width:900px;height: 300px; color:white;background-color:black "></textarea>
+		</div>
+		</form>
+		
+	</div>
+	
+</div>
+</body>
+</HTML>
