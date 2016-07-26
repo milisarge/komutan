@@ -79,15 +79,14 @@
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
-		$('#guncelle').on('click', function(event){
+		$('#diskkur').on('click', function(event){
 			event.preventDefault();
-			$('#kayitmodu').val('a');
 			var formOption = {
-				url				: "/calismaKaydet",
-				type			: "POST",
+				url  : "/diskkur_islem",
+				type : "POST",
 				success: function (data) {
 						if(data=='tamam'){
-							islemTamam("Komut Güncellendi.");
+							islemTamam($('#kurdisk').val()+"'e sistem kuruldu.");
 						}else{
 							hataGoster(data);
 						}
@@ -96,15 +95,20 @@
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
-		$('#mpskur').on('click', function(event){
+		$('#komutgg').on('click', function(event){
 			event.preventDefault();
-			
+			//window.open("/arayuzModul?kd="+$('#paketara').val(),'_newtab');
+			$('#calismakod').toggle();
+		});	
+		
+		$('#diskbagla').on('click', function(event){
+			event.preventDefault();
 			var formOption = {
-				url : "/mpsFaal?faal=kur",
-				type			: "POST",
+				url  : "/diskbagla_islem",
+				type : "POST",
 				success: function (data) {
 						if(data=='tamam'){
-							islemTamam("İŞLEM TAMAMLANDI");
+							islemTamam($('#kurdisk').val()+"disk kurulum için /mnt altına bağlandı.");
 						}else{
 							hataGoster(data);
 						}
@@ -113,15 +117,14 @@
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
-		$('#mpssil').on('click', function(event){
+		$('#disksil').on('click', function(event){
 			event.preventDefault();
-			
 			var formOption = {
-				url : "/mpsFaal?faal=sil",
-				type			: "POST",
+				url  : "/disksil_islem",
+				type : "POST",
 				success: function (data) {
 						if(data=='tamam'){
-							islemTamam("İŞLEM TAMAMLANDI");
+							islemTamam($('#kurdisk').val()+"disk silindi.");
 						}else{
 							hataGoster(data);
 						}
@@ -229,9 +232,9 @@
 	<br>
 	<br>
 	<br>
-	<h3 class="beyaz">Milis Kurulum</h3>
+	<h3 class="beyaz">Milis İşletim Sistemi Kurulumu</h3>
 	<p class="beyaz">
-	Milis Canlı isoyu sabit diske kurmanıza yardımcı olur.
+	Milis İşletim Sistemini sabit diskinize kurmanıza yardımcı olur.
 	</p>
 	<div class=formalan>
 		
@@ -245,19 +248,16 @@
 		{% endfor %}
 		</select>
 		</div>
+		<div id=diskbilgi name=diskbilgi style="color:white;"></div>
 		
 		<div class=element>	
 			<br>
-			<input type="submit" class="btn" name="mpskur" id="mpskur" value="KUR" tabindex="-1" />
-			<input type="submit" class="btn" name="mpssil" id="mpssil" value="KALDIR" tabindex="-1" />
+			<input type="submit" class="btn" name="disksil" id="disksil" value="DİSKİ SİL" tabindex="-1" />
+			<input type="submit" class="btn" name="diskbagla" id="diskbagla" value="DİSKİ BAĞLA" tabindex="-1" />
+			<input type="submit" class="btn" name="diskkur" id="diskkur" value="SİSTEMİ KUR" tabindex="-1" />
 		</div>
 		<br>
-		<div class=element style="margin-top: 30px;">
-			<input class="btn" type=submit id=komutgg name=komutgg  value=arayüz tabindex="-1" >
-			<input class="btn" type=text id=yenicalisma name=yenicalisma  value=yeni.sh tabindex="-1" style="width: 150px;"/>
-			<input class="btn" type="submit" name="yeniKaydet" id="yeniKaydet" value="Yeni Kaydet" tabindex="-1"/>
-			<input class="btn" type="submit" name="guncelle" id="guncelle" value="Güncelle" tabindex="-1"/>
-		</div>
+		
 		<input id="mod" name="mod"  hidden value="{{mod}}" />
 		<input id="calismalist" name="calismalist"  hidden value="" />
 		<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />

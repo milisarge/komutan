@@ -151,8 +151,50 @@ def diskbilgi():
 	if ("KULL_ID" in session and girdimi) :
 		data=""
 		disk=request.form["kurdisk"]
-		data+=kurdisk+" bilgisi gelir."
-		return Response(json.dumps(),mimetype='application/json')
+		data+=disk+" bilgisi gelir."
+		return Response(json.dumps(data),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+
+@app.route('/disksil_islem', methods=['GET', 'POST'])
+def disksil_islem():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		data=""
+		disk=request.form["kurdisk"]
+		#disk silinir.
+		data="tamam"
+		return Response(json.dumps(data),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+
+@app.route('/diskkur_islem', methods=['GET', 'POST'])
+def diskkur_islem():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		#kurulum_komut="cp -axvnu /  /mnt"
+		kurulum_komut="echo 'kurulum' "  
+		os.system('uxterm '+uxterm_ayar+' -e "'+kurulum_komut+' && sleep 3 && exit" ') 
+		#os.system("killall uxterm")
+		data="tamam"
+		return Response(json.dumps(data),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+		
+@app.route('/diskbagla_islem', methods=['GET', 'POST'])
+def diskbagla_islem():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		data=""
+		disk=request.form["kurdisk"]
+		data="tamam"
+		return Response(json.dumps(data),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 
