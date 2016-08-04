@@ -130,7 +130,7 @@
 		$('#kull_olustur').on('click', function(event){
 			event.preventDefault();
 			var formOption = {
-				url  : "/kull_olustur",
+				url  : "/kull_islem",
 				type : "POST",
 				success: function (data) {
 						if(data=='tamam'){
@@ -263,6 +263,8 @@
 		<div class=element>	
 			<br>
 			<input type="submit" class="btn" name="kull_olustur" id="kull_olustur" value="KULLANICI OLUŞTUR" tabindex="-1" /><p><p>
+		</div>
+		<div class=element>		
 			<input type="submit" class="btn" name="diskbol" id="diskbol" value="DİSKİ BÖLÜMLE" tabindex="-1" /><p><p>
 			<input type="submit" class="btn" name="diskbagla" id="diskbagla" value="DİSKİ BAĞLA" tabindex="-1" /><p><p>
 			<input type="submit" class="btn" name="diskkur" id="diskkur" value="SİSTEMİ KUR" tabindex="-1" /><p><p>
@@ -273,7 +275,7 @@
 		<input id="calismalist" name="calismalist"  hidden value="" />
 		<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
 		<div class=element>
-		<textarea id=calismakod name=calismakod value="" ondblclick=this.value='' style="font-size: 14px;margin-top: 3px;width:900px;height: 300px; color:white;background-color:black "></textarea>
+		<textarea id=calismakod name=calismakod value="" ondblclick=this.value='' style="font-size: 14px;margin-top: 3px;width:900px;height: 300px; color:white;background-color:red "></textarea>
 		</div>
 		</form>
 		

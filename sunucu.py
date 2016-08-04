@@ -219,6 +219,20 @@ def diskbagla_islem():
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 
+@app.route('/kull_islem', methods=['GET', 'POST'])
+def kull_islem():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		kull_komut="ko"  
+		os.system('uxterm '+uxterm_ayar+' -e "'+kull_komut+' && sleep 3 && exit" ') 
+		#os.system("killall uxterm")
+		data="tamam"
+		return Response(json.dumps(data),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+
 @app.route('/paketlist', methods=['GET', 'POST'])
 def paketlist():
 	if "KULL_ID" not in session:
