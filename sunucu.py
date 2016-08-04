@@ -138,7 +138,13 @@ def kurulum():
 		session['KULL_ID']=-1
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
-		diskler=["/dev/sdk","/dev/sdl"]
+		diskler=[]
+		disklerdos=""
+		os.system("ls /dev/sd* > kondarma/diskler")
+		disklerdos=open("kondarma/diskler","r").read()
+		diskler=disklerdos.split()
+		#ornek data
+		#diskler=["/dev/sdk","/dev/sdl"]
 		return render_template('kurulum.html',diskler=diskler)	
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")
@@ -151,7 +157,9 @@ def diskbilgi():
 	if ("KULL_ID" in session and girdimi) :
 		data=""
 		disk=request.form["kurdisk"]
-		data+=disk+" bilgisi gelir."
+		os.system("df -h | grep "+str(disk)+" > kondarma/diskbilgi")
+		diskbilgi=open("kondarma/diskbilgi","r").read()
+		data+=diskbilgi
 		return Response(json.dumps(data),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
@@ -184,6 +192,19 @@ def diskkur_islem():
 		return Response(json.dumps(data),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
+		
+@app.route('/diskbol_islem', methods=['GET', 'POST'])
+def diskbol_islem():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		#ilgili bolumleme programı açılır.
+		os.system("gparted") 
+		data="tamam"
+		return Response(json.dumps(data),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")
 		
 @app.route('/diskbagla_islem', methods=['GET', 'POST'])
 def diskbagla_islem():

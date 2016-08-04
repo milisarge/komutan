@@ -16,9 +16,7 @@
 <link rel="stylesheet" href="./static/bootstrap/css/styles.css" />
 <script src="/static/js/awesomplete.js"></script>
 <script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
-<link rel="stylesheet"
-	href="{{url_for('static', filename='css/table2.css')}}" type="text/css"
-	id="" media="print, projection, screen">
+<link rel="stylesheet" href="{{url_for('static', filename='css/table2.css')}}" type="text/css" id="" media="print, projection, screen">
 
 <script>
 	$(document).ready(function() {
@@ -113,6 +111,18 @@
 							hataGoster(data);
 						}
 					}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#diskbol').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url  : "/diskbol_islem",
+				type : "POST",
+				success: function (data) {
+					islemTamam(data);
+				}
 			};
 			$('#raporForm').ajaxSubmit(formOption);
 		});
@@ -252,6 +262,7 @@
 		
 		<div class=element>	
 			<br>
+			<input type="submit" class="btn" name="diskbol" id="diskbol" value="DİSKİ BÖLÜMLE" tabindex="-1" />
 			<input type="submit" class="btn" name="disksil" id="disksil" value="DİSKİ SİL" tabindex="-1" />
 			<input type="submit" class="btn" name="diskbagla" id="diskbagla" value="DİSKİ BAĞLA" tabindex="-1" />
 			<input type="submit" class="btn" name="diskkur" id="diskkur" value="SİSTEMİ KUR" tabindex="-1" />
