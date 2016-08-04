@@ -127,14 +127,14 @@
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
-		$('#disksil').on('click', function(event){
+		$('#kull_olustur').on('click', function(event){
 			event.preventDefault();
 			var formOption = {
-				url  : "/disksil_islem",
+				url  : "/kull_olustur",
 				type : "POST",
 				success: function (data) {
 						if(data=='tamam'){
-							islemTamam($('#kurdisk').val()+"disk silindi.");
+							islemTamam("kull tm");
 						}else{
 							hataGoster(data);
 						}
@@ -262,10 +262,10 @@
 		
 		<div class=element>	
 			<br>
-			<input type="submit" class="btn" name="diskbol" id="diskbol" value="DİSKİ BÖLÜMLE" tabindex="-1" />
-			<input type="submit" class="btn" name="disksil" id="disksil" value="DİSKİ SİL" tabindex="-1" />
-			<input type="submit" class="btn" name="diskbagla" id="diskbagla" value="DİSKİ BAĞLA" tabindex="-1" />
-			<input type="submit" class="btn" name="diskkur" id="diskkur" value="SİSTEMİ KUR" tabindex="-1" />
+			<input type="submit" class="btn" name="kull_olustur" id="kull_olustur" value="KULLANICI OLUŞTUR" tabindex="-1" /><p><p>
+			<input type="submit" class="btn" name="diskbol" id="diskbol" value="DİSKİ BÖLÜMLE" tabindex="-1" /><p><p>
+			<input type="submit" class="btn" name="diskbagla" id="diskbagla" value="DİSKİ BAĞLA" tabindex="-1" /><p><p>
+			<input type="submit" class="btn" name="diskkur" id="diskkur" value="SİSTEMİ KUR" tabindex="-1" /><p><p>
 		</div>
 		<br>
 		
