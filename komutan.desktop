@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Komutan
+Comment=Milis Komutan Yazılımı
+Exec=/opt/sunucu.sh
+Terminal=false
+Type=Application
+Icon=komutan
+Categories=System;
