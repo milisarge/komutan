@@ -1,5 +1,16 @@
 mops_kur(){
-echo "kur"
+echo "kurulum betigi isletiliyor"
+mps kur sqlite
+sleep(3)
+mps kur python
+sleep(3)
+mps kur python-pip
+sleep(3)
+pip2 install flask
+sleep(3)
+pip2 install psutil
+sleep(3) 
+pip2 install gerekliler/python-stdnum-1.1.tar.gz
 }
 mops_sil(){
 echo "sil"
