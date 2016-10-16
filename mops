@@ -1,0 +1,10 @@
+mops_kur(){
+echo "kur"
+}
+mops_sil(){
+echo "sil"
+}
+mops_gun(){
+echo "gun"
+}
+
