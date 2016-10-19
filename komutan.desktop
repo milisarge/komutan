@@ -1,4 +1,5 @@
 [Desktop Entry]
+Path=/opt/komutan
 Name=Komutan
 Comment=Milis Komutan Yazılımı
 Exec=/opt/komutan/sunucu.sh
