@@ -2,7 +2,7 @@
 Path=/opt/komutan
 Name=Komutan
 Comment=Milis Komutan Yazılımı
-Exec=/opt/komutan/sunucu.sh
+Exec=./sunucu.sh 
 Terminal=false
 Type=Application
 Icon=komutan

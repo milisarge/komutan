@@ -1,1 +1,1 @@
-nohup python sunucu.py &
+nohup python2 sunucu.py &
