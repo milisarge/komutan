@@ -1,0 +1,9 @@
+[Desktop Entry]
+Path=/opt/komutan
+Name=MPS Grafiksel Kurulum Aracı
+Comment=MPS Grafiksel Kurulum Aracı
+Exec=./mps.sh
+Terminal=false
+Type=Application
+Icon=mps
+Categories=System;
