@@ -1,8 +1,8 @@
 [Desktop Entry]
 Path=/opt/komutan
 Name=Komutan
-Comment=Milis Komutan Yazılımı
-Exec=./sunucu.sh 
+Comment=Milis Komutan Yönetim Paneli
+Exec=./komutan.sh 
 Terminal=false
 Type=Application
 Icon=komutan
