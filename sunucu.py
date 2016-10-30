@@ -30,6 +30,12 @@ def anaModul():
 	if "KULL_ID" in session and arger.girdi_kontrol(session['KULL_ID']) :
 			return render_template('anaModul.html')
 	return redirect(url_for('giris'))
+
+@app.route('/yonlendir/<moduladi>')
+def yonlendir(moduladi):
+	if "KULL_ID" in session and arger.girdi_kontrol(session['KULL_ID']) :
+			return redirect(url_for(moduladi))	
+	return redirect(url_for('giris') + "?" + moduladi)	
 	
 @app.route('/onkar')
 def onkar():
@@ -56,7 +62,9 @@ def giris():
 			arger.girdi_ekle(isim)
 			print isim,"onaylandi."
 			session['KULL_ID']=isim
-			return render_template('anaModul.html')
+			return redirect(request.environ["QUERY_STRING"])
+		else:
+			return redirect("/")	
 	return render_template('giris.html', error=error)
 
 @app.route('/giris_eski', methods=['GET', 'POST'])
@@ -84,7 +92,7 @@ def komutaModul():
 		calismalist=arger.dizin_cek(dizin="komuta")
 		return render_template('komutaModul.html',mod=dizin,komutlar=calismalist,kayitmodu='w')	
 	else:
-		return render_template('giris.html', error="isim ve sifre giriniz")	
+		return redirect("/yonlendir/komutaModul")
 
 @app.route('/mpsModul', methods=['GET', 'POST'])	
 def mpsModul():
@@ -96,7 +104,7 @@ def mpsModul():
 		calismalist=arger.dizin_cek(dizin=dizin)
 		return render_template('mps.html',mod=dizin,komutlar=calismalist,kayitmodu='w')	
 	else:
-		return render_template('giris.html', error="isim ve sifre giriniz")	
+		return redirect("/yonlendir/mpsModul")
 
 @app.route('/mpsFaal', methods=['GET', 'POST'])
 def mpsFaal():
@@ -297,7 +305,7 @@ def surecModul():
 		rapor=rapor_html
 		return render_template('surecModul.html')+rapor
 	else:
-		return render_template('giris.html', error="isim ve sifre giriniz")	
+		return redirect("/yonlendir/surecModul")
 		
 @app.route('/arayuzModul', methods=['GET', 'POST'])	
 def arayuzModul():
@@ -317,8 +325,7 @@ def komutanGuncelle():
 		log=open("kondarma/guncelleme.log","r").read()
 		return "<html>güncellendi:<p>"+log+"<p><a href='/'>ana sayfa</a> </html>"
 	else:
-		return render_template('giris.html', error="isim ve sifre giriniz")	
-
+		return redirect("/yonlendir/komutanGuncelle")
 
 @app.route('/komutCalistir', methods=['GET', 'POST'])
 def komutCalistir():
@@ -441,4 +448,3 @@ if __name__ == '__main__':
 	except Exception, e:
 		if "Errno 98" in str(e):
 			print "Komutan zaten çalışıyor.Port kullanımda."
-		
