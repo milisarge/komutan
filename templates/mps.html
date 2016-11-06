@@ -141,7 +141,7 @@
 			};
 			$('#raporForm').ajaxSubmit(formOption);
 		});
-		
+	
 		$('#mpskur').on('click', function(event){
 			event.preventDefault();
 			
@@ -149,15 +149,17 @@
 				url : "/mpsFaal?faal=kur",
 				type			: "POST",
 				success: function (data) {
-						if(data=='tamam'){
-							islemTamam("İŞLEM TAMAMLANDI");
+						if(data=='hata'){
+							hataGoster("hata");
 						}else{
-							hataGoster(data);
+							//document.getElementById('konsolpenc').src="http://localhost:57575"
+							document.getElementById('konsolpenc').contentWindow.location.reload();
 						}
 					}
 			};
 			$('#raporForm').ajaxSubmit(formOption);
 		});
+		
 		
 		$('#mpssil').on('click', function(event){
 			event.preventDefault();
@@ -320,6 +322,9 @@
 		<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
 		<div class=element>
 		<textarea id=calismakod name=calismakod value="" ondblclick=this.value='' style="font-size: 14px;margin-top: 3px;width:900px;height: 300px; color:white;background-color:black "></textarea>
+		</div>
+		<div class=element>
+		<iframe id='konsolpenc' frameborder='0' noresize='noresize' style='position: absolute; background: transparent; width: 900px; height:200px;' src="{{ iframe }}" frameborder="0"></iframe>
 		</div>
 		</form>
 		

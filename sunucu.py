@@ -21,6 +21,7 @@ arger=Arge()
 KULL_ID=-1
 SECRET_KEY = 'sds234fv'
 uxterm_ayar=' -bg black -fg gray -fs 13 '
+sanal_konsol_port="6061"
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -94,7 +95,9 @@ def mpsModul():
 	if ("KULL_ID" in session and girdimi) :
 		dizin='/root/talimatname/genel'
 		calismalist=arger.dizin_cek(dizin=dizin)
-		return render_template('mps.html',mod=dizin,komutlar=calismalist,kayitmodu='w')	
+		print socket.gethostname()
+		yerel_ip=([(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1])
+		return render_template('mps.html',mod=dizin,komutlar=calismalist,kayitmodu='w',iframe="http://"+yerel_ip+":"+sanal_konsol_port+"/")	
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 
@@ -108,22 +111,26 @@ def mpsFaal():
 		data="bos"
 		if 'faal' in request.args:
 			faal = request.args.get('faal')
+			paket=request.form["paketara"]
+			print paket
 			if faal=="kur":
-				paket=request.form["paketara"]
 				if paket!="":
-					print paket
-					os.system('uxterm '+uxterm_ayar+' -e "mps -kur '+paket+' && sleep 3 && exit" ') 
+					#os.system('uxterm '+uxterm_ayar+' -e "mps -kur '+paket+' && sleep 3 && exit" ') 
 					#os.system("killall uxterm")
-					data="tamam"
+					#isletilecek komut
+					iskomut="mps kur "+paket
+					os.system('python3 butterfly/butterfly.server.py --unsecure --one_shot --cmd="'+iskomut+'"')
+					data="kuruluyor"
 				else:
 					data="boş paket"
+				
 			if faal=="sil":
-				paket=request.form["paketara"]
 				if paket!="":
-					print paket
-					os.system('uxterm '+uxterm_ayar+' -e "mps -s '+paket+' && sleep 3 && exit" ') 
+					#os.system('uxterm '+uxterm_ayar+' -e "mps -s '+paket+' && sleep 3 && exit" ') 
 					#os.system("killall uxterm")
-					data="tamam"
+					iskomut="mps sil "+paket
+					os.system('python3 butterfly/butterfly.server.py --unsecure --one_shot --cmd="'+iskomut+'"')
+					data="siliniyor"
 				else:
 					data="boş paket"
 		else:

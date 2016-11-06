@@ -5,3 +5,13 @@ kondarma/*
 log/*
 !kondarma/beni.oku
 *.pyc
+butterfly/*.crt
+butterfly/*.key
+butterfly/*.p12
+butterfly/*.pyc
+butterfly/node_modules/
+butterfly/*.src.coffee
+butterfly/*.map
+butterfly/sass/scss
+butterfly/*.egg-info/
+butterfly/build/
