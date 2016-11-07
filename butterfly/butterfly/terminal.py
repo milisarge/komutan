@@ -36,7 +36,7 @@ from butterfly import utils, __version__
 log = getLogger('butterfly')
 ioloop = tornado.ioloop.IOLoop.instance()
 server = utils.User()
-daemon = utils.User(name='daemon')
+daemon = utils.User(name='nobody')
 
 
 # Python 2 backward compatibility
