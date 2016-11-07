@@ -109,7 +109,8 @@ def mpsModul():
 			print s.connect((yerel_ip,int(sanal_konsol_port)))
 		except socket.error, e:
 			os.system("python3 butterfly/butterfly.server.py --unsecure --host=0.0.0.0 --port="+sanal_konsol_port)
-		return render_template('mps.html',mod=dizin,komutlar=calismalist,kayitmodu='w',iframe="http://"+yerel_ip+":"+sanal_konsol_port+"/")	
+		return 
+render_template('mps.html',mod=dizin,komutlar=calismalist,kayitmodu='w',iframe="http://"+http://localhost+":"+sanal_konsol_port+"/")	
 	else:
 		return redirect("/yonlendir/mpsModul")
 
