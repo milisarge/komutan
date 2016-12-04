@@ -59,7 +59,7 @@ class Terminal(object):
         self.path = path
         self.user = user if user else None
         self.caller = self.callee = None
-
+        
         # If local we have the user connecting
         if self.socket.local and self.socket.user is not None:
             self.caller = self.socket.user

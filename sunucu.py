@@ -103,9 +103,9 @@ def mpsModul():
 	if ("KULL_ID" in session and girdimi) :
 		dizin='/root/talimatname/genel'
 		calismalist=arger.dizin_cek(dizin=dizin)
-		yerel_ip=([(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1])
-		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		try:
+			yerel_ip=([(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1])
+			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			print s.connect((yerel_ip,int(sanal_konsol_port)))
 		except socket.error, e:
 			os.system("python3 butterfly/butterfly.server.py --unsecure --host=0.0.0.0 --port="+sanal_konsol_port)
@@ -131,7 +131,7 @@ def mpsFaal():
 					#os.system("killall uxterm")
 					#isletilecek komut
 					iskomut="mps kur "+paket
-					os.system('python3 butterfly/butterfly.server.py --unsecure --one_shot --cmd="'+iskomut+'"')
+					os.system('python3 butterfly/butterfly.server.py --unsecure  --one_shot --cmd="'+iskomut+'"')
 					data="kuruluyor"
 				else:
 					data="boş paket"
