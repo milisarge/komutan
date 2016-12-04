@@ -103,12 +103,16 @@ def mpsModul():
 	if ("KULL_ID" in session and girdimi) :
 		dizin='/root/talimatname/genel'
 		calismalist=arger.dizin_cek(dizin=dizin)
+		'''
 		try:
 			yerel_ip=([(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1])
 			s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			print s.connect((yerel_ip,int(sanal_konsol_port)))
 		except socket.error, e:
-			os.system("python3 butterfly/butterfly.server.py --unsecure --host=0.0.0.0 --port="+sanal_konsol_port)
+			print "dahili"
+		#except socket.error, e:
+		os.system("python3 butterfly/butterfly.server.py --unsecure --host=0.0.0.0 --port="+sanal_konsol_port)
+		'''
 		return render_template('mps.html',mod=dizin,komutlar=calismalist,kayitmodu='w',iframe="http://localhost:"+sanal_konsol_port+"/")	
 	else:
 		return redirect("/yonlendir/mpsModul")
@@ -452,10 +456,12 @@ def ag_bilgi():
 if __name__ == '__main__':
 	host="0.0.0.0"
 	port_calis=6060
+	#
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	try:
 		sock.connect_ex((host,port_calis))
 		app.run(host=host,port=port_calis,debug=True,use_evalex=True,threaded=True) 
 	except Exception, e:
 		if "Errno 98" in str(e):
+			os.system("fuser -k "+str(port_calis)+"/tcp")
 			print "Komutan zaten çalışıyor.Port kullanımda."
