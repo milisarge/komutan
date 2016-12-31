@@ -1,0 +1,173 @@
+<html>
+<p>The clock that is managed by Linux kernel is not the same as the hardware clock.</p>
+<p>Hardware clock runs even when you shutdown your system.</p>
+<p>Hardware clock is also called as BIOS clock. You can change the date and time of the hardware clock from the BIOS.</p>
+<p>However, when the system is up and running, you can still view and set the hardware date and time using Linux hwclock command as explained in this tutorial.<br>
+<span id="more-14337"></span></p>
+<h3>1. Display Hardware Clock Date and Time</h3>
+<p>Just type hwclock, which will display the date and time of your system’s hardware clock. This is the same date and time that you’ll see from the BIOS screen. You can also use option -r, or –show to display the date and time.</p>
+<pre># hwclock
+Sat 10 Aug 2013 08:26:12 AM PDT  -0.312862 seconds
+
+# hwclock -r
+Sat 10 Aug 2013 08:20:54 AM PDT  -0.109748 seconds
+
+# hwclock --show
+Sat 10 Aug 2013 08:21:12 AM PDT  -0.640982 seconds</pre>
+<p>Note: The output of the date command might be same as the output of the hwclock command (actually it should be the same). But, the date command gets the date and time from the clock managed from Linux kernel. This in example, there is around 10 mins difference between them.</p>
+<pre># date
+Sat Aug 10 08:11:21 PDT 2013</pre>
+<h3>2. Copy System Time to Hardware Time</h3>
+<p>You really want to make sure your hardware clock has the same date and time as the system clock.</p>
+    <center>
+      <div style="margin-left:2px; margin-top:10px; margin-bottom:10px; ">
+
+        <!-- AD BLOCK -->
+		
+<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- TGS Inside Content -->
+<ins class="adsbygoogle" style="display: inline-block; width: 300px; height: 250px;" data-ad-client="ca-pub-8090601437064582" data-ad-slot="8643685131" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent"><ins id="aswift_1_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;" width="300" height="250" frameborder="0"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+        <!-- END AD BLOCK -->
+
+	  </div>
+    </center>
+
+
+<p>As you see currently there is a difference between the system clock and hardware clock time.</p>
+<pre># date
+Sat Aug 10 08:16:17 PDT 2013
+
+# hwclock
+Sat 10 Aug 2013 08:26:53 AM PDT  -0.687841 seconds</pre>
+<p>So, use the hwclock command as shown below to set the hardware clock same as system clock. This is the typical use of the hwclock command.</p>
+<pre># hwclock -w
+
+# hwclock
+Sat 10 Aug 2013 08:16:27 AM PDT  -0.625382 seconds
+
+# date
+Sat Aug 10 08:16:28 PDT 2013</pre>
+<p>Note: Both -w and –systohc option does the same. I like to use –systohc as it is easy to remember. –systohc stands for “system to hardware clock”, which copies the time from system to hardware clock.</p>
+<pre># hwclock --systohc</pre>
+<h3>3. Set Hardware Clock Date and Time Manually</h3>
+<p>Instead of copying the system date and time to the hardware clock, you can also manually set the value using –set and –date option as shown below.</p>
+<p>The following will set the date to Aug 11th, 2013. Please note that if you don’t specify the time, it will be set to 12:00:00 AM.</p>
+<pre># hwclock --set --date 8/11/2013
+
+# hwclock
+Sun 11 Aug 2013 12:00:04 AM PDT  -0.703489 seconds</pre>
+<p>You can also set both date and time at the same time as shown below. Please note that it will use the local time by default.</p>
+<pre># hwclock --set --date "8/11/2013 23:10:45"
+
+# hwclock
+Sun 11 Aug 2013 11:10:48 PM PDT  -0.562862 seconds</pre>
+<p>You can also take the output of the date command, and pass it to the –set and –date option as shown below.</p>
+<pre># hwclock --set --date "Sat Aug 10 08:31:24 PDT 2013"
+
+# hwclock
+Sat 10 Aug 2013 08:31:28 AM PDT  -0.594118 seconds</pre>
+<h3>4. Copy Hardware Time to System Time</h3>
+<p>When your hardware clock shows the correct date and time, but not your system clock, you can use -s option as shown below to copy the hardware time to system time as shown below.</p>
+<pre># hwclock
+Sat 10 Aug 2013 08:20:28 AM PDT  -0.687872 seconds
+
+# date
+Sat Aug 10 08:34:48 PDT 2013
+
+# hwclock -s
+
+# date
+Sat Aug 10 08:20:55 PDT 2013</pre>
+<p>Note: Both -s and –hctosys option does the same. I like to use –hctosys as it is easy to remember. –hctosys stands for “hardware clock to system”, which copies the time from hardware clock to system clock.</p>
+<pre># hwclock -hctosys</pre>
+<p>While testing this, if you’ve messed-up your system time, you can use the <a href="http://www.thegeekstuff.com/2013/05/date-command-examples/">date command examples</a> to set it to correct date and time.</p>
+<h3>5. hwclock Debug Mode</h3>
+<p>When you pass –debug option to the hwclock, it displays some debug information, which shows exactly what hwclock command does.</p>
+<p>The following shows exactly what it does when we copy system time to hardware time.</p>
+<pre># hwclock --systohc --debug
+hwclock from util-linux-ng 2.17.2
+Using /dev interface to clock.
+Last drift adjustment done at 1375974983 seconds after 1969
+Last calibration done at 1375974983 seconds after 1969
+Hardware clock is on UTC time
+Assuming hardware clock is kept in UTC time.
+Waiting for clock tick...
+...got clock tick
+Time read from Hardware Clock: 2013/08/10 15:16:37
+Hw clock time : 2013/08/10 15:16:37 = 1375974997 seconds since 1969
+Time elapsed since reference time has been 0.009002 seconds.
+Delaying further to reach the new time.
+Setting Hardware Clock to 15:16:37 = 1375974997 seconds since 1969
+ioctl(RTC_SET_TIME) was successful.
+Not adjusting drift factor because it has been less than a day since the last calibration.</pre>
+<p>The following shows exactly what it does when we copy hardware time to system time.</p>
+<pre># hwclock -hctosys --debug
+hwclock from util-linux-ng 2.17.2
+Using /dev interface to clock.
+Last drift adjustment done at 1375975224 seconds after 1969
+Last calibration done at 1375975224 seconds after 1969
+Hardware clock is on UTC time
+Assuming hardware clock is kept in UTC time.
+Waiting for clock tick...
+...got clock tick
+Time read from Hardware Clock: 2013/08/10 15:23:20
+Hw clock time : 2013/08/10 15:23:20 = 1375975400 seconds since 1969
+Calling settimeofday:
+        tv.tv_sec = 1375975400, tv.tv_usec = 0
+        tz.tz_minuteswest = 420</pre>
+<p>Note: On alpha machines you can use getepoch to view the epoch, setepoch to set the epoch. When you try to run this on a on Alpha machine, you’ll get the following error machine.</p>
+<pre># hwclock --setepoch --epoch=1952
+The kernel keeps an epoch value for the Hardware Clock only on an Alpha machine.
+This copy of hwclock was built for a machine other than Alpha
+(and thus is presumably not running on an Alpha now).  No action taken.</pre>
+<h3>6. Adjust the Hardware Clock</h3>
+<p>When the system starts, it takes the time from the hardware clock. The /etc/adjtime file is used by the hwclock –adjust option to control the adjustment.</p>
+<pre># hwclock --adjust</pre>
+<p>The /etc/adjtime file has the following three lines.</p>
+<pre># cat /etc/adjtime
+-3.019877 1375975224 0.000000
+1375975224
+UTC</pre>
+<ul>
+<li>The three values in the 1st line represents 1) systematic drift rate in seconds per day, 2) number of seconds since 1969 UTC of recent adjustment 3) just 0</li>
+<li>Line 2 is the same value that you see in the 1st line, 2nd value. i.e number of seconds since 1969 UTC of recent adjustment</li>
+<li>Line 3 will say either UTC or LOCAL</li>
+</ul>
+<h3>7. hwclock Test Mode</h3>
+<p>When you change things using hwclock, using –test option, you can execute the command without really making any changes.</p>
+<p>The –systz option will change the system timezone accordingly. But, since we gave –test it will not really make the change, but it will still execute the command without any issues.</p>
+<pre># hwclock --systz --test
+Not setting system clock because running in test mode.</pre>
+<p>The best use of test mode is when you combine it with debug option. I.e When you want to see what the hwclock command does, but without making any changes.</p>
+<pre># hwclock --systz --test --debug
+hwclock from util-linux-ng 2.17.2
+Last drift adjustment done at 1375975224 seconds after 1969
+Last calibration done at 1375975224 seconds after 1969
+Hardware clock is on UTC time
+Assuming hardware clock is kept in UTC time.
+Current system time: 1375975586 = 2013/08/10 15:26:26
+Calling settimeofday:
+        UTC: 2013/08/10 15:26:26
+        tv.tv_sec = 1375975586, tv.tv_usec = 556277
+        tz.tz_minuteswest = 420
+Not setting system clock because running in test mode.</pre>
+<p>The following shows exactly what the –adjust option does without really doing any adjustment.</p>
+<pre># hwclock --adjust --test --debug
+hwclock from util-linux-ng 2.17.2
+Using /dev interface to clock.
+Last drift adjustment done at 1375975224 seconds after 1969
+Last calibration done at 1375975224 seconds after 1969
+Hardware clock is on UTC time
+Assuming hardware clock is kept in UTC time.
+Waiting for clock tick...
+...got clock tick
+Time read from Hardware Clock: 2013/08/10 15:30:35
+Hw clock time : 2013/08/10 15:30:35 = 1375975835 seconds since 1969
+Time since last adjustment is 611 seconds
+Need to insert -1 seconds and refer time back 0.978644 seconds ago
+Needed adjustment is less than one second, so not setting clock.</pre>
+</html>
