@@ -332,6 +332,16 @@ def arayuzModul():
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 		
+@app.route('/rehberModul', methods=['GET', 'POST'])	
+def rehberModul():
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		dizin='rehber'
+		rehberlist=arger.dizin_cek(dizin="rehber")
+		return render_template('rehberModul.html',mod=dizin,rehberler=rehberlist,kayitmodu='w')	
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+		
 @app.route('/komutanGuncelle', methods=['GET', 'POST'])	
 def komutanGuncelle():
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])

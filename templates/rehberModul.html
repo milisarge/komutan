@@ -1,0 +1,268 @@
+<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Rehber(Wiki) Modülü</title>
+<meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./static/css/reset.css" />
+<script src="../static/jquery.js"></script>
+<script src="../static/jquery.min.js"></script>
+<script src="../static/js/jquery-ui.js"></script>
+<script src="../static/js/jquery.form.min.js"></script>
+<script src="../static/js/jquery.tablesorter.min.js"></script>
+<script src="../static/js/jquery.blockUI.js"></script>
+<script src="../static/js/shortcut.js"></script>
+<script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
+<link rel="stylesheet"
+	href="{{url_for('static', filename='css/table2.css')}}" type="text/css"
+	id="" media="print, projection, screen">
+
+<style type="text/css">
+body {
+	margin: 0px auto;
+	padding: 0px 0px;
+	font-family: calibri;
+	
+}
+.anasablon {
+	width: auto;
+	height: auto;
+	
+}
+.mheader {
+	font-family: Arial, Verdana;
+	text-shadow: 2px 2px 2px #ccc;
+	display: block;
+	float: left;
+	font-weight: bold;
+	padding-left: 10px;
+	text-align: left;
+	font-size: 15px;
+	width: 1300px;
+	height: 20px;
+}
+.formalan{
+	float:left;
+	width:1300px;
+	height:700px;
+	border:#CCC solid 1px;
+	background-color:#996600 ;
+	margin-right: 10px;
+	margin-left: 4px;
+	font-family:monospace;
+	font-weight: bold;
+}
+
+.operbutonlar{
+	width:auto; 
+	margin: 5 ;
+	font-family:monospace;
+	font-weight: bold;
+}
+.element{
+	width:470px; 
+	margin: 10 ;
+	float:center;
+	font-family:monospace;
+	font-weight: bold;
+}
+.sonuc{ 
+    white-space: pre;
+}
+hr {
+	top:5px; 
+	width: 100%;
+	clear: both;
+	margin: auto;
+}
+
+.mheader,.formalan{
+	margin: 3px;
+	padding: 15px;
+	background:#669999;
+	border: 1px solid #cccccc;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	-moz-box-shadow: 2px 2px 2px #cccccc;
+	-webkit-box-shadow: 2px 2px 2px #cccccc;
+	box-shadow: 2px 2px 2px #cccccc;
+	
+}
+</style>
+<script>
+	$(document).ready(function() {
+		
+		$('#calismakod').show();
+		
+		shortcut.add("ctrl+K", function() {
+			//event.preventDefault();
+			$("#guncelle").click();
+	    });
+		
+		$('#calismalist').change(function(){
+			rehberdosya=$('#calismalist').val();
+			$.ajax({
+				url : "/calismaAl?mod="+$('#mod').val() +"&dosya="+rehberdosya,
+			}).done(function(data) {
+				$("#calismakod").val(data);
+			});
+				
+			
+		});
+		
+		$('#yeniKaydet').on('click', function(event){
+			event.preventDefault();
+			$('#kayitmodu').val('w');
+			var formOption = {
+				url				: "/calismaKaydet",
+				type			: "POST",
+				success: function (data) {
+					if(data=='tamam'){
+						islemTamam("Yeni rehber Kaydı Yapıldı.");
+					}else{
+						hataGoster(data);
+					}
+				}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#guncelle').on('click', function(event){
+			event.preventDefault();
+			$('#kayitmodu').val('a');
+			var formOption = {
+				url				: "/calismaKaydet",
+				type			: "POST",
+				success: function (data) {
+						if(data=='tamam'){
+							islemTamam("rehber Güncellendi.");
+						}else{
+							hataGoster(data);
+						}
+					}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#rehbergg').on('click', function(event){
+			event.preventDefault();
+			//window.open("/rehberModul?kd="+$('#calismalist').val(),'_newtab');
+			$('#calismakod').toggle();
+		});	
+		
+	});
+	
+	function sonucGetir(res, statusText, xhr, $form) {
+		//console.log(res);
+		if(res!='None'){
+			$('#yukleniyor').hide();
+			$("#raporalan").html("");
+			$("#raporalan").html(res);
+			$("#hareketrapor").tablesorter();
+		}
+	}
+	
+	function islemTamam(message) {
+		// TODO: hata mesajı dön
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#080', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff'
+            }
+        });
+	}
+	
+	function hataGoster(message) {
+		
+		console.log("HATA:" + message);
+		$.blockUI({ 
+            message: message, 
+            fadeIn: 500, 
+            fadeOut: 500, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '550px',
+                top: '6px', 
+                left: '', 
+                right: '100px', 
+                border: 'none', 
+                padding: '10px', 
+                backgroundColor: '#900', 
+                '-webkit-border-radius': '6px', 
+                '-moz-border-radius': '6px', 
+                'border-radius': '6px',
+                opacity: .6, 
+            	'font-style': 'italic',
+	        	'font-weight': 'normal',
+	        	'font-family': 'Georgia, "Times New Roman", Times, serif',
+	        	'font-size': '16px',
+	        	color: '#fff',
+                
+            }
+        });
+	}
+	
+</script>
+</head>
+
+<body bgcolor='silver' > 
+<div class=anasablon>
+	<div class="mheader" tabindex="-1">
+		<a href="/"><img src="/static/ana.png" class="hover" hinttext="Anasayfa" style="margin-right:20px;"></a> 
+		<a href="/rehberModul"><img src="/static/rehber.png" class="hover" hinttext="Rehber" style="margin-right:120px;"></a> 
+		<a href="/komutaModul"><img src="/static/komuta.png" class="hover" hinttext="Komut Modulu" style="margin-right:20px;"></a> 
+		<a href="/agModul"><img src="/static/blue.png" class="hover" hinttext="Ag Modulu" style="margin-right:20px;"></a> 
+		<a href="/exit"><img src="/static/cikis.png" class="hover" hinttext="ÇIKIŞ" style="margin-left:40px;"></a> 
+	</div><br>
+	<div class=formalan>
+		
+		<form id=raporForm name=raporForm action="{{ url_for('rehberModul') }}" method=post>
+		<div class=element>
+			<label>REHBER LİSTESİ</label>
+			<select name="calismalist" id="calismalist" class="txt" style="width: 250px;" > 
+			{% for rehber in rehberler %}<option>{{rehber}}</option>{% endfor %}
+			</select>
+		</div>		
+		<hr noshade size=2>
+		<div class=element style="margin-top: 30px";>
+			<input type=submit id=rehbergg name=rehbergg  value=rehber tabindex="-1" >
+			<input type=text id=yenicalisma name=yenicalisma  value=yeni.sh tabindex="-1" style="width: 150px;"/>
+			<input type="submit" name="yeniKaydet" id="yeniKaydet" value="Yeni Kaydet" tabindex="-1"/>
+			<input type="submit" name="guncelle" id="guncelle" value="Güncelle" tabindex="-1"/>
+		</div>
+		<input id="mod" name="mod"  hidden value="{{mod}}" />
+		<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
+		<hr noshade size=2>
+		<div class=element>
+		<textarea id=calismakod name=calismakod value="" ondblclick=this.value='' style="font-size: 14px;;margin-top: 3px;width:1000px;height: 500px;"></textarea>
+		</div>
+		</form>
+		
+		
+		
+	</div>
+	
+</div>
+</body>
+</HTML>
