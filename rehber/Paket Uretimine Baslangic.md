@@ -1,0 +1,7 @@
+Milis Linux'ta paket üretmek oldukça kolaylaştırılmıştır. Milis Linux'ta paketler talimat dosyaları sayesinde üretilir. Talimat dosyası bir paketin nasıl oluşturulacağı, gerekli olan bağımlılıkların neler olduğu, paketçinin adı, paketin adı ve açıklaması versiyon numarası gibi bilgileri barındırır. Mps paket yöneticisi de bu talimat dosyasına dayanarak paketi oluşturur.
+
+Peki bu talimat dosyası nasıl oluşturulur?
+Kullanıcının ev dizininde "talimatname" adında bir dizin vardır. Bu dizin içerisinde ise genel, onsistem, temel ve temel-ek adında klasörler vardır. Genel olarak sonradan oluşturacağımız talimat dosyaları, genel dizininin içindeki paket adı yazılı olan dizinlerin içinde yer almaktadır. Bu talimat dosyalarını örnek alarak kendi istediğiniz bir paketin talimat dosyasını oluşturabilirsiniz.
+Yada alternatif olarak Nutyx veya Crux Linux dağıtımlarının pkg dosyalarını örnek alarak veya bu dosyaların adını "talimat" şeklinde değiştirerek de kullanabilirsiniz. Ancak burada dikkat edilmesi gereken hususlar var. Örneğin bu dosyalardaki bağımlılıklar (depends) Milis Linux deposunda farklı bir adda oluşturulmuş olabilir, bağımlılıklar depoda olmayabilir. Bu durumda olmayan bağımlılıkların da talimat oluşturularak paketlenmesi gerekir.
+
+Talimat dosyası oluşturulurken hangi paketi üreteceksek ilgili paketin web sitesinde yada indirdiğimiz kaynak kodunda genelde gerekli olan bağımlılıklar, programın nasıl kurulacağı vs. bilgiler çoğu zaman verilmektedir. Bunlardan yararlanarak da talimat dosyası oluşturabiliriz.
