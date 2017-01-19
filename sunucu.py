@@ -15,6 +15,9 @@ import sqlite3 as sqlmak
 import subprocess
 from htmlrapor import *
 import psutil
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 ag_bilgi_komut="ifconfig"#"nmcli con show"
 arger=Arge()
@@ -338,7 +341,7 @@ def rehberModul():
 	if ("KULL_ID" in session and girdimi) :
 		dizin='rehber'
 		rehberlist=arger.dizin_cek(dizin="rehber")
-		return render_template('rehberModul.html',mod=dizin,rehberler=rehberlist,kayitmodu='w')	
+		return render_template('rehberModul.html',rehberler=rehberlist,mod=dizin,kayitmodu='w')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 		
