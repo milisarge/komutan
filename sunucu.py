@@ -16,6 +16,9 @@ import subprocess
 from htmlrapor import *
 import psutil
 import sys
+import paho.mqtt.client as mqtt
+import uuid
+
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -466,14 +469,33 @@ def ag_bilgi():
 		return Response(json.dumps(rapor),mimetype='application/json')
 	return render_template('giris.html', error="isim ve sifre giriniz")
 
+def on_connect(client, userdata, flags, rc):
+
+    #sub here will re subscribe on reconnection
+    client.subscribe("+/milislinux/komutan")
+    client.subscribe("+/milislinux/komutan/rehber")
+
 if __name__ == '__main__':
+	print "komutan sunucu calisiyor:"
+	if os.path.isfile("uuid"): 
+		kimlik=open("uuid","r").read()
+	else:
+		kimlik= uuid.uuid4()
+		kimlik=str(kimlik)
+		open("uuid","w").write(kimlik)
+	client = mqtt.Client()
+	client.on_connect = on_connect
+	client.connect("test.mosquitto.org",1883,60)
+	client.loop_start()
+	client.publish('milislinux/komutan', kimlik+' komutan sunucu aktif.')
+	client.loop(2)
 	host="0.0.0.0"
 	port_calis=6060
 	#
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	try:
 		sock.connect_ex((host,port_calis))
-		app.run(host=host,port=port_calis,debug=True,use_evalex=True,threaded=True) 
+		app.run(host=host,port=port_calis,debug=False,use_evalex=True,threaded=True) 
 	except Exception, e:
 		if "Errno 98" in str(e):
 			os.system("fuser -k "+str(port_calis)+"/tcp")

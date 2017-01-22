@@ -15,3 +15,4 @@ butterfly/*.map
 butterfly/sass/scss
 butterfly/*.egg-info/
 butterfly/build/
+uuid*
