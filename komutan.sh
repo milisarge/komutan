@@ -1,6 +1,6 @@
 #!/bin/bash
 ./port_oldur.sh
-python2 sunucu.py &
+sudo python2 sunucu.py &
 sleep 2
 if which xdg-open > /dev/null
 then
