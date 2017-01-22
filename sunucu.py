@@ -343,6 +343,7 @@ def rehberModul():
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
 		dizin='rehber'
+		client.publish('milislinux/komutan/rehber', kimlik+' rehberi yenilendi.')
 		rehberlist=arger.dizin_cek(dizin="rehber")
 		return render_template('rehberModul.html',rehberler=rehberlist,mod=dizin,kayitmodu='w')
 	else:
@@ -475,8 +476,20 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("+/milislinux/komutan")
     client.subscribe("+/milislinux/komutan/rehber")
 
-def on_message(client, userdata, msg):
-	print “Topic: “, msg.topic+’\nMessage: ‘+str(msg.payload)
+def on_message(mosq, obj, msg):
+    global message
+    print(msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
+    message = msg.payload
+
+def on_publish(mosq, obj, mid):
+    print("mid: " + str(mid))
+
+def on_subscribe(mosq, obj, mid, granted_qos):
+    print("Subscribed: " + str(mid) + " " + str(granted_qos))
+
+def on_log(mosq, obj, level, string):
+    print(string)
+
 
 if __name__ == '__main__':
 	print "komutan sunucu calisiyor:"
@@ -489,10 +502,12 @@ if __name__ == '__main__':
 	client = mqtt.Client()
 	client.on_connect = on_connect
 	client.on_message = on_message
+	client.on_publish = on_publish
+	client.on_subscribe = on_subscribe
 	client.connect("test.mosquitto.org",1883,60)
-	client.loop_start()
-	client.publish('milislinux/komutan', kimlik+' komutan sunucu aktif.')
 	client.loop(2)
+	client.publish('milislinux/komutan', kimlik+' komutan sunucu aktif.')
+	
 	host="0.0.0.0"
 	port_calis=6060
 	#
