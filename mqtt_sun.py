@@ -3,7 +3,7 @@
 
 import sys
 import paho.mqtt.client as mqtt
-
+import datetime
 
 
 def on_connect(mosq, obj, rc):
@@ -11,6 +11,8 @@ def on_connect(mosq, obj, rc):
 
 def on_message(mosq, obj, msg):
 	print(msg.topic+" "+str(msg.payload))
+	zmn=str(datetime.datetime.now())
+	open("log/mqtt.log","a").write(zmn+"@"+msg.topic+"@"+str(msg.payload)+"<p>")
 
 def on_publish(mosq, obj, mid):
 	print("mid: "+str(mid))
@@ -32,7 +34,7 @@ def main():
 	mqttc.connect("test.mosquitto.org", 1883, 60)
 	mqttc.subscribe("milislinux/komutan", 0)
 	mqttc.subscribe("milislinux/komutan/rehber", 0)
-
+	open("log/mqtt.log","a").write("")
 	rc = 0
 	while rc == 0:
 		rc = mqttc.loop()

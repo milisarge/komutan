@@ -350,6 +350,7 @@ def rehberModul():
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
 		dizin='rehber'
+		client.connect("test.mosquitto.org",1883,60)
 		client.publish('milislinux/komutan/rehber', kimlik+' rehberi yenilendi.')
 		rehberlist=arger.dizin_cek(dizin="rehber")
 		return render_template('rehberModul.html',rehberler=rehberlist,mod=dizin,kayitmodu='w')
@@ -437,7 +438,13 @@ def calismaKaydet():
 def agModul():
 	
 	return render_template('ag.html')
+
+@app.route('/raporModul')
+def raporModul():
 	
+	return render_template('rapor.html')
+	
+
 @app.route('/arayuzModul_eski', methods=['GET', 'POST'])
 def arayuzModul_eski():
 	onay=1
@@ -509,6 +516,11 @@ def mqtt_islem_basla():
 	mqtt_thread = threading.Timer(POOL_TIME,mqqt_islem, ())
 	mqtt_thread.start()
 
+@app.route('/veri_cek', methods= ['GET'])
+def veri_cek():
+	veri=open("log/mqtt.log","r").read()
+    #return jsonify(veri=veri)
+	return Response(json.dumps(veri),mimetype='application/json')
 
 if __name__ == '__main__':
 	print "komutan sunucu calisiyor:"
