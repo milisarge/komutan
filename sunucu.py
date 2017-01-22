@@ -486,9 +486,8 @@ def ag_bilgi():
 
 def on_connect(client, userdata, flags, rc):
 
-    #sub here will re subscribe on reconnection
     client.subscribe("+/milislinux/komutan")
-    client.subscribe("+/milislinux/komutan/rehber")
+    client.subscribe("+/milislinux/komutan/rehber")    
 
 def on_message(mosq, obj, msg):
     global message
@@ -499,7 +498,7 @@ def on_publish(mosq, obj, mid):
     print("mid: " + str(mid))
 
 def on_subscribe(mosq, obj, mid, granted_qos):
-    print("Subscribed: " + str(mid) + " " + str(granted_qos))
+    print("abonelik: " + str(mid) + " " + str(granted_qos))
 
 def on_log(mosq, obj, level, string):
     print(string)
@@ -541,7 +540,6 @@ if __name__ == '__main__':
 	#client.connect("m2m.eclipse.org",1883,60)
 	#client.connect("iot.eclipse.org",1883,60)
 	client.loop(2)
-	client.publish('milislinux/komutan', kimlik+' komutan sunucu aktif.')
 	
 	host="0.0.0.0"
 	port_calis=6060
