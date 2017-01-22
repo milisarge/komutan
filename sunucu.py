@@ -518,6 +518,7 @@ def mqtt_islem_basla():
 @app.route('/veri_cek', methods= ['GET'])
 def veri_cek():
 	veri=open("log/mqtt.log","r").read()
+    print os.stat("rehber/").st_mtime
     #return jsonify(veri=veri)
 	return Response(json.dumps(veri),mimetype='application/json')
 
