@@ -429,7 +429,12 @@ def calismaKaydet():
 			dosya = request.form['calismalist']
 		dizin = request.form['mod']
 		test=codecs.open(dizin+"/"+dosya,"w","utf-8").write(komut)
+		test=codecs.open("/tmp/komutan_islem","w","utf-8").write(komut)
 		sonuc="tamam"
+		os.system("yapistir-ix.io.sh /tmp/komutan_islem > /tmp/komutan_islem_link")
+		client.connect("test.mosquitto.org",1883,60)
+		client.publish('milislinux/komutan/'+dizin, kimlik+' '+dizin+' islemi.')
+		client.publish('milislinux/komutan/'+dizin, kimlik+' '+open("/tmp/komutan_islem_link","r").read()+' linki.')
 		return Response(json.dumps(sonuc),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")
@@ -518,7 +523,6 @@ def mqtt_islem_basla():
 @app.route('/veri_cek', methods= ['GET'])
 def veri_cek():
 	veri=open("log/mqtt.log","r").read()
-    print os.stat("rehber/").st_mtime
     #return jsonify(veri=veri)
 	return Response(json.dumps(veri),mimetype='application/json')
 
