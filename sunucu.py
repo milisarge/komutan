@@ -505,6 +505,8 @@ if __name__ == '__main__':
 	client.on_publish = on_publish
 	client.on_subscribe = on_subscribe
 	client.connect("test.mosquitto.org",1883,60)
+	#client.connect("m2m.eclipse.org",1883,60)
+	#client.connect("iot.eclipse.org",1883,60)
 	client.loop(2)
 	client.publish('milislinux/komutan', kimlik+' komutan sunucu aktif.')
 	
