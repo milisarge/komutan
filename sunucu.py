@@ -18,6 +18,13 @@ import psutil
 import sys
 import paho.mqtt.client as mqtt
 import uuid
+import threading
+
+
+dataLock = threading.Lock()
+# thread handler
+mqtt_thread = threading.Thread()
+POOL_TIME = 5 #Seconds
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -490,9 +497,23 @@ def on_subscribe(mosq, obj, mid, granted_qos):
 def on_log(mosq, obj, level, string):
     print(string)
 
+def mqqt_islem():
+        global mqtt_thread
+        with dataLock:
+			os.system("python mqtt_sun.py")
+        mqtt_thread = threading.Timer(POOL_TIME, mqqt_islem, ())
+        mqtt_thread.start()   
+
+def mqtt_islem_basla():
+	global mqtt_thread
+	mqtt_thread = threading.Timer(POOL_TIME,mqqt_islem, ())
+	mqtt_thread.start()
+
 
 if __name__ == '__main__':
 	print "komutan sunucu calisiyor:"
+	mqtt_islem_basla()
+	
 	if os.path.isfile("uuid"): 
 		kimlik=open("uuid","r").read()
 	else:
