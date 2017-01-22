@@ -523,6 +523,7 @@ def veri_cek():
 
 if __name__ == '__main__':
 	print "komutan sunucu calisiyor:"
+	os.system("mkdir -p log")
 	mqtt_islem_basla()
 	
 	if os.path.isfile("uuid"): 
