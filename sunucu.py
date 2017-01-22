@@ -475,6 +475,9 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("+/milislinux/komutan")
     client.subscribe("+/milislinux/komutan/rehber")
 
+def on_message(client, userdata, msg):
+	print “Topic: “, msg.topic+’\nMessage: ‘+str(msg.payload)
+
 if __name__ == '__main__':
 	print "komutan sunucu calisiyor:"
 	if os.path.isfile("uuid"): 
@@ -485,6 +488,7 @@ if __name__ == '__main__':
 		open("uuid","w").write(kimlik)
 	client = mqtt.Client()
 	client.on_connect = on_connect
+	client.on_message = on_message
 	client.connect("test.mosquitto.org",1883,60)
 	client.loop_start()
 	client.publish('milislinux/komutan', kimlik+' komutan sunucu aktif.')
