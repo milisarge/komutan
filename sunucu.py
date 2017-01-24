@@ -316,7 +316,7 @@ def surecModul():
 		session['KULL_ID']=-1
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
-		surecler=arger.komut_kos("netstat -natpl","sh")
+		surecler=arger.komut_kos("netstat -natplu","sh")
 		surecler=surecler.split("\n")
 		'''rapor="<html><table  border=1  align=left>"
 		for surec in surecler:
