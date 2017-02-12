@@ -1,0 +1,133 @@
+
+Useful netcat examples on Linux
+Last updated on January 27, 2014 Authored by Dan Nanni	3 Comments
+
+Often referred to as the "swiss army of knife" for TCP/IP networking, Netcat is an extremely versatile Linux utility that allows you to do anything under the sun using TCP/UDP sockets. It is one of the most favorite tools for system admins when they need to do networking related troubleshooting and experimentation.
+
+In this tutorial, I am sharing a few useful netcat examples, although the sky is the limit when it comes to possible netcat use cases. If you are using netcat regularly, feel free to share your use case.
+
+Note that when you are binding to well-known ports (0-1023) with nc, you need root privilege. Otherwise, run nc as a normal user.
+1. Test if a particular TCP port of a remote host is open.
+$ nc -vn 192.168.233.208 5000
+
+nc: connect to 192.168.233.208 5000 (tcp) failed: Connection refused
+
+$ nc -v 192.168.233.208 22
+
+Connection to 192.168.233.208 22 port [tcp/ssh] succeeded!
+SSH-2.0-OpenSSH_6.0p1 Debian-4
+
+2. Send a test UDP packet to a remote host.
+
+The command below sends a test UDP packet with 1 second timeout to a remote host at port 5000.
+$ echo -n "foo" | nc -u -w1 192.168.1.8 5000
+
+3. Perform TCP port scanning against a remote host.
+
+The command below scans ports in the ranges of [1-1000] and [2000-3000] to check which port(s) are open.
+$ nc -vnz -w 1 192.168.233.208 1-1000 2000-3000
+
+4. Copy a file (e.g., my.jpg) from hostA.com to hostB.com.
+
+On hostB.com (receiver):
+$ nc -lp 5000 > my.jpg
+
+On hostA.com (sender):
+$ nc hostB.com 5000 < my.jpg
+
+5. Transfer a whole directory (including its content) from hostA.com to hostB.com.
+
+On hostB.com (receiver):
+$ nc -l 5000 | tar xvf -
+
+On hostA.com (sender):
+$ tar cvf - /path/to/dir | nc hostB.com 5000
+
+6. Perform UDP port scanning against a remote host.
+$ nc -vnzu 192.168.1.8 1-65535
+
+Connection to 192.168.1.8 68 port [udp/*] succeeded!
+Connection to 192.168.1.8 5353 port [udp/*] succeeded!
+Connection to 192.168.1.8 16389 port [udp/*] succeeded!
+Connection to 192.168.1.8 38515 port [udp/*] succeeded!
+Connection to 192.168.1.8 45103 port [udp/*] succeeded!
+
+The above command checks which UDP port(s) of a remote host are open and able to receive traffic.
+7. Listen on a UDP port and dump received data in text format.
+
+The command below listens on UDP port for incoming messages (lines of text).
+$ nc -u localhost 5000
+
+Note that this command dies after receiving one message. If you want to receive multiple messages, use while loop as follows.
+$ while true; do nc -u localhost 5000; done
+
+8. Back up a (compressed) hard drive (e.g., /dev/sdb) to a remote server.
+
+On a remote server:
+$ nc -lp 5000 | sudo dd of=/backup/sdb.img.gz
+
+On a local host with a hard drive:
+$ dd if=/dev/sdb | gzip -c | nc remote_server.com 5000
+
+9. Restore a hard drive from a compressed disk image stored in a remote server.
+
+On a local host:
+$ nc -lp 5000 | gunzip -c | sudo dd of=/dev/sdb
+
+On a remote server with a backup disk image (e.g., /backup/sdb.img.gz):
+$ cat /backup/sdb.img.gz | nc my_local_host.com 5000
+
+10. Serve a static web page as a web server.
+
+Type the command below to launch a web server that serves test.html on port 8000.
+$ while true; do nc -lp 8000 < test.html; done
+
+Now go to http://<host_ip_address>:8000/test.html to access it. Note that in order to use a well known port 80, you will need to run nc with root privilege as follows.
+$ while true; do sudo nc -lp 80 < test.html; done
+
+11. (Insecure) online chat between two hosts.
+
+On one host (192.168.233.203):
+$ nc -lp 5000
+
+On another host:
+$ nc 192.168.233.203 5000
+
+After running the above commands, anything typed on either host appears on the other host's terminal.
+12. Launch a "remote shell" which allows you run from local host any commands to be executed on a remote host.
+
+On a remote host (192.168.233.208):
+$ nc -lp 5000 -e /bin/bash
+
+On local host:
+$ nc 192.168.233.208 5000
+
+After running the above command on local host, you can start running any command from local host's terminal. The command will be executed on the remote host, and the output of the command will appear on local host. This setup can be used to create a backdoor on a remote host.
+13. Create a web proxy for a particular website (e.g., google.com).
+$ mkfifo proxypipe
+$ while true; do nc -l 5000 0<proxypipe | nc www.google.com 80 1> proxypipe; done
+
+The above commands create a named pipe proxypipe, and use nc to redirect all incoming TCP/5000 connections to http://www.google.com via the bidirectional pipe. With this setup, you can access Google by going to http://127.0.0.1:5000.
+14. Create an SSL proxy for a particular website (e.g., google.com).
+$ mkfifo proxypipe
+$ mkfifo proxypipe2
+$ nc -l 5000 -k > proxypipe < proxypipe2 &
+$ while true do; openssl s_client -connect www.google.com:443 -quiet < proxypipe > proxypipe2; done
+
+The above commands use nc to proxy SSL connections to Google.com.
+15. Stream a video file from a server, and client watches the streamed video using mplayer.
+
+On a video server (192.168.233.208):
+$ cat video.avi | nc -l 5000
+
+On a client host:
+$ nc 192.168.233.208 5000 | mplayer -vo x11 -cache 3000 -
+
+16. Listen on a TCP port using IPv6 address.
+
+The following command let nc use IPv6 address when listening on a TCP port. This may be useful to test IPv6 setup.
+$ nc -6 -l 5000
+
+$ sudo netstat -nap | grep 5000
+
+tcp6       0      0 :::5000                 :::*                    LISTEN      4099/nc
