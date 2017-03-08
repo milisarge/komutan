@@ -85,6 +85,7 @@
 					$("#bolumformat").val(data["disk"]["format"]);
 					$("#kullisim").val(data["kullanici"]["isim"]);
 					$("#kullsifre").val(data["kullanici"]["sifre"]);
+					$("#grubkur").val(data["grub"]["kur"]);
 				}
 			};
 			$('#raporForm').ajaxSubmit(formOption);
@@ -309,6 +310,8 @@
 			<input type="text" class="txt" name="kullisim" id="kullisim" ondblclick="this.value='' " style="margin-right: 5px; width: 150px;"/><p><p>
 			<b class="beyaz">Kullanıcı Ekleme - Şifre</b>
 			<input type="password" class="txt" name="kullsifre" id="kullsifre" ondblclick="this.value='' " style="margin-right: 5px; width: 150px;"/><p><p>
+			<b class="beyaz">Grub Kurma</b>
+			<input type="text" class="txt" name="grubkur" id="grubkur" ondblclick="this.value='' " style="margin-right: 5px; width: 100px;"/><p><p>
 			<div class=element>	
 				<br>
 				<input type="submit" class="btn" name="kull_olustur" id="kull_olustur" value="KULLANICI OLUŞTUR" tabindex="-1" /><p><p>
