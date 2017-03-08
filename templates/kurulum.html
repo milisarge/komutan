@@ -1,4 +1,4 @@
-k<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
+<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>KOMUTAN-KURULUM</title>
 <meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
@@ -19,11 +19,16 @@ k<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
 <link rel="stylesheet" href="{{url_for('static', filename='css/table2.css')}}" type="text/css" id="" media="print, projection, screen">
 
 <style type="text/css">
-	
-#kurulumForm {
-	width: 1043px;
-	height: 670;
-	overflow: scroll;
+
+#formalan {
+	float: left;
+	width: 1000px;
+	height: 800px;
+}
+
+#pageContainer {
+	width: 1556px;
+	height: auto;
 }
 
 </style>
@@ -50,7 +55,7 @@ k<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
 			var formOption = {
 				url				: "/komutCalistir",
 				type			: "POST",
-				target	:"#raporalan",
+				target			:"#raporalan",
 				success			: sonucGetir
 				//beforeSubmit 	: kontrolStkHarListSil
 			};
@@ -70,13 +75,16 @@ k<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
 		});
 		
 		$('#kadlar').on('click', function(event){
+			event.preventDefault();
 			$("#kadbilgi").html("");
 			var formOption = {
 				url		: "/kadbilgi",
 				type	: "POST",
 				success: function (data) {
-					console.log(data["disk"]["baglam"])
-					$("#kadbilgi").html(data);
+					$("#kurulumbolum").val(data["disk"]["bolum"]);
+					$("#bolumformat").val(data["disk"]["format"]);
+					$("#kullisim").val(data["kullanici"]["isim"]);
+					$("#kullsifre").val(data["kullanici"]["sifre"]);
 				}
 			};
 			$('#raporForm').ajaxSubmit(formOption);
@@ -147,6 +155,12 @@ k<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
 				}
 			};
 			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#disksec').on('click', function(event){
+			event.preventDefault();
+			$('#kurulumbolum').val($('#kurdisk').val())
+			
 		});
 		
 		$('#kull_olustur').on('click', function(event){
@@ -249,7 +263,7 @@ k<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
 </head>
 
 <body> 
-<div class=anasablon>
+	<div class=anasablon>
 		<div data-balloon="Ana Menü" data-balloon-pos="down" class="col-xs-1"><a href="/"><h3><span class="glyphicon glyphicon-home beyaz"></span></h3></a></div>
 		<div data-balloon="Komuta Merkezi" data-balloon-pos="down" class="col-xs-1"><a href="/komutaModul"><h3><span class="glyphicon glyphicon-wrench beyaz"></span></h3></a></div>
 		<div data-balloon="Yazılım Merkezi (MPS Web)" data-balloon-pos="down" class="col-xs-1"><a href="/mpsModul"><h3><span class="glyphicon glyphicon-briefcase beyaz"></span></h3></a></div>
@@ -261,60 +275,59 @@ k<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
 		<div data-balloon="Oturumu Kapat" data-balloon-pos="down" class="col-xs-1"><a href="/cikis"><h3><span class="glyphicon glyphicon-remove beyaz"></span></h3></a></div>
 		<span class="col-xs-12"></span>
 		<br>
-</div>
-<div id="kurulumForm"> </div>
-<hr noshade size=1>
+	</div>
 	<br>
 	<br>
 	<br>
 	<br>
 	<h3 class="beyaz">Milis İşletim Sistemi Kurulumu</h3>
-	<p class="beyaz">
-	Milis İşletim Sistemini sabit diskinize kurmanıza yardımcı olur.
-	</p>
-	<div class=formalan>
-		
-		<form id=raporForm name=raporForm action="{{ url_for('mpsModul') }}" method=post>
-		
-		<div class=arayuz_alan id=arayuz_alan></div>
-		
-		<b class="beyaz">Milis Linux Kurulum Dosyaları</b>
-		<select name="kadlar" id="kadlar" class="form-control" style="width: 270px;" > 
-		{% for kad in kadlar %}
-		<option>{{kad}}</option>
-		{% endfor %}
-		</select>
-		<div class=kadbilgi id=kadbilgi></div>
-		<b class="beyaz">Sistemdeki Disk Bölümleri</b>
-		<select name="kurdisk" id="kurdisk" class="form-control" style="width: 150px;" > 
-		{% for disk in diskler %}
-		<option>{{disk}}</option>
-		{% endfor %}
-		</select>
-		</div>
-		<div id=diskbilgi name=diskbilgi style="color:white;"></div>
-		
-		<div class=element>	
+	<p class="beyaz">Milis İşletim Sistemini sabit diskinize kurmanıza yardımcı olur.</p>
+	<div class="pageContainer">
+		<div class=formalan>
+			<form id=raporForm name=raporForm action="{{ url_for('mpsModul') }}" method=post>
+			<div class=arayuz_alan id=arayuz_alan></div>
+			<b class="beyaz">Milis Linux Kurulum Dosyaları</b>
+			<select name="kadlar" id="kadlar" style="width: 270px;" > 
+			{% for kad in kadlar %}
+			<option>{{kad}}</option>
+			{% endfor %}
+			</select><p>
+			<div class=kadbilgi id=kadbilgi></div>
+			<b class="beyaz">Sistemdeki Disk Bölümleri</b>
+			<select name="kurdisk" id="kurdisk"  style="width: 150px;" > 
+			{% for disk in diskler %}
+			<option>{{disk}}</option>
+			{% endfor %}
+			</select>
+			<input type="submit" class="btn" name="disksec" id="disksec" value="SEÇ" tabindex="-1" /><p>
+			<div id=diskbilgi name=diskbilgi style="color:white;"></div><p>	
+			<b class="beyaz">Kurulacak Disk Bölümü</b>
+			<input type="text" class="txt" name="kurulumbolum" id="kurulumbolum" ondblclick="this.value='' " style="margin-right: 5px; width: 100px;"/><p><p>
+			<b class="beyaz">Kurulacak Disk Bölüm Formatlama</b>
+			<input type="text" class="txt" name="bolumformat" id="bolumformat" ondblclick="this.value='' " style="margin-right: 5px; width: 100px;"/><p><p>
+			<b class="beyaz">Kullanıcı Ekleme - İsim</b>
+			<input type="text" class="txt" name="kullisim" id="kullisim" ondblclick="this.value='' " style="margin-right: 5px; width: 150px;"/><p><p>
+			<b class="beyaz">Kullanıcı Ekleme - Şifre</b>
+			<input type="password" class="txt" name="kullsifre" id="kullsifre" ondblclick="this.value='' " style="margin-right: 5px; width: 150px;"/><p><p>
+			<div class=element>	
+				<br>
+				<input type="submit" class="btn" name="kull_olustur" id="kull_olustur" value="KULLANICI OLUŞTUR" tabindex="-1" /><p><p>
+			</div>
+			<div class=element>		
+				<input type="submit" class="btn" name="diskbol" id="diskbol" value="DİSKİ BÖLÜMLE" tabindex="-1" /><p><p>
+				<input type="submit" class="btn" name="diskbagla" id="diskbagla" value="DİSKİ BAĞLA" tabindex="-1" /><p><p>
+				<input type="submit" class="btn" name="diskkur" id="diskkur" value="SİSTEMİ KUR" tabindex="-1" /><p><p>
+			</div>
 			<br>
-			<input type="submit" class="btn" name="kull_olustur" id="kull_olustur" value="KULLANICI OLUŞTUR" tabindex="-1" /><p><p>
+			<input id="mod" name="mod"  hidden value="{{mod}}" />
+			<input id="calismalist" name="calismalist"  hidden value="" />
+			<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
+			<div class=element>
+				<textarea id=calismakod name=calismakod value="" ondblclick=this.value='' style="font-size: 14px;margin-top: 3px;width:900px;height: 300px; color:white;background-color:red "></textarea>
+			</div>
+			</form>
+			
 		</div>
-		<div class=element>		
-			<input type="submit" class="btn" name="diskbol" id="diskbol" value="DİSKİ BÖLÜMLE" tabindex="-1" /><p><p>
-			<input type="submit" class="btn" name="diskbagla" id="diskbagla" value="DİSKİ BAĞLA" tabindex="-1" /><p><p>
-			<input type="submit" class="btn" name="diskkur" id="diskkur" value="SİSTEMİ KUR" tabindex="-1" /><p><p>
-		</div>
-		<br>
-		
-		<input id="mod" name="mod"  hidden value="{{mod}}" />
-		<input id="calismalist" name="calismalist"  hidden value="" />
-		<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
-		<div class=element>
-		<textarea id=calismakod name=calismakod value="" ondblclick=this.value='' style="font-size: 14px;margin-top: 3px;width:900px;height: 300px; color:white;background-color:red "></textarea>
-		</div>
-		</form>
-		
 	</div>
-	
-</div>
 </body>
 </HTML>

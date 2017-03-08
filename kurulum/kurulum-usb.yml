@@ -1,6 +1,6 @@
 disk:
   baglam: /mnt
-  bolum: /dev/sdax
+  bolum: /dev/sdbx
   format: evet
 grub:
   kur: evet

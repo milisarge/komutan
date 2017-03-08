@@ -5,7 +5,6 @@ disk:
 grub:
   kur: evet
 kullanici:
-  evdizin: /home/test
   isim: test
   sifre: testsifre
 program:
