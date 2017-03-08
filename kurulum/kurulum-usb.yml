@@ -1,0 +1,13 @@
+disk:
+  baglam: /mnt
+  bolum: /dev/sdax
+  format: evet
+grub:
+  kur: evet
+kullanici:
+  evdizin: /home/test
+  isim: test
+  sifre: testsifre
+program:
+  surum: '1.0'
+  tanim: Milis Linux Kurucusu

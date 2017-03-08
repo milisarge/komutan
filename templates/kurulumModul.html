@@ -60,6 +60,19 @@ k<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
+		$('#kadlar').on('click', function(event){
+			$("#kadbilgi").html("");
+			var formOption = {
+				url		: "/kadbilgi",
+				type	: "POST",
+				success: function (data) {
+					console.log(data["disk"]["baglam"])
+					$("#kadbilgi").html(data);
+				}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
 		$('#yeniKaydet').on('click', function(event){
 			event.preventDefault();
 			$('#kayitmodu').val('w');
@@ -252,6 +265,14 @@ k<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
 		
 		<div class=arayuz_alan id=arayuz_alan></div>
 		
+		<b class="beyaz">Milis Linux Kurulum Dosyaları</b>
+		<select name="kadlar" id="kadlar" class="form-control" style="width: 270px;" > 
+		{% for kad in kadlar %}
+		<option>{{kad}}</option>
+		{% endfor %}
+		</select>
+		<div class=kadbilgi id=kadbilgi></div>
+		<b class="beyaz">Sistemdeki Disk Bölümleri</b>
 		<select name="kurdisk" id="kurdisk" class="form-control" style="width: 150px;" > 
 		{% for disk in diskler %}
 		<option>{{disk}}</option>

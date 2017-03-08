@@ -1,3 +1,4 @@
+#!/usr/bin/python2
 # -*- coding: utf-8 -*-
 import os,time
 import copy
@@ -19,6 +20,7 @@ import sys
 import paho.mqtt.client as mqtt
 import uuid
 import threading
+import yaml
 
 
 dataLock = threading.Lock()
@@ -29,6 +31,7 @@ POOL_TIME = 5 #Seconds
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+kurulum="kurulum/kurulum.yml"
 ag_bilgi_komut="ifconfig"#"nmcli con show"
 arger=Arge()
 KULL_ID=-1
@@ -39,6 +42,18 @@ sanal_konsol_port="6061"
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+def runShellCommand(c):
+	out = subprocess.check_output(c,stderr=subprocess.STDOUT,shell=True,universal_newlines=True)
+	return out.replace("\b","")  #encode byte format to string, ugly hack 
+
+def kurulum_oku(kurulumdos):
+	with open("kurulum/"+kurulumdos, 'r') as f:
+		param = yaml.load(f)
+	return param
+
+def kurulum_yaz(param):
+	with open(kurulum, 'w') as outfile:
+		yaml.dump(param, outfile, default_flow_style=False)
 @app.route('/')
 def anaModul():
 	if "KULL_ID" in session and arger.girdi_kontrol(session['KULL_ID']) :
@@ -148,7 +163,6 @@ def mpsFaal():
 					#os.system("killall uxterm")
 					#isletilecek komut
 					iskomut="mps kur "+paket
-					os.system('python3 butterfly/butterfly.server.py --unsecure  --one_shot --cmd="'+iskomut+'"')
 					data="kuruluyor"
 				else:
 					data="boş paket"
@@ -158,7 +172,6 @@ def mpsFaal():
 					#os.system('uxterm '+uxterm_ayar+' -e "mps -s '+paket+' && sleep 3 && exit" ') 
 					#os.system("killall uxterm")
 					iskomut="mps sil "+paket
-					os.system('python3 butterfly/butterfly.server.py --unsecure --one_shot --cmd="'+iskomut+'"')
 					data="siliniyor"
 				else:
 					data="boş paket"
@@ -174,16 +187,35 @@ def kurulumModul():
 		session['KULL_ID']=-1
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
+		'''
+		diskler = []
+		diskNames  = runShellCommand("lsblk -nS -o NAME").split('\n')
+		diskModels = runShellCommand("lsblk -nS -o MODEL").split('\n')
+		for i in range(len(diskNames)):
+			diskler.append((diskNames[i],diskModels[i]))
+		'''
+		dizin="kurulum"
+		kadlar=arger.dizin_cek(dizin="kurulum")
+		print kadlar
 		diskler=[]
-		disklerdos=""
-		os.system("ls /dev/sd* > kondarma/diskler")
-		disklerdos=open("kondarma/diskler","r").read()
-		diskler=disklerdos.split()
-		#ornek data
-		#diskler=["/dev/sdk","/dev/sdl"]
-		return render_template('kurulumModul.html',diskler=diskler)	
+		diskler=runShellCommand("ls /dev/sd* ").split("\n")
+		diskler=filter(None, diskler)
+		return render_template('kurulumModul.html',kadlar=kadlar,diskler=diskler)	
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")
+
+@app.route('/kadbilgi', methods=['GET', 'POST'])
+def kadbilgi():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		kad=request.form["kadlar"]
+		data=""
+		data=kurulum_oku(kad)
+		return Response(json.dumps(data),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
 
 @app.route('/diskbilgi', methods=['GET', 'POST'])
 def diskbilgi():
@@ -529,6 +561,8 @@ def veri_cek():
 if __name__ == '__main__':
 	print "komutan sunucu calisiyor:"
 	os.system("mkdir -p log")
+	#mqqt haberleşme için kullanılacak.
+	'''
 	mqtt_islem_basla()
 	
 	if os.path.isfile("uuid"): 
@@ -546,7 +580,7 @@ if __name__ == '__main__':
 	#client.connect("m2m.eclipse.org",1883,60)
 	#client.connect("iot.eclipse.org",1883,60)
 	client.loop(2)
-	
+	'''
 	host="0.0.0.0"
 	port_calis=6060
 	#
