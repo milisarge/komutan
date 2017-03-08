@@ -168,8 +168,8 @@ def mpsFaal():
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 
-@app.route('/kurulum', methods=['GET', 'POST'])	
-def kurulum():
+@app.route('/kurulumModul', methods=['GET', 'POST'])	
+def kurulumModul():
 	if "KULL_ID" not in session:
 		session['KULL_ID']=-1
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
@@ -181,7 +181,7 @@ def kurulum():
 		diskler=disklerdos.split()
 		#ornek data
 		#diskler=["/dev/sdk","/dev/sdl"]
-		return render_template('kurulum.html',diskler=diskler)	
+		return render_template('kurulumModul.html',diskler=diskler)	
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")
 
