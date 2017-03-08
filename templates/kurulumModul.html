@@ -18,6 +18,15 @@ k<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
 <script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
 <link rel="stylesheet" href="{{url_for('static', filename='css/table2.css')}}" type="text/css" id="" media="print, projection, screen">
 
+<style type="text/css">
+	
+#kurulumForm {
+	width: 1043px;
+	height: 670;
+	overflow: scroll;
+}
+
+</style>
 <script>
 	$(document).ready(function() {
 		
@@ -243,14 +252,18 @@ k<html xml:lang="tr" lang="tr" xmlns="http://www.w3.org/1999/xhtml">
 <div class=anasablon>
 		<div data-balloon="Ana Menü" data-balloon-pos="down" class="col-xs-1"><a href="/"><h3><span class="glyphicon glyphicon-home beyaz"></span></h3></a></div>
 		<div data-balloon="Komuta Merkezi" data-balloon-pos="down" class="col-xs-1"><a href="/komutaModul"><h3><span class="glyphicon glyphicon-wrench beyaz"></span></h3></a></div>
+		<div data-balloon="Yazılım Merkezi (MPS Web)" data-balloon-pos="down" class="col-xs-1"><a href="/mpsModul"><h3><span class="glyphicon glyphicon-briefcase beyaz"></span></h3></a></div>
 		<div data-balloon="Süreç Modülü" data-balloon-pos="down" class="col-xs-1"><a href="/surecModul"><h3><span class="glyphicon glyphicon-tasks beyaz"></span></h3></a></div>
 		<div data-balloon="Ağ Modülü" data-balloon-pos="down" class="col-xs-1"><a href="/agModul"><h3><span class="glyphicon glyphicon-signal beyaz"></span></h3></a></div>
 		<div data-balloon="Servis Modülü" data-balloon-pos="down"  class="col-xs-1"><a href="/servisModul"><h3><span class="glyphicon glyphicon-cog beyaz"></span></h3></a></div>
+		<div data-balloon="Kurulum" data-balloon-pos="down"  class="col-xs-1"><a href="/kurulum"><h3><span class="glyphicon glyphicon-download-alt beyaz"></span></h3></a></div>
 		<div data-balloon="Komutan Güncelle" data-balloon-pos="down" class="col-xs-1"><a href="/komutanGuncelle"><h3><span class="glyphicon glyphicon-refresh beyaz"></span></h3></a></div>
 		<div data-balloon="Oturumu Kapat" data-balloon-pos="down" class="col-xs-1"><a href="/cikis"><h3><span class="glyphicon glyphicon-remove beyaz"></span></h3></a></div>
 		<span class="col-xs-12"></span>
 		<br>
-	</div>
+</div>
+<div id="kurulumForm"> </div>
+<hr noshade size=1>
 	<br>
 	<br>
 	<br>
