@@ -1,0 +1,107 @@
+
+İkili Paketleri Kullanarak Mate Isosu Yapılması
+
+Bu yönergeyi takip ederek herhangi bir linux ortamından milis mate isosunu oluşturabilirsiniz.
+
+Gerekli Paketler:lzip,squashfs-tools(mksquashfs),syslinux-utils(isohybrid),genisoimage
+milis klonlanır ve dizine girilir.
+
+$ git clone https://github.com/milisarge/malfs-milis && cd malfs-milis
+
+milis-boostrap indirilir ve mnt altına lfs dizini olarak açılır.
+
+$ rm -r /mnt/lfs
+
+$ cd /mnt && wget http://milis.gungre.ch/iso/milis-bootstrap-enson.sfs && 
+
+$ unsquashfs milis-bootstrap-enson.sfs && mv squashfs-root lfs && cd -
+                
+
+ortam yolu tanıtılır.
+
+$ export LFS=/mnt/lfs
+
+chroot içine girilir.
+
+$ ./lfs-mekanizma -cg
+
+yukarıdaki komuttan sonra işlemler chroot içinde olacak!
+
+# mps -GG
+
+# cp /root/ayarlar/mps.conf /etc/
+
+# mps -G
+
+# mps -kuruld /root/talimatname/temel-ek/derleme.sira
+
+# mps -kur mate
+
+# mps -kurul /root/ayarlar/gerekli_programlar
+
+# cp /root/ayarlar/.xinitrc.mate /root/.xinitrc
+
+# cp -r /root/ayarlar/mate/.config /root/
+
+# cp /root/ayarlar/network /etc/sysconfig/
+                
+
+kokdizin kurulum ayarı
+
+# cd /var/lib/pkg/DB
+# grep -rli '/mnt/lfs' * | xargs -i@ sed -i 's/\/mnt\/lfs\///g' @
+                
+
+initrd yapmak için
+
+# cd /root
+
+# ./lfs-mekanizma -bo
+                
+
+paket-deposunu ve /tmp temizlemek için
+
+# rm -r /depo/paketler/*
+
+# mv /var/lib/pkg/tarihce/temel-pkvt.tar.lz /var/lib/pkg/tarihce/temel2-pkvt.tar.lz
+
+# rm -r /tmp/*
+                
+
+mevcut sistem koruma noktası oluşturmak için
+
+# mps -tro
+				
+
+gerekli masaüstü ayar ve düzeltmeleri yapılır.
+
+# tamir_masaustu
+				
+
+# exit
+                
+
+yukarıdaki komut ile chroot dışına çıkılıp iso yapılır. aşağıdaki komutla iso için dosya imajı hazırlanır.
+
+$ ./lfs-mekanizma -so
+                
+
+İki türlü iso yapılabilir:
+
+1-aşağıdaki komutla normal iso yapılır.
+
+$ ./lfs-mekanizma -io
+
+2-aşağıdaki iki komut ile uefi destekli iso yapılır.
+
+$ ./lfs-mekanizma -geb
+
+$ ./lfs-mekanizma -iof
+                
+
+test etmek için
+
+$ ./qemu.sh milis_live.iso
+                
+
+not: giriş için kullanıcı:root şifre:milis 

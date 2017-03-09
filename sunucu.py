@@ -382,8 +382,9 @@ def rehberModul():
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
 		dizin='rehber'
-		client.connect("test.mosquitto.org",1883,60)
-		client.publish('milislinux/komutan/rehber', kimlik+' rehberi yenilendi.')
+		#mqtt aktifse
+		#client.connect("test.mosquitto.org",1883,60)
+		#client.publish('milislinux/komutan/rehber', kimlik+' rehberi yenilendi.')
 		rehberlist=arger.dizin_cek(dizin="rehber")
 		return render_template('rehberModul.html',rehberler=rehberlist,mod=dizin,kayitmodu='w')
 	else:
