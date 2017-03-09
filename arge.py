@@ -17,6 +17,7 @@ import ctypes
 import codecs
 import subprocess
 import crypt
+import yaml
 
 class Arge:
 	
@@ -109,7 +110,6 @@ class Arge:
 		sql=open('./sql/girdi_kontrol.sql','r').read()
 		sql=sql.replace('@no@',str(no))
 		row=self.calistir(sql)
-		print "--",row
 		if (row):
 			if row[0][0]=='e':
 				return 1
@@ -189,7 +189,6 @@ class Arge:
 		now = datetime.datetime.now()
 		saatstr=now.strftime("%H:%M:%S")
 		return saatstr
-
 		
 	def dosyaYdizi(self,dosya):
 		icerik=codecs.open(dosya, "r","latin5")
@@ -199,8 +198,6 @@ class Arge:
 			sat=sat.split("\r")[0]
 			stoklar.append([sat])
 		return stoklar
-	
-	
 		
 	def servisler_al(self,dosya="servisler.ayar"):
 		icerik=codecs.open(dosya, "r","latin5")
@@ -210,18 +207,12 @@ class Arge:
 			sat=sat.split("\r")[0]
 			servisler.append(sat)
 		return servisler
-
-	def surec_oldur(self,pid):
-	    kernel32 = ctypes.windll.kernel32
-	    handle = kernel32.OpenProcess(1, 0, pid)
-	    return (0 != kernel32.TerminateProcess(handle, 0))
-	def surec_durum(self,pid):
-		import ctypes.wintypes
-		kernel32 = ctypes.windll.kernel32
-		handle = kernel32.OpenProcess(1, 0, pid)
-		if handle == 0:
-			return 0
-		else:
-			return 1
-	
 		
+	def kurulum_oku(self,kurulumdos):
+		with open("kurulum/"+kurulumdos, 'r') as f:
+			param = yaml.load(f)
+		return param
+
+	def kurulum_yaz(self,param,kurulumdos):
+		with open("kurulum/"+kurulumdos, 'w') as outfile:
+			yaml.dump(param, outfile, default_flow_style=False)

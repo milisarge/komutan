@@ -20,7 +20,6 @@ import sys
 import paho.mqtt.client as mqtt
 import uuid
 import threading
-import yaml
 
 
 dataLock = threading.Lock()
@@ -46,14 +45,6 @@ def runShellCommand(c):
 	out = subprocess.check_output(c,stderr=subprocess.STDOUT,shell=True,universal_newlines=True)
 	return out.replace("\b","")  #encode byte format to string, ugly hack 
 
-def kurulum_oku(kurulumdos):
-	with open("kurulum/"+kurulumdos, 'r') as f:
-		param = yaml.load(f)
-	return param
-
-def kurulum_yaz(param):
-	with open(kurulum, 'w') as outfile:
-		yaml.dump(param, outfile, default_flow_style=False)
 @app.route('/')
 def anaModul():
 	if "KULL_ID" in session and arger.girdi_kontrol(session['KULL_ID']) :
@@ -204,15 +195,33 @@ def kurulum():
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")
 
-@app.route('/kadbilgi', methods=['GET', 'POST'])
-def kadbilgi():
+@app.route('/kadbilgi_islem', methods=['GET', 'POST'])
+def kadbilgi_islem():
 	if "KULL_ID" not in session:
 		session['KULL_ID']=-1
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
 		kad=request.form["kadlar"]
-		data=""
-		data=kurulum_oku(kad)
+		data=arger.kurulum_oku(kad)
+		return Response(json.dumps(data),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+		
+@app.route('/kadkaydet_islem', methods=['GET', 'POST'])
+def kadkaydet_islem():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		data="yapimda"
+		kad=request.form["kadlar"]
+		kurulumbolum=request.form["kurulumbolum"]
+		bolumformat=request.form["bolumformat"]
+		kullisim=request.form["kullisim"]
+		kullsifre=request.form["kullsifre"]
+		grubkur=request.form["grubkur"]
+		kurulumveri=arger.kurulum_oku(kad)
+		data=kad
 		return Response(json.dumps(data),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
@@ -245,21 +254,6 @@ def disksil_islem():
 		return Response(json.dumps(data),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
-
-@app.route('/diskkur_islem', methods=['GET', 'POST'])
-def diskkur_islem():
-	if "KULL_ID" not in session:
-		session['KULL_ID']=-1
-	girdimi=arger.girdi_kontrol(session['KULL_ID'])
-	if ("KULL_ID" in session and girdimi) :
-		#kurulum_komut="cp -axvnu /  /mnt"
-		kurulum_komut="echo 'kurulum' "  
-		os.system('uxterm '+uxterm_ayar+' -e "'+kurulum_komut+' && sleep 3 && exit" ') 
-		#os.system("killall uxterm")
-		data="tamam"
-		return Response(json.dumps(data),mimetype='application/json')
-	else:
-		return render_template('giris.html', error="isim ve sifre giriniz")	
 		
 @app.route('/diskbol_islem', methods=['GET', 'POST'])
 def diskbol_islem():
@@ -274,18 +268,6 @@ def diskbol_islem():
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")
 		
-@app.route('/diskbagla_islem', methods=['GET', 'POST'])
-def diskbagla_islem():
-	if "KULL_ID" not in session:
-		session['KULL_ID']=-1
-	girdimi=arger.girdi_kontrol(session['KULL_ID'])
-	if ("KULL_ID" in session and girdimi) :
-		data=""
-		disk=request.form["kurdisk"]
-		data="tamam"
-		return Response(json.dumps(data),mimetype='application/json')
-	else:
-		return render_template('giris.html', error="isim ve sifre giriniz")	
 
 @app.route('/kull_islem', methods=['GET', 'POST'])
 def kull_islem():
@@ -331,7 +313,6 @@ def paketdurum():
 		if paket!="":
 			os.system("mps -kk "+paket+" > kondarma/paketdurum.log")
 			kk=open("kondarma/paketdurum.log","r").read()
-			print "--",kk
 			if "kurulu" in kk:
 				data="tamam"
 		else:
