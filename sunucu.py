@@ -522,16 +522,16 @@ def on_subscribe(mosq, obj, mid, granted_qos):
 def on_log(mosq, obj, level, string):
     print(string)
 
-def mqqt_islem():
+def mqtt_islem():
         global mqtt_thread
         with dataLock:
 			os.system("python mqtt_sun.py")
-        mqtt_thread = threading.Timer(POOL_TIME, mqqt_islem, ())
+        mqtt_thread = threading.Timer(POOL_TIME, mqtt_islem, ())
         mqtt_thread.start()   
 
 def mqtt_islem_basla():
 	global mqtt_thread
-	mqtt_thread = threading.Timer(POOL_TIME,mqqt_islem, ())
+	mqtt_thread = threading.Timer(POOL_TIME,mqtt_islem, ())
 	mqtt_thread.start()
 
 @app.route('/veri_cek', methods= ['GET'])
@@ -543,7 +543,7 @@ def veri_cek():
 if __name__ == '__main__':
 	print "komutan sunucu calisiyor:"
 	os.system("mkdir -p log")
-	#mqqt haberleşme için kullanılacak.
+	#mqtt haberleşme için kullanılacak.
 	'''
 	mqtt_islem_basla()
 	
