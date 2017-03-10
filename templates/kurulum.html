@@ -143,9 +143,17 @@
 		
 		$('#kaduygula').on('click', function(event){
 			event.preventDefault();
-			msj="Kurulum Ayarları Uygulanıp,sistem kurulacak?"
-			return $("<div class='dialog' title='" + "Sistem Kurulum Onayı" + "'><p>" +msj+ "</p></div>")
+			msj="<b>Kurulum Ayarları</b>"+"<p>";
+			msj+="<table>";
+			msj+="<tr><td>Kurulum disk bölümü</td>"+"<td align='left'>: "+$('#kurulumbolum').val()+"</td></tr>";
+			msj+="<tr><td>Bölüm formatlanma</td>"+"<td align='left'>: "+$('#bolumformat').val()+"</td></tr>";
+			msj+="<tr><td>Kullanıcı Ekleme-İsim</td>"+"<td align='left'>: "+$('#kullisim').val()+"</td></tr>";
+			msj+="<tr><td>Kullanıcı Ekleme-Şifre</td>"+"<td align='left'>: "+$('#kullsifre').val()+"</td></tr>";
+			msj+="<tr><td>Grub kurulma</td>"+"<td align='left'>: "+$('#grubkur').val()+"</td></tr>";
+			msj+="</table>";
+			return $("<div class='dialog' title='Sistem Kurulum Onayı'><p>" +msj+ "</p></div>")
 		    .dialog({
+		        width:'auto',
 		        modal: true,
 		        buttons: {
 		            "onayla": function() {
