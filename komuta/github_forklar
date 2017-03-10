@@ -1,0 +1,9 @@
+#!/bin/bash
+# github_forklar hesap_ismi repo_ismi şeklinde kullanılır.
+# /tmp/ altına repo_ismi_forklar dosyası oluşturur.
+hesap=$1
+repo=$2
+curl -i https://api.github.com/repos/$hesap/$repo/forks -o /tmp/$repo_forks
+cd /tmp
+cat $repo_forks | grep clone_url | awk '{print $2}' | sed s'/.$//' > $repo_forklar
+cat $repo_forklar
