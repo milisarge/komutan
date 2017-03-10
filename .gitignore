@@ -1,5 +1,6 @@
 komuta/paketdepo.ayar
 rehber/depolar/*
+!rehber/depolar/silme
 komuta/paketmd5.txt
 nohup.out
 kondarma/*
