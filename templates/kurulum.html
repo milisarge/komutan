@@ -14,7 +14,8 @@
 <link rel="stylesheet" href="/static/js/awesomplete.css" />
 <link rel="stylesheet" href="./static/bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet" href="./static/bootstrap/css/styles.css" />
-<script src="/static/js/awesomplete.js"></script>
+<link rel="stylesheet" href="./static/js/themes/blitzer/jquery-ui.css" />
+<script src="./static/js/awesomplete.js"></script>
 <script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
 <link rel="stylesheet" href="{{url_for('static', filename='css/table2.css')}}" type="text/css" id="" media="print, projection, screen">
 
@@ -122,6 +123,52 @@
 					}
 			};
 			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#kaduygula2').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url  : "/kaduygula_islem",
+				type : "POST",
+				success: function (data) {
+						if(data=='tamam'){
+							islemTamam("Sistem kurulumu başarıyla tamamlandı.");
+						}else{
+							hataGoster(data);
+						}
+				}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#kaduygula').on('click', function(event){
+			event.preventDefault();
+			msj="Kurulum Ayarları Uygulanıp,sistem kurulacak?"
+			return $("<div class='dialog' title='" + "Sistem Kurulum Onayı" + "'><p>" +msj+ "</p></div>")
+		    .dialog({
+		        modal: true,
+		        buttons: {
+		            "onayla": function() {
+		                var formOption = {
+							url  			: "/kaduygula_islem",
+							type			: "POST",
+							success: function (data) {
+								if(data=='tamam'){
+									islemTamam("Sistem kurulumu başarıyla tamamlandı.");
+								}else{
+									hataGoster(data);
+								}
+							}
+							//beforeSubmit 	: kadFormKontrol
+						};
+						$('#raporForm').ajaxSubmit(formOption);
+						$( this ).dialog( "close" );
+		            },
+		            "iptal": function() {
+		                $( this ).dialog( "close" );
+		            }
+		        }
+			});		
 		});
 		
 		$('#komutgg').on('click', function(event){
@@ -303,6 +350,9 @@
 			</select><p><p>
 			<div class=element>		
 				<input type="submit" class="btn" name="kadkaydet" id="kadkaydet" value="AYARLARI KAYDET" tabindex="-1" /><p><p>
+			</div>
+			<div class=element>		
+				<input type="submit" class="btn" name="kaduygula" id="kaduygula" value="SİSTEMİ KUR" tabindex="-1" /><p><p>
 			</div>
 			<br>
 			<input id="mod" name="mod"  hidden value="{{mod}}" />

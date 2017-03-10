@@ -226,6 +226,18 @@ def kadkaydet_islem():
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 
+@app.route('/kaduygula_islem', methods=['GET', 'POST'])
+def kaduygula_islem():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		data="tamam"
+		#kurulum uygulaması buraya kodlanacak.
+		return Response(json.dumps(data),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+
 @app.route('/diskbilgi', methods=['GET', 'POST'])
 def diskbilgi():
 	if "KULL_ID" not in session:
