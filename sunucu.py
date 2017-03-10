@@ -41,9 +41,6 @@ sanal_konsol_port="6061"
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-def runShellCommand(c):
-	out = subprocess.check_output(c,stderr=subprocess.STDOUT,shell=True,universal_newlines=True)
-	return out.replace("\b","")  #encode byte format to string, ugly hack 
 
 @app.route('/')
 def anaModul():
@@ -178,18 +175,10 @@ def kurulum():
 		session['KULL_ID']=-1
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
-		'''
-		diskler = []
-		diskNames  = runShellCommand("lsblk -nS -o NAME").split('\n')
-		diskModels = runShellCommand("lsblk -nS -o MODEL").split('\n')
-		for i in range(len(diskNames)):
-			diskler.append((diskNames[i],diskModels[i]))
-		'''
 		dizin="kurulum"
 		kadlar=arger.dizin_cek(dizin="kurulum")
-		print kadlar
 		diskler=[]
-		diskler=runShellCommand("ls /dev/sd* ").split("\n")
+		diskler=arger.runShellCommand("ls /dev/sd* ").split("\n")
 		diskler=filter(None, diskler)
 		return render_template('kurulum.html',kadlar=kadlar,diskler=diskler)	
 	else:
@@ -213,15 +202,26 @@ def kadkaydet_islem():
 		session['KULL_ID']=-1
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
-		data="yapimda"
+		data=""
 		kad=request.form["kadlar"]
 		kurulumbolum=request.form["kurulumbolum"]
 		bolumformat=request.form["bolumformat"]
 		kullisim=request.form["kullisim"]
 		kullsifre=request.form["kullsifre"]
 		grubkur=request.form["grubkur"]
-		kurulumveri=arger.kurulum_oku(kad)
-		data=kad
+		if grubkur != "evet" and grubkur != "hayir":
+			data="Grub Kurulum için belirsiz seçim" 
+		elif bolumformat != "evet" and bolumformat != "hayir":
+			data="Bölüm Formatlama için belirsiz seçim"
+		else:
+			kparam=arger.kurulum_oku(kad)
+			kparam["disk"]["bolum"]=str(kurulumbolum)
+			kparam["disk"]["format"]=str(bolumformat)
+			kparam["kullanici"]["isim"]=str(kullisim)
+			kparam["kullanici"]["sifre"]=str(kullsifre)
+			kparam["grub"]["kur"]=str(grubkur) 
+			arger.kurulum_yaz(kparam,kad)
+			data="tamam"
 		return Response(json.dumps(data),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	

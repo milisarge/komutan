@@ -21,6 +21,10 @@ import yaml
 
 class Arge:
 	
+	def runShellCommand(self,c):
+		out = subprocess.check_output(c,stderr=subprocess.STDOUT,shell=True,universal_newlines=True)
+		return out.replace("\b","")  #encode byte format to string, ugly hack 
+	
 	def dizin_cek(self,dizin='dizin',uzanti=""):
 		#dizinyol='/'+dizin
 		flst=[]

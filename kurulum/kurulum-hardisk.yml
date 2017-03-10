@@ -5,8 +5,8 @@ disk:
 grub:
   kur: evet
 kullanici:
-  isim: test
-  sifre: testsifre
+  isim: testx
+  sifre: 12345as
 program:
   surum: '1.0'
   tanim: Milis Linux Kurucusu
