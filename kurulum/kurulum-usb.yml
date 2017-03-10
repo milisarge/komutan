@@ -5,9 +5,13 @@ disk:
 grub:
   kur: evet
 kullanici:
-  evdizin: /home/test
-  isim: test
-  sifre: testsifre
+  isim: testx
+  sifre: 12345as
+bolgesel:
+  dil: turkce
+  zaman: istanbul
+gorunum:
+  arkaplan: milislinux.jpg
 program:
   surum: '1.0'
   tanim: Milis Linux Kurucusu

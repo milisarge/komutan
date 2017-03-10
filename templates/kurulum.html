@@ -32,6 +32,17 @@
 	height: auto;
 }
 
+.satir {
+	display: block;
+	min-height: 20px;
+	position: relative;
+	padding: 25px 0px 5px 30px;
+	font-style: italic;
+	font-weight: bold;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	color: black;
+}
+
 </style>
 <script>
 	$(document).ready(function() {
@@ -322,45 +333,43 @@
 		<div class=formalan>
 			<form id=raporForm name=raporForm action="{{ url_for('mpsModul') }}" method=post>
 			<div class=arayuz_alan id=arayuz_alan></div>
-			<b class="beyaz">Milis Linux Kurulum Dosyaları</b>
+			<label style="width: 250px;" class="beyaz">Milis Linux Kurulum Dosyaları</label>
 			<select name="kadlar" id="kadlar" style="width: 270px;" > 
 			{% for kad in kadlar %}
 			<option>{{kad}}</option>
 			{% endfor %}
 			</select><p>
 			<div class=kadbilgi id=kadbilgi></div>
-			<b class="beyaz">Sistemdeki Disk Bölümleri</b>
+			<label style="width: 250px;" class="beyaz" >Sistemdeki Disk Bölümleri</label>
 			<select name="kurdisk" id="kurdisk"  style="width: 150px;" > 
 			{% for disk in diskler %}
 			<option>{{disk}}</option>
 			{% endfor %}
 			</select>
-			<input type="submit" class="btn" name="disksec" id="disksec" value="SEÇ" tabindex="-1" />
+			<input type="submit" class="btn" name="disksec" id="disksec" value="SEÇ" tabindex="-1" style="margin-left:15px;"/>
 			<input type="submit" class="btn" name="diskbol" id="diskbol" value="GPARTED İLE BÖLÜMLEME" tabindex="-1" style="margin-left:15px;" /><p><p>
 			<div id=diskbilgi name=diskbilgi style="color:white;"></div><p>	
-			<b class="beyaz">Kurulacak Disk Bölümü</b>
-			<input type="text" class="txt" name="kurulumbolum" id="kurulumbolum" ondblclick="this.value='' " style="margin-left:10px; margin-right: 15px; width: 100px;"/><p><p>
-			<b class="beyaz">Kurulacak Disk Bölüm Formatlama</b>
+			<label style="width: 250px;" class="beyaz">Kurulacak Disk Bölümü</label>
+			<input type="text" class="txt" name="kurulumbolum" id="kurulumbolum" ondblclick="this.value='' " style="margin-right: 10px; width: 100px;"/><p><p>
+			<label style="width: 250px;" class="beyaz">Kurulacak Disk Bölüm Formatlama</label>
 			<input type="text" class="txt" name="bolumformat" id="bolumformat" ondblclick="this.value='' " style="margin-right: 5px; width: 100px;"/>
 			<select name="bolumformatsecim" id="bolumformatsecim"  style="width: 100px;" > 
 			<option>evet</option>
 			<option>hayir</option>
 			</select><p><p>
-			<b class="beyaz">Kullanıcı Ekleme - İsim</b>
-			<input type="text" class="txt" name="kullisim" id="kullisim" ondblclick="this.value='' " style="margin-right: 5px; width: 150px;"/><p><p>
-			<b class="beyaz">Kullanıcı Ekleme - Şifre</b>
+			<label style="width: 250px;" class="beyaz">Kullanıcı Ekleme - İsim</label>
+			<input type="text" class="txt" name="kullisim" id="kullisim" ondblclick="this.value='' " style="align=left; margin-right: 5px; width: 150px;"/><p><p>
+			<label style="width: 250px;" class="beyaz">Kullanıcı Ekleme - Şifre</label>
 			<input type="password" class="txt" name="kullsifre" id="kullsifre" ondblclick="this.value='' " style="margin-right: 5px; width: 150px;"/><p><p>
-			<b class="beyaz">Grub Kurma</b>
+			<label style="width: 250px;" class="beyaz">Grub Kurma</label>
 			<input type="text" class="txt" name="grubkur" id="grubkur" ondblclick="this.value='' " style="margin-right: 5px; width: 100px;"/>
 			<select name="grubkursecim" id="grubkursecim"  style="width: 100px;" > 
 			<option>evet</option>
 			<option>hayir</option>
-			</select><p><p>
-			<div class=element>		
-				<input type="submit" class="btn" name="kadkaydet" id="kadkaydet" value="AYARLARI KAYDET" tabindex="-1" /><p><p>
-			</div>
-			<div class=element>		
-				<input type="submit" class="btn" name="kaduygula" id="kaduygula" value="SİSTEMİ KUR" tabindex="-1" /><p><p>
+			</select>
+			<div class=satir>		
+				<input type="submit" class="btn" name="kadkaydet" id="kadkaydet" value="AYARLARI KAYDET" tabindex="-1" />
+				<input type="submit" class="btn" name="kaduygula" id="kaduygula" value="SİSTEMİ KUR" tabindex="-1" style="margin-left:10px;/>
 			</div>
 			<br>
 			<input id="mod" name="mod"  hidden value="{{mod}}" />
