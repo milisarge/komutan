@@ -1,1 +1,1 @@
-test dosyası
+milis_linux_komutan_rehberi
