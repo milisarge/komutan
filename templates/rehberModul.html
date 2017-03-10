@@ -196,13 +196,17 @@
 			<select name="calismalist" id="calismalist" style="width: 450px;" > 
 			{% for rehber in rehberler %}<option>{{rehber}}</option>{% endfor %}
 			</select>
-			<label style="width: 200px;" class="beyaz">Rehber Depo İşlemi</label>
-			<input type="text" name="rehberdepo" id="rehberdepo" value="" tabindex="-1" style="width: 450px;"/>
-		</div>		
+			<label style="width:170px;" class="beyaz">Rehber Depo İşlemi</label>
+			<input type="text" name="rehberdepo" id="rehberdepo" value="" list="depolarveri" tabindex="-1" style="width: 400px;"/>
+			<input type="submit" name="depoekle" id="depoekle" value="DEPO EKLE" tabindex="-1"/>
+		</div>
+		<datalist id="depolarveri">
+		  {% for depo in depolar %}<option>{{depo}}</option>{% endfor %}
+		</datalist>		
 		<hr noshade size=2>
 		<div class=satir style="margin-top: 30px";>
 			<input type=submit id=rehbergg name=rehbergg  value=rehber tabindex="-1" >
-			<input type=text id=yenicalisma name=yenicalisma  value=yeni.sh tabindex="-1" style="width: 150px;"/>
+			<input type=text id=yenicalisma name=yenicalisma  value=yeni.sh tabindex="-1" style="width:150px;"/>
 			<input type="submit" name="yeniKaydet" id="yeniKaydet" value="Yeni Kaydet" tabindex="-1"/>
 			<input type="submit" name="guncelle" id="guncelle" value="Güncelle" tabindex="-1"/>
 		</div>
