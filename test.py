@@ -1,9 +1,6 @@
-import psutil
+from arge import *
 
-for proc in psutil.process_iter():
-    try:
-        pinfo = proc.as_dict(attrs=['pid', 'name','cwd','connections'])
-    except psutil.NoSuchProcess:
-        pass
-    else:
-        print(pinfo)
+arger=Arge()
+
+print arger.gitdepo_ekle("https://github.com/milisarge/rehberdepo")
+

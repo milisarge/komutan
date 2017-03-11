@@ -212,12 +212,41 @@ class Arge:
 			servisler.append(sat)
 		return servisler
 	
-	def gitdepo_ekle(self,hesap,depo):
-		depo_ekle_komut="git clone git://github.com/"
-		depo_ekle_komut+=str(hesap)+"/"
-		depo_ekle_komut+=str(depo)
-		sonuc=runShellCommand(depo_ekle_komut)
-		return sonuc
+	def link_kontrol(self,link):
+		indirme_komut="curl -s "
+		sonuc=self.runShellCommand(indirme_komut+link)
+		if "Not Found" in sonuc:
+			return False
+		else:
+			return True
+	
+	def gitdepo_ekle(self,link):
+		if self.link_kontrol(link):
+			depoyer="kurulum/depolar/"
+			sonuc="" 
+			hesap="" 
+			depo=""
+			hesdep=""
+			depo_ekle_komut="git clone "
+			if "github.com" in link:
+				hesdep=link.split("github.com/")[1]
+				sonuc=hesdep
+				hesap=hesdep.split("/")[0]
+				depo=hesdep.split("/")[1]
+				hesdep=hesap+"-"+depo
+			depo_ekle_komut+=link+" "
+			if hesap != "" and depo != "":
+				if os.path.exists(depoyer+hesdep):
+					return "depo zaten var!"
+				else:
+					depo_ekle_komut+=depoyer+hesdep
+			else:
+				return "hesap veya depo belirsizliği!"
+			print depo_ekle_komut
+			sonuc=self.runShellCommand(depo_ekle_komut)
+			return sonuc
+		else:
+			return "kırık link!"
 		
 	def kurulum_oku(self,kurulumdos):
 		with open("kurulum/"+kurulumdos, 'r') as f:

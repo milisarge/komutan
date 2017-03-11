@@ -89,6 +89,22 @@
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
+		$('#depoekle').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url				: "/rehberdepoEkle",
+				type			: "POST",
+				success: function (data) {
+					if( data.indexOf('!') >= 0){
+					  hataGoster(data);
+					}else{
+						islemTamam(data);
+					}
+				}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
 		$('#rehbergg').on('click', function(event){
 			event.preventDefault();
 			//window.open("/rehberModul?kd="+$('#calismalist').val(),'_newtab');

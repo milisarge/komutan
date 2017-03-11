@@ -384,15 +384,15 @@ def rehberModul():
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 		
-@app.route('/gitdepoEkle', methods=['GET', 'POST'])	
-def gitdepoEkle():
+@app.route('/rehberdepoEkle', methods=['GET', 'POST'])	
+def rehberdepoEkle():
 	if "KULL_ID" not in session:
 		session['KULL_ID']=-1
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
 		data=""
-		depo=request.form["rehberdepo"]
-		data=arger.gitdepo_ekle(depo)
+		depo_adres=request.form["rehberdepo"]
+		data=arger.gitdepo_ekle(depo_adres)
 		return Response(json.dumps(data),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
