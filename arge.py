@@ -211,6 +211,13 @@ class Arge:
 			sat=sat.split("\r")[0]
 			servisler.append(sat)
 		return servisler
+	
+	def gitdepo_ekle(self,hesap,depo):
+		depo_ekle_komut="git clone git://github.com/"
+		depo_ekle_komut+=str(hesap)+"/"
+		depo_ekle_komut+=str(depo)
+		sonuc=runShellCommand(depo_ekle_komut)
+		return sonuc
 		
 	def kurulum_oku(self,kurulumdos):
 		with open("kurulum/"+kurulumdos, 'r') as f:

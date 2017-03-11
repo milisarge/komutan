@@ -379,7 +379,21 @@ def rehberModul():
 		#client.connect("test.mosquitto.org",1883,60)
 		#client.publish('milislinux/komutan/rehber', kimlik+' rehberi yenilendi.')
 		rehberlist=arger.dizin_cek(dizin="rehber")
-		return render_template('rehberModul.html',rehberler=rehberlist,mod=dizin,kayitmodu='w')
+		depolar=arger.dizin_cek(dizin="rehber/depolar")
+		return render_template('rehberModul.html',rehberler=rehberlist,mod=dizin,kayitmodu='w',depolar=depolar)
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+		
+@app.route('/gitdepoEkle', methods=['GET', 'POST'])	
+def gitdepoEkle():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		data=""
+		depo=request.form["rehberdepo"]
+		data=arger.gitdepo_ekle(depo)
+		return Response(json.dumps(data),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 		
