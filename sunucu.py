@@ -177,10 +177,9 @@ def kurulum():
 	if ("KULL_ID" in session and girdimi) :
 		dizin="kurulum"
 		kadlar=arger.dizin_cek(dizin="kurulum")
-		diskler=[]
-		diskler=arger.runShellCommand("ls /dev/sd* ").split("\n")
-		diskler=filter(None, diskler)
-		return render_template('kurulum.html',kadlar=kadlar,diskler=diskler)	
+		diskler=arger.diskler()
+		takaslar=arger.takaslar()
+		return render_template('kurulum.html',kadlar=kadlar,diskler=diskler,takaslar=takaslar)	
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")
 
@@ -209,6 +208,7 @@ def kadkaydet_islem():
 		kullisim=request.form["kullisim"]
 		kullsifre=request.form["kullsifre"]
 		grubkur=request.form["grubkur"]
+		takasalani=request.form["takasalani"]
 		if grubkur != "evet" and grubkur != "hayir":
 			data="Grub Kurulum için belirsiz seçim" 
 		elif bolumformat != "evet" and bolumformat != "hayir":
@@ -217,6 +217,7 @@ def kadkaydet_islem():
 			kparam=arger.kurulum_oku(kad)
 			kparam["disk"]["bolum"]=str(kurulumbolum)
 			kparam["disk"]["format"]=str(bolumformat)
+			kparam["disk"]["takasbolum"]=str(takasalani)
 			kparam["kullanici"]["isim"]=str(kullisim)
 			kparam["kullanici"]["sifre"]=str(kullsifre)
 			kparam["grub"]["kur"]=str(grubkur) 

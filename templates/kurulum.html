@@ -95,6 +95,7 @@
 				success: function (data) {
 					$("#kurulumbolum").val(data["disk"]["bolum"]);
 					$("#bolumformat").val(data["disk"]["format"]);
+					$("#takasalani").val(data["disk"]["takasbolum"]);
 					$("#kullisim").val(data["kullanici"]["isim"]);
 					$("#kullsifre").val(data["kullanici"]["sifre"]);
 					$("#grubkur").val(data["grub"]["kur"]);
@@ -136,28 +137,13 @@
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
-		$('#kaduygula2').on('click', function(event){
-			event.preventDefault();
-			var formOption = {
-				url  : "/kaduygula_islem",
-				type : "POST",
-				success: function (data) {
-						if(data=='tamam'){
-							islemTamam("Sistem kurulumu başarıyla tamamlandı.");
-						}else{
-							hataGoster(data);
-						}
-				}
-			};
-			$('#raporForm').ajaxSubmit(formOption);
-		});
-		
 		$('#kaduygula').on('click', function(event){
 			event.preventDefault();
 			msj="<b>Kurulum Ayarları</b>"+"<p>";
 			msj+="<table>";
 			msj+="<tr><td>Kurulum disk bölümü</td>"+"<td align='left'>: "+$('#kurulumbolum').val()+"</td></tr>";
 			msj+="<tr><td>Bölüm formatlanma</td>"+"<td align='left'>: "+$('#bolumformat').val()+"</td></tr>";
+			msj+="<tr><td>Takas Alanı</td>"+"<td align='left'>: "+$('#takasalani').val()+"</td></tr>";
 			msj+="<tr><td>Kullanıcı Ekleme-İsim</td>"+"<td align='left'>: "+$('#kullisim').val()+"</td></tr>";
 			msj+="<tr><td>Kullanıcı Ekleme-Şifre</td>"+"<td align='left'>: "+$('#kullsifre').val()+"</td></tr>";
 			msj+="<tr><td>Grub kurulma</td>"+"<td align='left'>: "+$('#grubkur').val()+"</td></tr>";
@@ -211,6 +197,12 @@
 		$('#disksec').on('click', function(event){
 			event.preventDefault();
 			$('#kurulumbolum').val($('#kurdisk').val())
+			
+		});
+		
+		$('#takassecim').on('click', function(event){
+			event.preventDefault();
+			$('#takasalani').val($('#takassecim').val())
 			
 		});
 		
@@ -342,7 +334,7 @@
 			</select><p>
 			<div class=kadbilgi id=kadbilgi></div>
 			<label style="width: 250px;" class="beyaz" >Sistemdeki Disk Bölümleri</label>
-			<select name="kurdisk" id="kurdisk"  style="width: 150px;" > 
+			<select name="kurdisk" id="kurdisk"  style="width: 110px;" > 
 			{% for disk in diskler %}
 			<option>{{disk}}</option>
 			{% endfor %}
@@ -352,11 +344,18 @@
 			<div id=diskbilgi name=diskbilgi style="color:white;"></div><p>	
 			<label style="width: 250px;" class="beyaz">Kurulacak Disk Bölümü</label>
 			<input type="text" class="txt" name="kurulumbolum" id="kurulumbolum" ondblclick="this.value='' " style="margin-right: 10px; width: 100px;"/><p><p>
-			<label style="width: 250px;" class="beyaz">Kurulacak Disk Bölüm Formatlama</label>
+			<label style="width: 250px;" class="beyaz">Kurulacak Disk Bölüm Format</label>
 			<input type="text" class="txt" name="bolumformat" id="bolumformat" ondblclick="this.value='' " style="margin-right: 5px; width: 100px;"/>
 			<select name="bolumformatsecim" id="bolumformatsecim"  style="width: 100px;" > 
 			<option>evet</option>
 			<option>hayir</option>
+			</select><p><p>
+			<label style="width: 250px;" class="beyaz">Takas Alan Seçimi</label>
+			<input type="text" class="txt" name="takasalani" id="takasalani" ondblclick="this.value='' " style="margin-right: 5px; width: 100px;"/>
+			<select name="takassecim" id="takassecim"  style="width: 110px;" > 
+			{% for takas in takaslar %}
+			<option>{{takas}}</option>
+			{% endfor %}
 			</select><p><p>
 			<label style="width: 250px;" class="beyaz">Kullanıcı Ekleme - İsim</label>
 			<input type="text" class="txt" name="kullisim" id="kullisim" ondblclick="this.value='' " style="align=left; margin-right: 5px; width: 150px;"/><p><p>

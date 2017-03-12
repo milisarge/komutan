@@ -222,7 +222,7 @@ class Arge:
 	
 	def gitdepo_ekle(self,link):
 		if self.link_kontrol(link):
-			depoyer="kurulum/depolar/"
+			depoyer="rehber/depolar/"
 			sonuc="" 
 			hesap="" 
 			depo=""
@@ -256,3 +256,17 @@ class Arge:
 	def kurulum_yaz(self,param,kurulumdos):
 		with open("kurulum/"+kurulumdos, 'w') as outfile:
 			yaml.dump(param, outfile, default_flow_style=False)
+	
+	def diskler(self):
+		diskler=[]
+		komut="ls /dev/sd* "
+		veriler=self.runShellCommand(komut).split("\n")
+		diskler=filter(None, veriler)
+		return diskler
+
+	def takaslar(self):
+		takaslar=[]
+		komut="blkid | grep swap | awk '{print $1}' | sed s'/.$//'"
+		veriler=self.runShellCommand(komut).split("\n")
+		takaslar=filter(None,veriler)
+		return takaslar

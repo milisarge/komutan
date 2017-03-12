@@ -5,13 +5,14 @@ disk:
   baglam: /mnt
   bolum: /dev/sdax
   format: evet
+  takasbolum: /dev/sda7
 gorunum:
   arkaplan: milislinux.jpg
 grub:
   kur: evet
 kullanici:
-  isim: testkull
-  sifre: 12345as
+  isim: aaaa
+  sifre: '2222'
 program:
   surum: '1.0'
   tanim: Milis Linux Kurucusu

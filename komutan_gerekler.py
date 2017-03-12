@@ -26,7 +26,7 @@ mps_gerekler="/tmp/komutan.gerekler"
 kur="pip2 install "
 mpskur="mps kur "
 kontrol=["paho-mqtt"]
-mpskontrol=["python-yaml"]
+mpskontrol=["python-yaml","python3-yaml"]
 
 for yuklu in yukluler:
 	for kont in kontrol:
