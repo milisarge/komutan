@@ -5,7 +5,7 @@ disk:
   baglam: /mnt
   bolum: /dev/sdax
   format: evet
-  takasbolum: /dev/sda7
+  takasbolum: ''
 gorunum:
   arkaplan: milislinux.jpg
 grub:
