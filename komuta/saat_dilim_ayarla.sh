@@ -1,1 +1,2 @@
-export TZ="/usr/share/zoneinfo/Europe/Athens"
+cp /usr/share/zoneinfo/Europe/Istanbul /etc/localtime
+export TZ=/etc/localtime
