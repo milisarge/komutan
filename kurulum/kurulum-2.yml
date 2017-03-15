@@ -1,18 +1,18 @@
 bolgesel:
   dil: turkce
-  zaman: istanbul
+  zaman: Europe/Istanbul
 disk:
   baglam: /mnt
-  bolum: /dev/sdax
+  bolum: /dev/sda6
   format: evet
-  takasbolum: ''
+  takasbolum: /dev/sda7
 gorunum:
   arkaplan: milislinux.jpg
 grub:
   kur: evet
 kullanici:
-  isim: aaaa
-  sifre: '2222'
+  isim: qwerty
+  sifre: '12345'
 program:
   surum: '1.0'
   tanim: Milis Linux Kurucusu
