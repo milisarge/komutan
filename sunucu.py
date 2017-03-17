@@ -269,7 +269,7 @@ def kaduygula_islem():
 		elif islem == "takas":
 			if ktakas !="":
 				#takasAyarla(ktakas)
-				data=ktakas+" ayarlandı."
+				data=ktakas+" takas alanı ayarlandı."
 		#kurulacak bölümün bağlanması
 		elif islem == "baglama":
 			#bolumBagla(kbolum,kbaglam)
