@@ -227,14 +227,76 @@ def kadkaydet_islem():
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 
+@app.route('/test_islem', methods=['GET', 'POST'])
+def test_islem():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		if('islem' in request.args):
+			islem = request.args.get('islem')
+			print islem
+			data=islem+" islendi"
+			time.sleep(3)
+		#kurulum uygulaması buraya kodlanacak.
+		return Response(json.dumps(data),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+
 @app.route('/kaduygula_islem', methods=['GET', 'POST'])
 def kaduygula_islem():
 	if "KULL_ID" not in session:
 		session['KULL_ID']=-1
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
-		data="tamam"
-		#kurulum uygulaması buraya kodlanacak.
+		data=""
+		islem = request.args.get('islem')
+		dosya = request.args.get('kad')
+		kurulum=arger.kurulum_oku(dosya)
+		kbolum=kurulum["disk"]["bolum"]
+		kformat=kurulum["disk"]["format"]
+		kbaglam=kurulum["disk"]["baglam"]
+		ktakas=kurulum["disk"]["takasbolum"]
+		kisim=kurulum["kullanici"]["isim"]
+		ksifre=kurulum["kullanici"]["sifre"]
+		kgrubkur=kurulum["grub"]["kur"]
+		#formatlama
+		if islem == "formatlama":
+			if kformat == "evet":
+				#bolumFormatla(kbolum)
+				data=kbolum+" formatlandı."
+		#takas ayarlanması
+		elif islem == "takas":
+			if ktakas !="":
+				#takasAyarla(ktakas)
+				data=ktakas+" ayarlandı."
+		#kurulacak bölümün bağlanması
+		elif islem == "baglama":
+			#bolumBagla(kbolum,kbaglam)
+			data=kbolum+" "+kbaglam+" altına baglandı."
+		#kullanıcı oluşturma
+		elif islem == "kullanici":
+			#kullaniciOlustur(kisim,kisim,ksifre)
+			data=kisim+" kullanıcısı oluşturuldu."
+		#sistemin kopyalanması
+		elif islem == "kopyalama":
+			#sistemKopyala(kbaglam)
+			data="sistem kopyalandı."
+		#initrd oluşturulması
+		elif islem == "baslatici":
+			#initrdOlustur(kbaglam)
+			data="initrd oluşturuldu."
+		#grub kurulması
+		elif islem == "grub":
+			if kgrubkur == "evet":
+				#grubKur(kbolum,kbaglam)
+				data="grub kuruldu."
+		elif islem == "cozme":
+			#bolumCoz(kbolum)
+			data="Milis İşletim Sistemi başarıyla kuruldu."
+		else:
+			data="hata var!"
+		time.sleep(2)
 		return Response(json.dumps(data),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	

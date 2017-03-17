@@ -136,9 +136,22 @@
 			};
 			$('#raporForm').ajaxSubmit(formOption);
 		});
+	
+		$('#test').on('click', function(event){
+			event.preventDefault();
+			var islemler=["islem1","islem2","islem3"],baslangic=$.Deferred();
+			baslangic.resolve();
+			$.each(islemler,function(ix,islem) {
+				baslangic=baslangic.pipe( function() {
+					console.log(islem+" islemi yapılıyor.");
+					return islemUygula(islem,$('#kadlar').val());
+				});
+			});
+		});
 		
 		$('#kaduygula').on('click', function(event){
 			event.preventDefault();
+			var kad=$('#kadlar').val();
 			$("#kadkaydet").click()
 			msj="<b>Kurulum Ayarları</b>"+"<p>";
 			msj+="<table>";
@@ -155,19 +168,15 @@
 		        modal: true,
 		        buttons: {
 		            "onayla": function() {
-		                var formOption = {
-							url  			: "/kaduygula_islem",
-							type			: "POST",
-							success: function (data) {
-								if(data=='tamam'){
-									islemTamam("Sistem kurulumu başarıyla tamamlandı.");
-								}else{
-									hataGoster(data);
-								}
-							}
-							//beforeSubmit 	: kadFormKontrol
-						};
-						$('#raporForm').ajaxSubmit(formOption);
+		                var islemler=["formatlama","baglama","kullanici","kopyalama","baslatici","grub","cozme"];
+		                baslangic=$.Deferred();
+						baslangic.resolve();
+						$.each(islemler,function(ix,islem) {
+							baslangic=baslangic.pipe( function() {
+								console.log(islem+" islemi yapılıyor.");
+								return islemUygula(islem,kad);
+							});
+						});
 						$( this ).dialog( "close" );
 		            },
 		            "iptal": function() {
@@ -237,8 +246,22 @@
 		}
 	}
 	
+	function islemUygula(islem,kad){
+		return $.ajax({
+            type: "GET",
+            url : "/kaduygula_islem",
+            data: {islem:islem,kad:kad},
+            dataType: "JSON",
+            success: function(sonuc){
+                console.log("Successful request for [" + islem + "]");
+                islemTamam(sonuc);
+            }
+        });
+       
+	}
+
 	function islemTamam(message) {
-		// TODO: hata mesajı dön
+		
 		$.blockUI({ 
             message: message, 
             fadeIn: 500, 
@@ -370,7 +393,8 @@
 			</select>
 			<div class=satir>		
 				<input type="submit" class="btn" name="kadkaydet" id="kadkaydet" value="AYARLARI KAYDET" tabindex="-1" />
-				<input type="submit" class="btn" name="kaduygula" id="kaduygula" value="SİSTEMİ KUR" tabindex="-1" style="margin-left:10px;/>
+				<input type="submit" class="btn" name="kaduygula" id="kaduygula" value="SİSTEMİ KUR" tabindex="-1" style="margin-left:10px;"/>
+				<input type="submit" class="btn" name="test" id="test" value="TEST" tabindex="-1" style="margin-left:10px;"/>
 			</div>
 			<br>
 			<input id="mod" name="mod"  hidden value="{{mod}}" />

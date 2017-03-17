@@ -263,18 +263,3 @@ class Arge:
 		veriler=self.komutCalistir(komut).split("\n")
 		diskler=filter(None,veriler)
 		return diskler
-
-	def diskler2(self,tip="ext4"):
-		bolumSecimler = []
-		uygunBolumler = ['sd','hd','mmcblk0p']
-		diskBolumler  = self.komutCalistir("lsblk -ln -o  NAME    | awk '{print $1}'").split('\n')
-		bolumDs     = self.komutCalistir("lsblk -ln -o  FSTYPE  | awk '{print $1}'").split('\n')
-		bolumMajmin = self.komutCalistir("lsblk -ln -o  MAJ:MIN | awk '{print $1}'").split('\n')
-		for i in range(len(diskBolumler)-1):
-			if bolumMajmin[i].split(":")[1] != "0": # partition olmayanları ele (sda/sdb seçince grub bozuluyor.)
-				for uygunBolum in uygunBolumler:
-					if uygunBolum in diskBolumler[i]: 
-						if bolumDs[i] == tip:
-							bolumSecimler.append(diskBolumler[i])
-		return bolumSecimler
-		
