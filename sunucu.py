@@ -177,8 +177,8 @@ def kurulum():
 	if ("KULL_ID" in session and girdimi) :
 		dizin="kurulum"
 		kadlar=arger.dizin_cek(dizin="kurulum")
-		diskler=arger.diskler()
-		takaslar=arger.takaslar()
+		diskler=arger.diskler(tip="ext4")
+		takaslar=arger.diskler(tip="swap")
 		return render_template('kurulum.html',kadlar=kadlar,diskler=diskler,takaslar=takaslar)	
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")

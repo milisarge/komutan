@@ -21,7 +21,7 @@ import yaml
 
 class Arge:
 	
-	def runShellCommand(self,c):
+	def komutCalistir(self,c):
 		out = subprocess.check_output(c,stderr=subprocess.STDOUT,shell=True,universal_newlines=True)
 		return out.replace("\b","")  #encode byte format to string, ugly hack 
 	
@@ -214,7 +214,7 @@ class Arge:
 	
 	def link_kontrol(self,link):
 		indirme_komut="curl -s "
-		sonuc=self.runShellCommand(indirme_komut+link)
+		sonuc=self.komutCalistir(indirme_komut+link)
 		if "Not Found" in sonuc:
 			return False
 		else:
@@ -243,7 +243,7 @@ class Arge:
 			else:
 				return "hesap veya depo belirsizliği!"
 			print depo_ekle_komut
-			sonuc=self.runShellCommand(depo_ekle_komut)
+			sonuc=self.komutCalistir(depo_ekle_komut)
 			return sonuc
 		else:
 			return "kırık link!"
@@ -257,16 +257,24 @@ class Arge:
 		with open("kurulum/"+kurulumdos, 'w') as outfile:
 			yaml.dump(param, outfile, default_flow_style=False)
 	
-	def diskler(self):
+	def diskler(self,tip="ext4"):
 		diskler=[]
-		komut="ls /dev/sd* "
-		veriler=self.runShellCommand(komut).split("\n")
-		diskler=filter(None, veriler)
+		komut="blkid | grep "+tip+" | awk '{print $1}' | sed s'/.$//'"
+		veriler=self.komutCalistir(komut).split("\n")
+		diskler=filter(None,veriler)
 		return diskler
 
-	def takaslar(self):
-		takaslar=[]
-		komut="blkid | grep swap | awk '{print $1}' | sed s'/.$//'"
-		veriler=self.runShellCommand(komut).split("\n")
-		takaslar=filter(None,veriler)
-		return takaslar
+	def diskler2(self,tip="ext4"):
+		bolumSecimler = []
+		uygunBolumler = ['sd','hd','mmcblk0p']
+		diskBolumler  = self.komutCalistir("lsblk -ln -o  NAME    | awk '{print $1}'").split('\n')
+		bolumDs     = self.komutCalistir("lsblk -ln -o  FSTYPE  | awk '{print $1}'").split('\n')
+		bolumMajmin = self.komutCalistir("lsblk -ln -o  MAJ:MIN | awk '{print $1}'").split('\n')
+		for i in range(len(diskBolumler)-1):
+			if bolumMajmin[i].split(":")[1] != "0": # partition olmayanları ele (sda/sdb seçince grub bozuluyor.)
+				for uygunBolum in uygunBolumler:
+					if uygunBolum in diskBolumler[i]: 
+						if bolumDs[i] == tip:
+							bolumSecimler.append(diskBolumler[i])
+		return bolumSecimler
+		

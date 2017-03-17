@@ -12,7 +12,7 @@ grub:
   kur: evet
 kullanici:
   isim: qwerty
-  sifre: '12345'
+  sifre: '123'
 program:
   surum: '1.0'
   tanim: Milis Linux Kurucusu
