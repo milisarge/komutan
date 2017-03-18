@@ -250,6 +250,7 @@ def kaduygula_islem():
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
 		data=""
+		sonuc=""
 		islem = request.args.get('islem')
 		dosya = request.args.get('kad')
 		kurulum=arger.kurulum_oku(dosya)
@@ -263,40 +264,55 @@ def kaduygula_islem():
 		#formatlama
 		if islem == "formatlama":
 			if kformat == "evet":
-				#bolumFormatla(kbolum)
-				data=kbolum+" formatlandı."
+				sonuc=arger.bolumFormatla(kbolum)
+				if sonuc:
+					data=kbolum+" formatlandı."
 		#takas ayarlanması
 		elif islem == "takas":
 			if ktakas !="":
-				#takasAyarla(ktakas)
-				data=ktakas+" takas alanı ayarlandı."
+				sonuc=arger.takasAyarla(ktakas)
+				if sonuc:
+					data=ktakas+" takas alanı ayarlandı."
 		#kurulacak bölümün bağlanması
 		elif islem == "baglama":
-			#bolumBagla(kbolum,kbaglam)
-			data=kbolum+" "+kbaglam+" altına baglandı."
+			sonuc=arger.bolumBagla(kbolum,kbaglam)
+			if sonuc:
+				data=kbolum+" "+kbaglam+" altına baglandı."
 		#kullanıcı oluşturma
 		elif islem == "kullanici":
-			#kullaniciOlustur(kisim,kisim,ksifre)
-			data=kisim+" kullanıcısı oluşturuldu."
+			sonuc=arger.kullaniciOlustur(kisim,kisim,ksifre)
+			if sonuc:
+				data=kisim+" kullanıcısı oluşturuldu."
 		#sistemin kopyalanması
+		elif "_" in islem:
+			dizin=islem[1:]
+			sonuc=arger.dizinKopyala(dizin,kbaglam)
+			if sonuc:
+				data=dizin+" kopyalandı."
 		elif islem == "kopyalama":
-			#sistemKopyala(kbaglam)
-			data="sistem kopyalandı."
+			sonuc=arger.sistemOlustur(kbaglam)
+			if sonuc:
+				data="sistem kopyalandı."
 		#initrd oluşturulması
 		elif islem == "baslatici":
-			#initrdOlustur(kbaglam)
-			data="initrd oluşturuldu."
+			sonuc=arger.initrdOlustur(kbaglam)
+			if sonuc:
+				data="initrd oluşturuldu."
 		#grub kurulması
 		elif islem == "grub":
 			if kgrubkur == "evet":
-				#grubKur(kbolum,kbaglam)
-				data="grub kuruldu."
+				sonuc=arger.grubKur(kbolum,kbaglam)
+				if sonuc:
+					data="grub kuruldu."
 		elif islem == "cozme":
-			#bolumCoz(kbolum)
-			data="Milis İşletim Sistemi başarıyla kuruldu."
+			sonuc=arger.bolumCoz(kbolum)
+			if sonuc:
+				data="Milis İşletim Sistemi başarıyla kuruldu."
 		else:
-			data="hata var!"
-		time.sleep(2)
+			print("hata:",islem)
+			data=islem+" hatalidir!"
+		time.sleep(4)
+		data=sonuc
 		return Response(json.dumps(data),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	

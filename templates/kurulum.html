@@ -47,8 +47,7 @@
 <script>
 	$(document).ready(function() {
 		
-		$('#calismakod').hide();
-		$("#yukleniyor").hide();
+		//$("#akisgoster").addClass('hidden');
 		
 		shortcut.add("ctrl+R", function() {
 			//event.preventDefault();
@@ -139,14 +138,8 @@
 	
 		$('#test').on('click', function(event){
 			event.preventDefault();
-			var islemler=["islem1","islem2","islem3"],baslangic=$.Deferred();
-			baslangic.resolve();
-			$.each(islemler,function(ix,islem) {
-				baslangic=baslangic.pipe( function() {
-					console.log(islem+" islemi yapılıyor.");
-					return islemUygula(islem,$('#kadlar').val());
-				});
-			});
+			//$("#akisgoster").toggleClass('hidden');
+			akisgosterDeger(10);
 		});
 		
 		$('#kaduygula').on('click', function(event){
@@ -168,12 +161,15 @@
 		        modal: true,
 		        buttons: {
 		            "onayla": function() {
-		                var islemler=["formatlama","takas","baglama","kullanici","kopyalama","baslatici","grub","cozme"];
+		                var islemler=["formatlama","takas","baglama","kullanici","_bin","_boot","_home","_lib","_sources","_usr","_depo","_etc","_include","_lib64","_opt","_root","_sbin","_var","kopyalama","baslatici","grub","cozme"];
 		                baslangic=$.Deferred();
 						baslangic.resolve();
 						$.each(islemler,function(ix,islem) {
 							baslangic=baslangic.pipe( function() {
 								console.log(islem+" islemi yapılıyor.");
+								if (islem.indexOf("_") !== -1){
+									akisgosterDeger(7.15);
+								}
 								return islemUygula(islem,kad);
 							});
 						});
@@ -185,12 +181,6 @@
 		        }
 			});		
 		});
-		
-		$('#komutgg').on('click', function(event){
-			event.preventDefault();
-			//window.open("/arayuzModul?kd="+$('#paketara').val(),'_newtab');
-			$('#calismakod').toggle();
-		});	
 		
 		$('#diskbol').on('click', function(event){
 			event.preventDefault();
@@ -228,13 +218,14 @@
 			
 		});
 		
-		$('#komutgg').on('click', function(event){
-			event.preventDefault();
-			//window.open("/arayuzModul?kd="+$('#paketara').val(),'_newtab');
-			$('#calismakod').toggle();
-		});	
 		
 	});
+	
+	function akisgosterDeger(deger){
+		deger=parseInt(document.getElementById("progressbarspan").textContent)+deger;
+		$('.progress-bar').css('width', deger+'%').attr('aria-valuenow', deger); 
+		document.getElementById("progressbarspan").textContent=deger;
+	}
 	
 	function sonucGetir(res, statusText, xhr, $form) {
 		//console.log(res);
@@ -253,7 +244,7 @@
             data: {islem:islem,kad:kad},
             dataType: "JSON",
             success: function(sonuc){
-                console.log("Successful request for [" + islem + "]");
+                console.log(islem + " tamamlandı");
                 islemTamam(sonuc);
             }
         });
@@ -400,8 +391,10 @@
 			<input id="mod" name="mod"  hidden value="{{mod}}" />
 			<input id="calismalist" name="calismalist"  hidden value="" />
 			<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
-			<div class=element>
-				<textarea id=calismakod name=calismakod value="" ondblclick=this.value='' style="font-size: 14px;margin-top: 3px;width:900px;height: 300px; color:white;background-color:red "></textarea>
+			<div id="akisgoster" class="progress">
+			  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:1%">
+				  %<span id="progressbarspan">0</span> Tamamlandı
+			  </div>
 			</div>
 			</form>
 			

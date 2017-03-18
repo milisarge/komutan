@@ -263,3 +263,109 @@ class Arge:
 		veriler=self.komutCalistir(komut).split("\n")
 		diskler=filter(None,veriler)
 		return diskler
+		
+	def bolumFormatla(self,hedef):
+		komut="umount -l "+hedef
+		if os.path.exists(hedef):
+			os.system(komut)
+			komut2="mkfs.ext4 -F " + hedef
+			try:
+				os.system(komut2)
+				return True
+			except OSError as e:
+				time.sleep(1)
+				return "hata=formatlanamadi!"
+		else:
+			time.sleep(1)
+			return "hata=disk bolumu yok!"
+
+	def takasAyarla(self,bolum):
+		try:
+			os.system("mkswap "+"/dev/"+bolum)
+			os.system('echo "`lsblk -ln -o UUID /dev/' + bolum + '` none swap sw 0 0" | tee -a /etc/fstab')
+			return True
+		except OSError as e:
+			time.sleep(1)
+			return "hata:takas islemi!"
+			
+	def bolumBagla(self,hedef,baglam):
+		komut="mount "+hedef+" "+baglam
+		try:
+			os.system(komut)
+			return True
+		except OSError as e:
+			time.sleep(1)
+			return "hata:bolum baglanamadi!"
+			
+	def kullaniciOlustur(self,isim,kullisim,kullsifre):
+		try:
+			os.system("kopar milislinux-"+isim+" "+kullisim)
+			os.system('echo -e "'+kullsifre+'\n'+kullsifre+'" | passwd '+kullisim)
+			#masaustu ve diğer ayarların aktarılması
+			ayar_komut="cp -r /root/.config /home/"+kullisim+"/"
+			os.system(ayar_komut)
+			saat_komut="saat_ayarla_tr"
+			os.system(saat_komut)
+			return True
+		except OSError as e:
+			time.sleep(1)
+			return "hata:kullanici islemleri!"
+			
+	def sistemOlustur(self,baglam):
+		komut=""
+		try:
+			#bazı dizinleri atlamak için ve hız rsync
+			yenidizinler=["srv","proc","tmp","mnt","sys","run","dev","media"]
+			for ydizin in yenidizinler:
+				komut="mkdir -p "+baglam+"/"+ydizin
+				os.system(komut)
+			return True
+		except OSError as e:
+			time.sleep(1)
+			return "hata:yeni dizinler olusturma!"
+	
+	def dizinKopyala(self,kaynak,hedef):
+		komut="rsync --delete -a /"+kaynak+" "+hedef+" --exclude /proc"
+		try:
+			os.system(komut)
+			return True
+		except OSError as e:
+			time.sleep(1)
+			return "hata:"+kaynak+" dizin kopyalanamadi!"
+		
+	def initrdOlustur(self,hedef):
+		try:
+			if hedef != "":
+				os.system("mount --bind /dev "+hedef+"/dev")
+				os.system("mount --bind /sys "+hedef+"/sys")
+				os.system("mount --bind /proc "+hedef+"/proc")
+				os.system('chroot '+hedef+' dracut --no-hostonly --add-drivers "ahci" -f /boot/initramfs')
+				return True
+			else:
+				return "hata:initrd baglami tanimsiz!"
+		except OSError as e:
+			time.sleep(1)
+			return "hata:initrd olusturulamadi!"
+
+	def grubKur(self,hedef,baglam):
+		hedef = hedef[:-1]
+		try:
+			if hedef == "/dev/mmcblk0": #SD kart'a kurulum fix
+				os.system("grub-install --boot-directory="+baglam+"/boot /dev/mmcblk0")
+			else:
+				os.system("grub-install --boot-directory="+baglam+"/boot " + hedef)
+			os.system("chroot "+baglam+" grub-mkconfig -o /boot/grub/grub.cfg")
+			
+			return True
+		except OSError as e:
+			time.sleep(1)
+			return "hata:grub kurulamadi!"
+
+	def bolumCoz(self,hedef):
+		komut="umount -l "+hedef
+		try:
+			os.system(komut)
+			return True
+		except OSError as e:
+			time.sleep(1)
+			return "hata:Bolum cozulemedi!"
