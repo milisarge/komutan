@@ -271,6 +271,7 @@ class Arge:
 			komut2="mkfs.ext4 -F " + hedef
 			try:
 				os.system(komut2)
+				print hedef,"formatlandı."
 				return True
 			except OSError as e:
 				time.sleep(1)
@@ -306,6 +307,7 @@ class Arge:
 			os.system(ayar_komut)
 			saat_komut="saat_ayarla_tr"
 			os.system(saat_komut)
+			print "kullanıcı işlemleri yapıldı."
 			return True
 		except OSError as e:
 			time.sleep(1)
@@ -319,6 +321,7 @@ class Arge:
 			for ydizin in yenidizinler:
 				komut="mkdir -p "+baglam+"/"+ydizin
 				os.system(komut)
+			print "yenidizinler oluşturuldu."
 			return True
 		except OSError as e:
 			time.sleep(1)
@@ -328,6 +331,7 @@ class Arge:
 		komut="rsync --delete -a /"+kaynak+" "+hedef+" --exclude /proc"
 		try:
 			os.system(komut)
+			print kaynak,"kopyalandı."
 			return True
 		except OSError as e:
 			time.sleep(1)
@@ -340,6 +344,7 @@ class Arge:
 				os.system("mount --bind /sys "+hedef+"/sys")
 				os.system("mount --bind /proc "+hedef+"/proc")
 				os.system('chroot '+hedef+' dracut --no-hostonly --add-drivers "ahci" -f /boot/initramfs')
+				print "intird kuruldu."
 				return True
 			else:
 				return "hata:initrd baglami tanimsiz!"
@@ -349,22 +354,25 @@ class Arge:
 
 	def grubKur(self,hedef,baglam):
 		hedef = hedef[:-1]
+		hata=""
 		try:
 			if hedef == "/dev/mmcblk0": #SD kart'a kurulum fix
 				os.system("grub-install --boot-directory="+baglam+"/boot /dev/mmcblk0")
 			else:
 				os.system("grub-install --boot-directory="+baglam+"/boot " + hedef)
 			os.system("chroot "+baglam+" grub-mkconfig -o /boot/grub/grub.cfg")
-			
+			print "grub kuruldu."
 			return True
 		except OSError as e:
 			time.sleep(1)
-			return "hata:grub kurulamadi!"
+			hata="hata:grub kurulamadi!"
+			return hata
 
 	def bolumCoz(self,hedef):
 		komut="umount -l "+hedef
 		try:
 			os.system(komut)
+			print hedef,"çözüldü."
 			return True
 		except OSError as e:
 			time.sleep(1)
