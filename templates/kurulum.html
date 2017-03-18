@@ -162,14 +162,20 @@
 		        modal: true,
 		        buttons: {
 		            "onayla": function() {
-		                var islemler=["formatlama","takas","baglama","kullanici","_bin","_boot","_home","_lib","_sources","_usr","_depo","_etc","_include","_lib64","_opt","_root","_sbin","_var","kopyalama","baslatici","grub","cozme"];
+		                var islemler=["formatlama","takas","baglama","kullanici","_bin","_boot","_home","_lib","_sources",
+		                "_usr/bin","_usr/doc","_usr/etc","_usr/include","_usr/lib","_usr/lib64","_usr/libexec","_usr/local","_usr/man","_usr/sbin","_usr/share",
+		                "_depo","_etc","_include","_lib64","_opt","_root","_sbin","_var","kopyalama","baslatici","grub","cozme"];
 		                baslangic=$.Deferred();
 						baslangic.resolve();
 						$.each(islemler,function(ix,islem) {
 							baslangic=baslangic.pipe( function() {
 								console.log(islem+" islemi yapılıyor.");
 								if (islem.indexOf("_") !== -1){
-									akisgosterDeger(7.15);
+									if (islem.indexOf("/") !== -1){
+										akisgosterDeger(2);
+									}else{
+										akisgosterDeger(6.15);
+									}
 								}
 								if (islem == "cozme"){
 									akisgosterDeger(2);
