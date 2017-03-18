@@ -287,7 +287,10 @@ def kaduygula_islem():
 		#sistemin kopyalanması
 		elif "_" in islem:
 			dizin=islem[1:]
-			sonuc=arger.dizinKopyala(dizin,kbaglam)
+			if "usr" in dizin:
+				sonuc=arger.dizinKopyala(dizin,kbaglam+"/"+dizin)
+			else:
+				sonuc=arger.dizinKopyala(dizin,kbaglam)
 			if sonuc:
 				data=dizin+" kopyalandı."
 		elif islem == "kopyalama":
