@@ -259,7 +259,7 @@ class Arge:
 	
 	def diskler(self,tip="ext4"):
 		diskler=[]
-		komut="blkid | grep "+tip+" | awk '{print $1}' | sed s'/.$//'"
+		komut="blkid | grep "+tip+" | awk '$1 !~ /live/ {print $1}' | sed s'/.$//'"
 		veriler=self.komutCalistir(komut).split("\n")
 		diskler=filter(None,veriler)
 		return diskler

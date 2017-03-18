@@ -312,7 +312,8 @@ def kaduygula_islem():
 		else:
 			print("hata:",islem)
 			data=islem+" hatalidir!"
-		data=sonuc
+		if sonuc is not True:
+			data=sonuc
 		return Response(json.dumps(data),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
