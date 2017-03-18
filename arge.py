@@ -354,19 +354,13 @@ class Arge:
 
 	def grubKur(self,hedef,baglam):
 		hedef = hedef[:-1]
-		hata=""
-		try:
-			if hedef == "/dev/mmcblk0": #SD kart'a kurulum fix
-				os.system("grub-install --boot-directory="+baglam+"/boot /dev/mmcblk0")
-			else:
-				os.system("grub-install --boot-directory="+baglam+"/boot " + hedef)
-			os.system("chroot "+baglam+" grub-mkconfig -o /boot/grub/grub.cfg")
-			print "grub kuruldu."
-			return True
-		except OSError as e:
-			time.sleep(1)
-			hata="hata:grub kurulamadi!"
-			return hata
+		if hedef == "/dev/mmcblk0": #SD kart'a kurulum fix
+			os.system("grub-install --boot-directory="+baglam+"/boot /dev/mmcblk0")
+		else:
+			os.system("grub-install --boot-directory="+baglam+"/boot " + hedef)
+		os.system("chroot "+baglam+" grub-mkconfig -o /boot/grub/grub.cfg")
+		print "grub kuruldu."
+		return True
 
 	def bolumCoz(self,hedef):
 		komut="umount -l "+hedef
