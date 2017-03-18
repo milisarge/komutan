@@ -17,7 +17,8 @@ import subprocess
 from htmlrapor import *
 import psutil
 import sys
-import paho.mqtt.client as mqtt
+#mqtt kullanilirsa
+#import paho.mqtt.client as mqtt
 import uuid
 import threading
 
@@ -311,7 +312,6 @@ def kaduygula_islem():
 		else:
 			print("hata:",islem)
 			data=islem+" hatalidir!"
-		time.sleep(4)
 		data=sonuc
 		return Response(json.dumps(data),mimetype='application/json')
 	else:
