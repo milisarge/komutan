@@ -289,7 +289,7 @@ def kaduygula_islem():
 			dizin=islem[1:]
 			if "usr" in dizin:
 				os.system("mkdir -p "+kbaglam+"/usr")
-				sonuc=arger.dizinKopyala(dizin,kbaglam+"/"+dizin)
+				sonuc=arger.dizinKopyala(dizin,kbaglam)
 			else:
 				sonuc=arger.dizinKopyala(dizin,kbaglam)
 			if sonuc:
