@@ -288,6 +288,7 @@ def kaduygula_islem():
 		elif "_" in islem:
 			dizin=islem[1:]
 			if "usr" in dizin:
+				os.system("mkdir -p "+kbaglam+"/usr")
 				sonuc=arger.dizinKopyala(dizin,kbaglam+"/"+dizin)
 			else:
 				sonuc=arger.dizinKopyala(dizin,kbaglam)
