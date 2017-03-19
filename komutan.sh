@@ -1,6 +1,6 @@
 #!/bin/bash
 ./port_oldur.sh
-sudo python2 sunucu.py &
+sudo gunicorn -w 2 -b 127.0.0.1:6060 sunucu:app &
 sleep 2
 if which xdg-open > /dev/null
 then
