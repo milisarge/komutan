@@ -197,10 +197,9 @@
 						$.each(islemler,function(ix,islem) {
 							baslangic=baslangic.pipe( function() {
 								console.log(islem+" islemi yapılıyor.");
-								akisgosterDeger(3.125);
 								return islemUygula(islem,kad);
 							});
-							akisgosterDeger(3.875);
+							
 						});
 						$( this ).dialog( "close" );
 		            },
@@ -274,6 +273,7 @@
             dataType: "JSON",
             success: function(sonuc){
                 console.log(islem + " tamamlandı");
+                akisgosterDeger(3.125);
                 islemTamamEkle(islem);
                 islemTamam(sonuc);
             }
