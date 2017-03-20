@@ -120,6 +120,7 @@ def mpsModul():
 	if ("KULL_ID" in session and girdimi) :
 		dizin='/root/talimatname/genel'
 		calismalist=arger.dizin_cek(dizin=dizin)
+		print "mps module girildi."
 		'''
 		try:
 			yerel_ip=([(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1])
