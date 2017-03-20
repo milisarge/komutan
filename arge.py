@@ -330,11 +330,11 @@ class Arge:
 	
 	def dizinKopyala(self,kaynak,hedef):
 		komut="rsync --delete -a /"+kaynak+" "+hedef+" --exclude /proc"
-		os.system(komut)
-		if self.dizinHash(kaynak) == self.dizinHash(hedef):
+		try:	
+			os.system(komut)
 			print kaynak,"kopyalandı."
 			return True
-		else:
+		except OSError as e:
 			time.sleep(1)
 			return "hata:"+kaynak+" dizin kopyalanmasi!"
 		
@@ -373,8 +373,3 @@ class Arge:
 			time.sleep(1)
 			return "hata:Bolum cozulemedi!"
 
-	def dizinHash(self,dizin):
-		SHAhash = hashlib.sha1()
-		komut="shasum -a 512 "+dizin+" | awk '{print $1}'"
-		deger=self.komutCalistir(komut)
-		return deger
