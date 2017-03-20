@@ -487,7 +487,7 @@ def komutanGuncelle():
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
 		log=""
-		os.system("guncelle.sh")
+		os.system("./guncelle.sh")
 		#log=open("log/guncelleme.log","r").read()
 		return "<html>güncellendi:<p>"+log+"<p><a href='/'>ana sayfa</a> </html>"
 	else:
