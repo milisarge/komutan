@@ -23,12 +23,18 @@
 
 #formalan {
 	float: left;
-	width: 1000px;
-	height: 800px;
+	width: 700px;
+	height: 600px;
+}
+
+#kontlist {
+	float: right;
+	width: 700px;
+	height: 700px;
 }
 
 #pageContainer {
-	width: 1556px;
+	width: auto;
 	height: auto;
 }
 
@@ -41,6 +47,28 @@
 	font-weight: bold;
 	font-family: Georgia, "Times New Roman", Times, serif;
 	color: black;
+}
+
+.form-group input[type="checkbox"] {
+    display: none;
+}
+
+.form-group input[type="checkbox"] + .btn-group > label span {
+    width: 10px;
+}
+
+.form-group input[type="checkbox"] + .btn-group > label span:first-child {
+    display: none;
+}
+.form-group input[type="checkbox"] + .btn-group > label span:last-child {
+    display: inline-block;   
+}
+
+.form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+    display: inline-block;
+}
+.form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+    display: none;   
 }
 
 </style>
@@ -139,8 +167,7 @@
 	
 		$('#test').on('click', function(event){
 			event.preventDefault();
-			//$("#akisgoster").toggleClass('hidden');
-			akisgosterDeger(10);
+			document.getElementById("formatkl").checked = true;
 		});
 		
 		$('#kaduygula').on('click', function(event){
@@ -170,13 +197,7 @@
 						$.each(islemler,function(ix,islem) {
 							baslangic=baslangic.pipe( function() {
 								console.log(islem+" islemi yapılıyor.");
-								if (islem.indexOf("_") !== -1){
-									if (islem.indexOf("/") !== -1){
-										akisgosterDeger(2);
-									}else{
-										akisgosterDeger(6.15);
-									}
-								}
+								akisgosterDeger(3.125);
 								return islemUygula(islem,kad);
 							});
 						});
@@ -252,12 +273,43 @@
             dataType: "JSON",
             success: function(sonuc){
                 console.log(islem + " tamamlandı");
+                islemTamamEkle(islem);
                 islemTamam(sonuc);
             }
         });
        
 	}
+	
+	function islemTamamEkle(islem) {
+		switch (islem) {
+		case "formatlama":
+			document.getElementById("formatkl").checked = true;
+			break;
+		case "takas":
+			document.getElementById("takaskl").checked = true;
+			break;
+		case "baglama":
+			document.getElementById("baglamkl").checked = true;
+			break;
+		case "kullanici":
+			document.getElementById("kullkl").checked = true;
+			break;
+		case "kopyalama":
+			document.getElementById("kopyalamakl").checked = true;
+			break;
+		case "baslatici":
+			document.getElementById("baslaticikl").checked = true;
+			break;
+		case "grub":
+			document.getElementById("grubkl").checked = true;
+			break;
+		case "cozme":
+			document.getElementById("cozmekl").checked = true;
+			break;
+		} 
+	}
 
+	
 	function islemTamam(message) {
 		
 		$.blockUI({ 
@@ -340,10 +392,9 @@
 	<br>
 	<br>
 	<br>
-	<h3 class="beyaz">Milis İşletim Sistemi Kurulumu</h3>
 	<p class="beyaz">Milis İşletim Sistemini sabit diskinize kurmanıza yardımcı olur.</p>
 	<div class="pageContainer">
-		<div class=formalan>
+		<div class="formalan" id="formalan">
 			<form id=raporForm name=raporForm action="{{ url_for('mpsModul') }}" method=post>
 			<div class=arayuz_alan id=arayuz_alan></div>
 			<label style="width: 250px;" class="beyaz">Milis Linux Kurulum Dosyaları</label>
@@ -391,19 +442,132 @@
 				<input type="submit" class="btn" name="kadkaydet" id="kadkaydet" value="AYARLARI KAYDET" tabindex="-1" />
 				<input type="submit" class="btn" name="kaduygula" id="kaduygula" value="SİSTEMİ KUR" tabindex="-1" style="margin-left:10px;"/>
 				<input type="submit" class="btn" name="test" id="test" value="TEST" tabindex="-1" style="margin-left:10px;"/>
-			</div>
+			</div>	
 			<br>
+			<div class="[ form-group ]">
+			</div>
+            <p>
 			<input id="mod" name="mod"  hidden value="{{mod}}" />
 			<input id="calismalist" name="calismalist"  hidden value="" />
 			<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
-			<div id="akisgoster" class="progress">
+			</form>
+		</div>
+		
+		<div class="kontlist" id="kontlist">
+			<label class="beyaz"><b>Kurulum Adımları Tamamlanması</label><hr>
+            <div class="[ form-group ]">
+				<input type="checkbox" name="formatkl" id="formatkl" autocomplete="off" />
+				<div class="[ btn-group ]">
+					<label for="fancy-checkbox-success" class="[ btn btn-success ]">
+						<span class="[ glyphicon glyphicon-ok ]"></span>
+						<span> </span>
+					</label>
+					<label for="fancy-checkbox-success" class="[ btn btn-default active ]">Kurulacak Disk Bölümünün Formatlanması</label>
+				</div>
+			</div>
+			<p>
+			<div class="[ form-group ]">
+				<input type="checkbox" name="takaskl" id="takaskl" autocomplete="off" />
+				<div class="[ btn-group ]">
+					<label for="fancy-checkbox-success" class="[ btn btn-success ]">
+						<span class="[ glyphicon glyphicon-ok ]"></span>
+						<span> </span>
+					</label>
+					<label for="fancy-checkbox-success" class="[ btn btn-default active ]">Takas Alanının Ayarlanması</label>
+				</div>
+			</div>
+            <p>
+			<div class="[ form-group ]">
+				<input type="checkbox" name="baglamkl" id="baglamkl" autocomplete="off" />
+				<div class="[ btn-group ]">
+					<label for="fancy-checkbox-success" class="[ btn btn-success ]">
+						<span class="[ glyphicon glyphicon-ok ]"></span>
+						<span> </span>
+					</label>
+					<label for="fancy-checkbox-success" class="[ btn btn-default active ]">Disk Bölümünün Bağlanması</label>
+				</div>
+			</div>
+			<p>
+			<div class="[ form-group ]">
+				<input type="checkbox" name="kullkl" id="kullkl" autocomplete="off" />
+				<div class="[ btn-group ]">
+					<label for="fancy-checkbox-success" class="[ btn btn-success ]">
+						<span class="[ glyphicon glyphicon-ok ]"></span>
+						<span> </span>
+					</label>
+					<label for="fancy-checkbox-success" class="[ btn btn-default active ]">Kullanıcı Oluşturma ve Ayarları</label>
+				</div>
+			</div>
+			<p>
+			<div class="[ form-group ]">
+				<input type="checkbox" name="kopyalamakl" id="kopyalamakl" autocomplete="off" />
+				<div class="[ btn-group ]">
+					<label for="fancy-checkbox-success" class="[ btn btn-success ]">
+						<span class="[ glyphicon glyphicon-ok ]"></span>
+						<span> </span>
+					</label>
+					<label for="fancy-checkbox-success" class="[ btn btn-default active ]">Sistemin Kopyalanması</label>
+				</div>
+			</div>
+			<p>
+			<div class="[ form-group ]">
+				<input type="checkbox" name="baslaticikl" id="baslaticikl" autocomplete="off" />
+				<div class="[ btn-group ]">
+					<label for="fancy-checkbox-success" class="[ btn btn-success ]">
+						<span class="[ glyphicon glyphicon-ok ]"></span>
+						<span> </span>
+					</label>
+					<label for="fancy-checkbox-success" class="[ btn btn-default active ]">Başlatıcı (initramfs) Oluşturulması</label>
+				</div>
+			</div>
+			<p>
+			<div class="[ form-group ]">
+				<input type="checkbox" name="grubkl" id="grubkl" autocomplete="off" />
+				<div class="[ btn-group ]">
+					<label for="fancy-checkbox-success" class="[ btn btn-success ]">
+						<span class="[ glyphicon glyphicon-ok ]"></span>
+						<span> </span>
+					</label>
+					<label for="fancy-checkbox-success" class="[ btn btn-default active ]">Grub Kurulması</label>
+				</div>
+			</div>
+			<p>
+			<div class="[ form-group ]">
+				<input type="checkbox" name="cozmekl" id="cozmekl" autocomplete="off" />
+				<div class="[ btn-group ]">
+					<label for="fancy-checkbox-success" class="[ btn btn-success ]">
+						<span class="[ glyphicon glyphicon-ok ]"></span>
+						<span> </span>
+					</label>
+					<label for="fancy-checkbox-success" class="[ btn btn-default active ]">Disk Bölümün Çözülmesi</label>
+				</div>
+			</div>
+            <p>
+			<div class="[ form-group ]">
+				<input type="checkbox" name="hazirkl" id="hazirkl" autocomplete="off" />
+				<div class="[ btn-group ]">
+					<label for="fancy-checkbox-success" class="[ btn btn-success ]">
+						<span class="[ glyphicon glyphicon-ok ]"></span>
+						<span> </span>
+					</label>
+					<label for="fancy-checkbox-success" class="[ btn btn-default active ]">Milis Linux Kurulum Tamamlandı</label>
+				</div>
+			</div>
+            
+            <div id="akisgoster" class="progress">
 			  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:1%">
 				  %<span id="progressbarspan">0</span> Tamamlandı
 			  </div>
 			</div>
-			</form>
-			
 		</div>
+        
+        
+	
 	</div>
+		
+		
+		
+		
+
 </body>
 </HTML>
