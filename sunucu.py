@@ -486,8 +486,9 @@ def rehberdepoEkle():
 def komutanGuncelle():
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
-		os.system("git pull > kondarma/guncelleme.log")
-		log=open("kondarma/guncelleme.log","r").read()
+		log=""
+		os.system("guncelle.sh")
+		#log=open("log/guncelleme.log","r").read()
 		return "<html>güncellendi:<p>"+log+"<p><a href='/'>ana sayfa</a> </html>"
 	else:
 		return redirect("/yonlendir/komutanGuncelle")
