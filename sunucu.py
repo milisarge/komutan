@@ -153,6 +153,7 @@ def mpsFaal():
 					#os.system("killall uxterm")
 					#isletilecek komut
 					iskomut="mps kur "+paket
+					cikti=arger.komutCalistir(iskomut)
 					data="kuruluyor"
 				else:
 					data="boş paket"

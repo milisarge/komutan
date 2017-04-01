@@ -1,6 +1,7 @@
 from arge import *
 
 arger=Arge()
-dizin="/opt/aufs"
-arger.dizinKopyala(dizin,"/tmp")
+cikti=[]
+cikti.append(arger.komutCalistir("export mpscikti=evet && mps kur atool"))
+print cikti
 

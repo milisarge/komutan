@@ -149,11 +149,10 @@
 				url : "/mpsFaal?faal=kur",
 				type			: "POST",
 				success: function (data) {
-						if(data=='hata'){
-							hataGoster("hata");
+						if(data=='tamam'){
+							islemTamam("İŞLEM TAMAMLANDI");
 						}else{
-							//document.getElementById('konsolpenc').src="http://localhost:57575"
-							document.getElementById('konsolpenc').contentWindow.location.reload();
+							hataGoster(data);
 						}
 					}
 			};
@@ -166,6 +165,23 @@
 			
 			var formOption = {
 				url : "/mpsFaal?faal=sil",
+				type			: "POST",
+				success: function (data) {
+						if(data=='tamam'){
+							islemTamam("İŞLEM TAMAMLANDI");
+						}else{
+							hataGoster(data);
+						}
+					}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#mpspkgun').on('click', function(event){
+			event.preventDefault();
+			
+			var formOption = {
+				url : "/mpsFaal?faal=pkgun",
 				type			: "POST",
 				success: function (data) {
 						if(data=='tamam'){
@@ -312,6 +328,9 @@
 			<br>
 			<input type="submit" class="btn" name="mpskur" id="mpskur" value="KUR" tabindex="-1" />
 			<input type="submit" class="btn" name="mpssil" id="mpssil" value="KALDIR" tabindex="-1" />
+			<input type="submit" class="btn" name="mpsgun" id="mpsgun" value="GÜNCELLE" tabindex="-1" />
+			<input type="submit" class="btn" name="mpsgitgun" id="mpsgitgun" value="GG" tabindex="-1" />
+			<input type="submit" class="btn" name="mpspkgun" id="mpspkgun" value="G" tabindex="-1" />
 		</div>
 		<br>
 		<div class=element style="margin-top: 30px;">
