@@ -407,14 +407,18 @@ def paketdurum():
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
 		data="yok"
-		paket=request.form["paketara"]
+		paket=request.form["paketadi"]
 		if paket!="":
-			os.system("mps -kk "+paket+" > kondarma/paketdurum.log")
-			kk=open("kondarma/paketdurum.log","r").read()
-			if "kurulu" in kk:
-				data="tamam"
+			komut="mps -kk "+paket
+			cikti=arger.komutCalistir(komut)
+			if "kurulu" in cikti:
+				data="kurulu"
+			elif "degil" in cikti:
+				data="degil"
+			else:
+				data="tanimsiz"
 		else:
-			data="paket tanımsız"
+			data="tanimsiz"
 		
 		return Response(json.dumps(data),mimetype='application/json')
 	else:

@@ -50,8 +50,8 @@
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
-		$('#paketadi2').on('blur', function(event){
-			komutdosya=$('#paketadi').val();
+		$('#paketara2').on('blur', function(event){
+			komutdosya=$('#paketara').val();
 			$("#calismalist").val(komutdosya+"/talimat");
 			$.ajax({
 				url : "/calismaAl?mod="+$('#mod').val() +"&dosya="+komutdosya+"/talimat",
@@ -93,23 +93,15 @@
 			
 		});
 		
-		$('#paketadi').on('blur', function(event){
-			//$('#kurulu-bilgi1').hide();
-			$('[id^="kurulu-bilgi"]').hide();
+		$('#paketara').on('blur', function(event){
 			var formOption = {
 				url				: "/paketDurum",
 				type			: "POST",
 				success: function (data) {
-					if(data=='kurulu'){
-						//islemTamam("KURULU");
-						//$('#kurulu-bilgi').show();
-						//$('#kurulu-bilgi').fadeIn();
-						$('#kurulu-bilgi1').slideDown();
-					}else if (data=='degil'){
-						$('#kurulu-bilgi2').slideDown();
+					if(data=='tamam'){
+						islemTamam("KURULU");
 					}else{
-						//tanimsiz paket
-						$('#kurulu-bilgi3').slideDown();
+						hataGoster("KURULU DEĞİL");
 					}
 				}
 			};
@@ -202,6 +194,11 @@
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
+		$('#komutgg').on('click', function(event){
+			event.preventDefault();
+			//window.open("/arayuzModul?kd="+$('#paketara').val(),'_newtab');
+			$('#calismakod').toggle();
+		});	
 		
 	});
 	
@@ -281,7 +278,7 @@
 </head>
 
 <body> 
-	<div class=anasablon>
+<div class=anasablon>
 		<div data-balloon="Ana Menü" data-balloon-pos="down" class="col-xs-1"><a href="/"><h3><span class="glyphicon glyphicon-home beyaz"></span></h3></a></div>
 		<div data-balloon="Komuta Merkezi" data-balloon-pos="down" class="col-xs-1"><a href="/komutaModul"><h3><span class="glyphicon glyphicon-wrench beyaz"></span></h3></a></div>
 		<div data-balloon="Rehber(Wiki) Modülü" data-balloon-pos="down" class="col-xs-1"><a href="/rehberModul"><h3><span class="glyphicon glyphicon-book beyaz"></span></h3></a></div>
@@ -298,65 +295,63 @@
 	<br>
 	<br>
 	<br>
-	
-	<div class="container">
-		<div class="row">
-		  <div class="col-md-12">
-			<div class="well well-lg">
-			  <form class="form-horizontal" id=raporForm name=raporForm action="{{ url_for('mpsModul') }}" method=post>
-			  <fieldset>
-				<legend class="text-center">Milis Yazılım Merkezi</legend>
-				
-				<!-- paket ismi -->
-				<div class="form-group">
-				  <div class="col-md-8">
-					<input id="paketadi" name="paketadi" type="text" placeholder="paket ismi" class="form-control">
-				  </div>
-				</div>
-				<div class="alert alert-success" id="kurulu-bilgi1" role="alert" style="display:none;" >kurulu</div>
-				<div class="alert alert-danger" id="kurulu-bilgi2" role="alert" style="display:none;" >kurulu değil</div>
-				<div class="alert alert-danger" id="kurulu-bilgi3" role="alert" style="display:none;" >tanımsız paket</div>
+	<br>
+	<h3 class="beyaz">Milis Yazılım Merkezi</h3>
+	<p class="beyaz">
+	Milis Yazılım Merkezi sayesinde Milis İşletim Sistemine yazılım yükleyip kaldırabilirsiniz.
+	</p>
+	<div class=formalan>
 		
-				<!-- paket bilgi alanı -->
-				<div class="form-group">
-				  <div class="col-md-8">
-					<textarea class="form-control text-center" id="pkbilgialan" name="pkbilgialan" placeholder="Paket bilgileri burda..." rows="5"></textarea>
-				  </div>
-				</div>
+		<form id=raporForm name=raporForm action="{{ url_for('mpsModul') }}" method=post>
 		
-				<!-- Form actions -->
-				<div class="form-group">
-				  <div class="col-md-4">
-					<input type="submit" class="btn btn-success" name="mpskur" id="mpskur" value="KUR" />
-					<input type="submit" class="btn btn-danger" name="mpssil" id="mpssil" value="KALDIR" />
-					<input type="submit" class="btn btn-info" name="mpsgun" id="mpsgun" value="GÜNCELLE"  />
-				  </div>
-				</div>
-				
-			  </fieldset>
-			  </form>
-			</div>
-		  </div>
+		<div class=arayuz_alan id=arayuz_alan></div>
+		
+		<div class=element>
+			<input type=text id=paketara class="form-control" name=paketara ondblclick=this.value='' tabindex="-1" style="width:200px;margin-top: 10px;"/>
 		</div>
+		
+		<script>
+		var ajax = new XMLHttpRequest();
+		ajax.open("GET", "/paketlist", true);
+		ajax.onload = function() {
+			var list = JSON.parse(ajax.responseText).map(function(i) { return i.isim; });
+			if (list=="hata"){
+				hataGoster("paketlist boş!");
+			}else{
+				new Awesomplete(document.querySelector("#paketara"),{ list: list });
+			}
+		};
+		ajax.send();
+		</script>
+		
+		<div class=element>	
+			<br>
+			<input type="submit" class="btn" name="mpskur" id="mpskur" value="KUR" tabindex="-1" />
+			<input type="submit" class="btn" name="mpssil" id="mpssil" value="KALDIR" tabindex="-1" />
+			<input type="submit" class="btn" name="mpsgun" id="mpsgun" value="GÜNCELLE" tabindex="-1" />
+			<input type="submit" class="btn" name="mpsgitgun" id="mpsgitgun" value="GG" tabindex="-1" />
+			<input type="submit" class="btn" name="mpspkgun" id="mpspkgun" value="G" tabindex="-1" />
+		</div>
+		<br>
+		<div class=element style="margin-top: 30px;">
+			<input class="btn" type=submit id=komutgg name=komutgg  value=arayüz tabindex="-1" >
+			<input class="btn" type=text id=yenicalisma name=yenicalisma  value=yeni.sh tabindex="-1" style="width: 150px;"/>
+			<input class="btn" type="submit" name="yeniKaydet" id="yeniKaydet" value="Yeni Kaydet" tabindex="-1"/>
+			<input class="btn" type="submit" name="guncelle" id="guncelle" value="Güncelle" tabindex="-1"/>
+		</div>
+		<input id="mod" name="mod"  hidden value="{{mod}}" />
+		<input id="calismalist" name="calismalist"  hidden value="" />
+		<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
+		<div class=element>
+		<textarea id=calismakod name=calismakod value="" ondblclick=this.value='' style="font-size: 14px;margin-top: 3px;width:900px;height: 300px; color:white;background-color:black "></textarea>
+		</div>
+		<div class=element>
+		<iframe id='konsolpenc' hidden frameborder='0' noresize='noresize' style='position: absolute; background: transparent; width: 900px; height:200px;' src="{{ iframe }}" frameborder="0"></iframe>
+		</div>
+		</form>
+		
 	</div>
 	
-		
-	<script>
-	var ajax = new XMLHttpRequest();
-	ajax.open("GET", "/paketlist", true);
-	ajax.onload = function() {
-		var list = JSON.parse(ajax.responseText).map(function(i) { return i.isim; });
-		if (list=="hata"){
-			hataGoster("paketlist boş!");
-		}else{
-			new Awesomplete(document.querySelector("#paketadi"),{ list: list });
-		}
-	};
-	ajax.send();
-	</script>
-	
-	<input id="mod" name="mod"  hidden value="{{mod}}" />
-	<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
-		
+</div>
 </body>
 </HTML>
