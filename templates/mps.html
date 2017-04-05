@@ -3,12 +3,12 @@
 <title>MPS</title>
 <meta http-equiv="content-type" contentType="text/html; charset=UTF-8">
 
-<script src="../static/jquery.js"></script>
 <script src="../static/jquery.min.js"></script>
 <script src="../static/js/jquery-ui.js"></script>
 <script src="../static/js/jquery.form.min.js"></script>
 <script src="../static/js/jquery.tablesorter.min.js"></script>
 <script src="../static/js/jquery.blockUI.js"></script>
+<script src="../static/bootstrap/js/bootstrap.min.js"></script>
 <script src="../static/js/shortcut.js"></script>
 <link rel="stylesheet" href="/static/css/balloon.min.css">
 <link rel="stylesheet" href="/static/js/awesomplete.css" />
@@ -25,11 +25,18 @@
 		
 		$('#calismakod').hide();
 		$("#yukleniyor").hide();
+		$("#pkgun").hide();
+		$("#gitgun").hide();
 		
 		shortcut.add("ctrl+R", function() {
 			//event.preventDefault();
 			$("#calistir").click();
 	    });
+		
+		$('#paketadi').dblclick( function(){ 
+			$(this).val(''); 
+			$('#pkbilgialan').val(''); 
+		}); 
 		
 		$('#calistir').on('click', function(event){
 			event.preventDefault();
@@ -50,6 +57,11 @@
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
+		$('#paketadi').on('click', function(event){
+			event.preventDefault();
+			$('[id^="kurulu-bilgi"]').hide();
+		});
+		
 		$('#pkgun').on('click', function(event){
 			event.preventDefault();
 			
@@ -58,7 +70,7 @@
 				type			: "POST",
 				success: function (data) {
 						if(data=='tamam'){
-							$("#pkgun-bilgi").fadeTo(3000, 500).slideUp(500, function(){
+							$("#pkgun-bilgi").fadeTo(2000, 500).slideUp(500, function(){
 								$("#pkgun-bilgi").slideUp(500);
 							});
 						}else{
@@ -76,7 +88,7 @@
 				type			: "POST",
 				success: function (data) {
 						if(data=='tamam'){
-							$("#gitgun-bilgi").fadeTo(3000, 500).slideUp(500, function(){
+							$("#gitgun-bilgi").fadeTo(2000, 500).slideUp(500, function(){
 								$("#gitgun-bilgi").slideUp(500);
 							});
 						}else{
@@ -90,39 +102,42 @@
 		$('#paketadi').on('blur', function(event){
 			//$('#kurulu-bilgi1').hide();
 			$('[id^="kurulu-bilgi"]').hide();
-			var bilgiver=0;
-			var formOption = {
-				url				: "/paketDurum",
-				type			: "POST",
-				success: function (data) {
-					if(data=='kurulu'){
-						//islemTamam("KURULU");
-						//$('#kurulu-bilgi').show();
-						//$('#kurulu-bilgi').fadeIn();
-						$('#kurulu-bilgi1').slideDown();
-						bilgiver = 1
-					}else if (data=='degil'){
-						$('#kurulu-bilgi2').slideDown();
-						bilgiver = 1
-					}else{
-						//tanimsiz paket
-						$('#kurulu-bilgi3').slideDown();
+			if ($('#paketadi').val() != ''){
+				var bilgiver=0;
+				var formOption = {
+					url				: "/paketDurum",
+					type			: "POST",
+					success: function (data) {
+						if(data=='kurulu'){
+							//islemTamam("KURULU");
+							//$('#kurulu-bilgi').show();
+							//$('#kurulu-bilgi').fadeIn();
+							$('#kurulu-bilgi1').slideDown();
+							bilgiver = 1
+						}else if (data=='degil'){
+							$('#kurulu-bilgi2').slideDown();
+							bilgiver = 1
+						}else{
+							//tanimsiz paket
+							$('#kurulu-bilgi3').slideDown();
+						}
+						if (bilgiver == 1) {
+							var formOption = {
+								url : "/mpsFaal?faal=bilgi",
+								type			: "POST",
+								success: function (data) {
+									$('#pkbilgialan').val(data);
+									//document.getElementById("talimat-meta").textContent=data;
+								}
+							};
+							$('#raporForm').ajaxSubmit(formOption);
+						}else{
+							$('#pkbilgialan').val("");
+						}
 					}
-					if (bilgiver == 1) {
-						var formOption = {
-							url : "/mpsFaal?faal=bilgi",
-							type			: "POST",
-							success: function (data) {
-								$('#pkbilgialan').val(data);
-							}
-						};
-						$('#raporForm').ajaxSubmit(formOption);
-					}else{
-						$('#pkbilgialan').val("");
-					}
-				}
-			};
-			$('#raporForm').ajaxSubmit(formOption);
+				};
+				$('#raporForm').ajaxSubmit(formOption);
+			}
 		});
 		
 		$('#yeniKaydet').on('click', function(event){
@@ -156,9 +171,15 @@
 				type			: "POST",
 				success: function (data) {
 						if(data=='tamam'){
-							islemTamam("İŞLEM TAMAMLANDI");
+							//islemTamam("İŞLEM TAMAMLANDI");
+							var mymodal = $('#pkkurModal');
+							mymodal.find('.modal-body').text(data);
+							mymodal.modal('show');
+
 						}else{
-							hataGoster(data);
+							var mymodal = $('#pkkurModal');
+							mymodal.find('.modal-body').html(data);
+							mymodal.modal('show');
 						}
 					}
 			};
@@ -311,12 +332,12 @@
 					<input id="paketadi" name="paketadi" type="text" placeholder="paket ismi" class="form-control">
 				  </div>
 				  <div class="col-md-2">
-					<label>Paketvt Talimatname</label>
+					<label>Paket Veritabanı Talimatname</label>
 				  </div>
-				  <div class="col-md-4">
+				  <div class="col-md-2">
 					  <input type="submit" class="btn btn-info" name="guncelle" id="guncelle" value="GÜNCELLE"  />
 					  <input type="submit" class="btn btn-info" name="pkgun" id="pkgun" value="G"  />
-					<input type="submit" class="btn btn-info" name="gitgun" id="gitgun" value="GG"  />
+					  <input type="submit" class="btn btn-info" name="gitgun" id="gitgun" value="GG"  />
 				  </div>
 				  
 				</div>
@@ -329,6 +350,7 @@
 				<!-- paket bilgi alanı -->
 				<div class="form-group">
 				  <div class="col-md-8">
+					<div class="well"><span id="talimat-meta">meta</span></div>
 					<textarea class="form-control text-center" id="pkbilgialan" name="pkbilgialan" placeholder="Paket bilgileri burda..." rows="5"></textarea>
 				  </div>
 				</div>
@@ -341,6 +363,31 @@
 					<input type="submit" class="btn btn-info" name="mpsgun" id="mpsgun" value="GÜNCELLE"  />
 				  </div>
 				</div>
+				
+				
+				  <!-- Modal -->
+				  <div class="modal fade" id="pkkurModal" role="dialog">
+					<div class="modal-dialog">
+					
+					  <!-- Modal content-->
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+						  <h4 class="modal-title">Paket Hareket Bilgisi</h4>
+						</div>
+						<div class="modal-body">
+						  <p></p>
+						</div>
+						<div class="modal-footer">
+						  <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+						</div>
+					  </div>
+					  
+					</div>
+				  </div> 
+				
+				
+				
 				
 			  </fieldset>
 			  </form>

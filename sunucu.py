@@ -144,8 +144,7 @@ def mpsFaal():
 		session['KULL_ID']=-1
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
-		print request.args
-		data="bos"
+		rapor="bos"
 		if 'faal' in request.args:
 			faal = request.args.get('faal')
 			paket=request.form["paketadi"]
@@ -155,31 +154,29 @@ def mpsFaal():
 					bulkomut="find "+talimatname+" -name "+paket
 					talimat=arger.komutCalistir(bulkomut)
 					talimat=talimat.rstrip()+"/talimat"
-					data=open(talimat,"r").read()
+					rapor=open(talimat,"r").read()
 				else:
-					data="boş paket"
+					rapor="boş paket"
 			if faal=="kur":
 				if paket!="":
 					#os.system('uxterm '+uxterm_ayar+' -e "mps -kur '+paket+' && sleep 3 && exit" ') 
 					#os.system("killall uxterm")
 					#isletilecek komut
-					iskomut="mps kur "+paket
-					cikti=arger.komutCalistir(iskomut)
-					data="kuruluyor"
+					rapor=mps.paket_kur(paket)
 				else:
-					data="boş paket"
+					rapor="boş paket"
 				
 			if faal=="sil":
 				if paket!="":
 					#os.system('uxterm '+uxterm_ayar+' -e "mps -s '+paket+' && sleep 3 && exit" ') 
 					#os.system("killall uxterm")
 					iskomut="mps sil "+paket
-					data="siliniyor"
+					rapor="siliniyor"
 				else:
-					data="boş paket"
+					rapor="boş paket"
 		else:
-			data="parametre eksik"
-		return Response(json.dumps(data),mimetype='application/json')
+			rapor="parametre eksik"
+		return Response(json.dumps(rapor),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 

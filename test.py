@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 from mps import *
 from arge import *
+import tempfile
+
+temp = tempfile.mktemp()
 
 mps=Mps()
-print mps.paketvt_guncelle()
+mps.paket_kur("gvim")
 
