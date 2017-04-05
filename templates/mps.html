@@ -144,19 +144,8 @@
 		
 		$('#guncelle').on('click', function(event){
 			event.preventDefault();
-			$('#kayitmodu').val('a');
-			var formOption = {
-				url				: "/calismaKaydet",
-				type			: "POST",
-				success: function (data) {
-						if(data=='tamam'){
-							islemTamam("Komut Güncellendi.");
-						}else{
-							hataGoster(data);
-						}
-					}
-			};
-			$('#raporForm').ajaxSubmit(formOption);
+			$('#pkgun').click();
+			$('#gitgun').click();
 		});
 	
 		$('#mpskur').on('click', function(event){
