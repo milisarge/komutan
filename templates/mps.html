@@ -50,52 +50,47 @@
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
-		$('#paketadi2').on('blur', function(event){
-			komutdosya=$('#paketadi').val();
-			$("#calismalist").val(komutdosya+"/talimat");
-			$.ajax({
-				url : "/calismaAl?mod="+$('#mod').val() +"&dosya="+komutdosya+"/talimat",
-			}).done(function(data) {
-				if (data=="hata"){
-					hataGoster("talimat bulunamadı!");
-				}else{
-					$("#calismakod").val(data);
-					if(komutdosya.indexOf('.sh') != -1){
-						$('#arayuz_alan').html("");
-						datalar=data.split("\n");
-						$.each( datalar, function( index, value ){
-						if (( value.indexOf('=') != -1 ) && ( value.indexOf('if ') == -1 )){
-							//console.log(value);
-							 deger=value.split('=')[1];
-							 girdi_ad=value.split('=')[0];
-							 input_tip='text'
-							 if (girdi_ad.toLowerCase().indexOf("sifre") >= 0){
-								input_tip='password';
-							 }
-							 $("#arayuz_alan").append("<div class=element>");
-							 $("#arayuz_alan").append("<dt>"+girdi_ad+"</dt>");
-							 $("<input type="+input_tip+" value="+deger+" />")
-							 .attr("id", girdi_ad)
-							 .attr("name",girdi_ad)
-							 .attr("size",deger.length+4)
-							 .attr("ondblclick","this.value=''")
-							 .appendTo("#arayuz_alan");
-							 $("#arayuz_alan").append("</element>");
-						}
-						});		
-					}else{
-						$('#arayuz_alan').html("");
-						$("#calismakod").val(data);
-					}	
-				}
-			});
-				
+		$('#pkgun').on('click', function(event){
+			event.preventDefault();
 			
+			var formOption = {
+				url : "/paketvtGuncelle",
+				type			: "POST",
+				success: function (data) {
+						if(data=='tamam'){
+							$("#pkgun-bilgi").fadeTo(3000, 500).slideUp(500, function(){
+								$("#pkgun-bilgi").slideUp(500);
+							});
+						}else{
+							hataGoster(data);
+						}
+					}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#gitgun').on('click', function(event){
+			event.preventDefault();
+			var formOption = {
+				url : "/gitGuncelle",
+				type			: "POST",
+				success: function (data) {
+						if(data=='tamam'){
+							$("#gitgun-bilgi").fadeTo(3000, 500).slideUp(500, function(){
+								$("#gitgun-bilgi").slideUp(500);
+							});
+						}else{
+							hataGoster(data);
+						}
+					}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
 		$('#paketadi').on('blur', function(event){
 			//$('#kurulu-bilgi1').hide();
 			$('[id^="kurulu-bilgi"]').hide();
+			var bilgiver=0;
 			var formOption = {
 				url				: "/paketDurum",
 				type			: "POST",
@@ -105,11 +100,25 @@
 						//$('#kurulu-bilgi').show();
 						//$('#kurulu-bilgi').fadeIn();
 						$('#kurulu-bilgi1').slideDown();
+						bilgiver = 1
 					}else if (data=='degil'){
 						$('#kurulu-bilgi2').slideDown();
+						bilgiver = 1
 					}else{
 						//tanimsiz paket
 						$('#kurulu-bilgi3').slideDown();
+					}
+					if (bilgiver == 1) {
+						var formOption = {
+							url : "/mpsFaal?faal=bilgi",
+							type			: "POST",
+							success: function (data) {
+								$('#pkbilgialan').val(data);
+							}
+						};
+						$('#raporForm').ajaxSubmit(formOption);
+					}else{
+						$('#pkbilgialan').val("");
 					}
 				}
 			};
@@ -309,13 +318,24 @@
 				
 				<!-- paket ismi -->
 				<div class="form-group">
-				  <div class="col-md-8">
+				  <div class="col-md-2">
 					<input id="paketadi" name="paketadi" type="text" placeholder="paket ismi" class="form-control">
 				  </div>
+				  <div class="col-md-2">
+					<label>Paketvt Talimatname</label>
+				  </div>
+				  <div class="col-md-4">
+					  <input type="submit" class="btn btn-info" name="guncelle" id="guncelle" value="GÜNCELLE"  />
+					  <input type="submit" class="btn btn-info" name="pkgun" id="pkgun" value="G"  />
+					<input type="submit" class="btn btn-info" name="gitgun" id="gitgun" value="GG"  />
+				  </div>
+				  
 				</div>
 				<div class="alert alert-success" id="kurulu-bilgi1" role="alert" style="display:none;" >kurulu</div>
 				<div class="alert alert-danger" id="kurulu-bilgi2" role="alert" style="display:none;" >kurulu değil</div>
 				<div class="alert alert-danger" id="kurulu-bilgi3" role="alert" style="display:none;" >tanımsız paket</div>
+				<div class="alert alert-success" id="pkgun-bilgi" role="alert" style="display:none;" >Paket Veritabanı Güncellendi.</div>
+				<div class="alert alert-success" id="gitgun-bilgi" role="alert" style="display:none;" >Talimatname Güncellendi.</div>
 		
 				<!-- paket bilgi alanı -->
 				<div class="form-group">

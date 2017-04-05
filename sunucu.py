@@ -10,6 +10,7 @@ from flask import render_template #render yapmak icin
 from flask import request 
 from flask import Response
 from arge import *
+from mps import *
 from random import randint
 import codecs
 import sqlite3 as sqlmak
@@ -34,6 +35,7 @@ sys.setdefaultencoding('utf-8')
 kurulum="kurulum/kurulum.yml"
 ag_bilgi_komut="ifconfig"#"nmcli con show"
 arger=Arge()
+mps=Mps()
 KULL_ID=-1
 SECRET_KEY = 'sds234fv'
 uxterm_ayar=' -bg black -fg gray -fs 13 '
@@ -121,6 +123,7 @@ def mpsModul():
 		dizin='/root/talimatname/genel'
 		calismalist=arger.dizin_cek(dizin=dizin)
 		print "mps module girildi."
+		pksunucu=mps.paket_sunucu()
 		'''
 		try:
 			yerel_ip=([(s.connect(('8.8.8.8', 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1])
@@ -131,7 +134,7 @@ def mpsModul():
 		#except socket.error, e:
 		os.system("python3 butterfly/butterfly.server.py --unsecure --host=0.0.0.0 --port="+sanal_konsol_port)
 		'''
-		return render_template('mps.html',mod=dizin,komutlar=calismalist,kayitmodu='w',iframe="http://localhost:"+sanal_konsol_port+"/")	
+		return render_template('mps.html',mod=dizin,komutlar=calismalist,kayitmodu='w',pksunucu=pksunucu)	
 	else:
 		return redirect("/yonlendir/mpsModul")
 
@@ -145,8 +148,16 @@ def mpsFaal():
 		data="bos"
 		if 'faal' in request.args:
 			faal = request.args.get('faal')
-			paket=request.form["paketara"]
-			print paket
+			paket=request.form["paketadi"]
+			if faal=="bilgi":
+				if paket!="":
+					talimatname="/sources/milis.git/talimatname" 
+					bulkomut="find "+talimatname+" -name "+paket
+					talimat=arger.komutCalistir(bulkomut)
+					talimat=talimat.rstrip()+"/talimat"
+					data=open(talimat,"r").read()
+				else:
+					data="boş paket"
 			if faal=="kur":
 				if paket!="":
 					#os.system('uxterm '+uxterm_ayar+' -e "mps -kur '+paket+' && sleep 3 && exit" ') 
@@ -397,6 +408,28 @@ def paketlist():
 			return Response(json.dumps(lst),mimetype='application/json')
 		else:
 			return Response(json.dumps("hata"),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+
+@app.route('/paketvtGuncelle', methods=['GET', 'POST'])
+def paketvtGuncelle():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		rapor=mps.paketvt_guncelle()
+		return Response(json.dumps(rapor),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+
+@app.route('/gitGuncelle', methods=['GET', 'POST'])
+def gitGuncelle():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		rapor=mps.git_guncelle()
+		return Response(json.dumps(rapor),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 
@@ -653,8 +686,9 @@ def mqtt_islem_basla():
 
 @app.route('/veri_cek', methods= ['GET'])
 def veri_cek():
-	veri=open("log/mqtt.log","r").read()
-    #return jsonify(veri=veri)
+	veri=""
+	#veri=open("log/mqtt.log","r").read()
+	
 	return Response(json.dumps(veri),mimetype='application/json')
 
 if __name__ == '__main__':

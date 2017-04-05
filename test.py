@@ -1,7 +1,8 @@
+#!/usr/bin/python2
+# -*- coding: utf-8 -*-
+from mps import *
 from arge import *
 
-arger=Arge()
-cikti=[]
-cikti.append(arger.komutCalistir("export mpscikti=evet && mps kur atool"))
-print cikti
+mps=Mps()
+print mps.paketvt_guncelle()
 
