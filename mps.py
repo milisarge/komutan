@@ -105,6 +105,10 @@ class Mps:
 				veri1=veri.split("32m")[1]
 				veri2=veri1.split("[0;39m")[0]
 				rapor+=veri2+"<br>"
+			if "33m" in veri:
+				veri1=veri.split("33m")[1]
+				veri2=veri1.split("[0;39m")[0]
+				rapor+=veri2+"<br>"
 			if "34m" in veri:
 				veri1=veri.split("34m")[1]
 				veri2=veri1.split("[0;39m")[0]
