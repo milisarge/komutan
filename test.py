@@ -7,5 +7,5 @@ import tempfile
 temp = tempfile.mktemp()
 
 mps=Mps()
-print mps.paket_kur("gvim")
+print mps.paket_sil("gvim")
 

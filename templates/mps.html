@@ -60,7 +60,7 @@ animation: glyphicon-spin-r 1s infinite linear;
 		$("#yukleniyor").hide();
 		$("#pkgun").hide();
 		$("#gitgun").hide();
-		$("#kurulma-bilgi").hide();
+		$("#hareket-bilgi").hide();
 		
 		shortcut.add("ctrl+R", function() {
 			//event.preventDefault();
@@ -200,8 +200,8 @@ animation: glyphicon-spin-r 1s infinite linear;
 		$('#mpskur').on('click', function(event){
 			event.preventDefault();
 			$('[id^="kurulu-bilgi"]').hide();
-			$('#kurulma-bilgi').hide();
-			$('#kurulma-bilgi').slideDown();
+			document.getElementById("hareket-bilgi-durum").textContent="Kuruluyor";
+			$('#hareket-bilgi').slideDown();
 			var formOption = {
 				url : "/mpsFaal?faal=kur",
 				type			: "POST",
@@ -209,7 +209,6 @@ animation: glyphicon-spin-r 1s infinite linear;
 					var mymodal = $('#pkkurModal');
 					mymodal.find('.modal-body').html(data);
 					mymodal.modal('show');	
-					$('#kurulma-bilgi').hide();
 				}
 			};
 			$('#raporForm').ajaxSubmit(formOption);
@@ -218,38 +217,41 @@ animation: glyphicon-spin-r 1s infinite linear;
 		
 		$('#mpssil').on('click', function(event){
 			event.preventDefault();
-			
+			$('[id^="kurulu-bilgi"]').hide();
+			document.getElementById("hareket-bilgi-durum").textContent="Siliniyor";
+			$('#hareket-bilgi').slideDown();
 			var formOption = {
 				url : "/mpsFaal?faal=sil",
 				type			: "POST",
 				success: function (data) {
-						if(data=='tamam'){
-							islemTamam("İŞLEM TAMAMLANDI");
-						}else{
-							hataGoster(data);
-						}
-					}
+					var mymodal = $('#pkkurModal');
+					mymodal.find('.modal-body').html(data);
+					mymodal.modal('show');	
+				}
 			};
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
-		$('#mpspkgun').on('click', function(event){
+		$('#mpsgun').on('click', function(event){
 			event.preventDefault();
-			
+			$('[id^="kurulu-bilgi"]').hide();
+			document.getElementById("hareket-bilgi-durum").textContent="Güncelleniyor";
+			$('#hareket-bilgi').slideDown();
 			var formOption = {
-				url : "/mpsFaal?faal=pkgun",
+				url : "/mpsFaal?faal=guncelle",
 				type			: "POST",
 				success: function (data) {
-						if(data=='tamam'){
-							islemTamam("İŞLEM TAMAMLANDI");
-						}else{
-							hataGoster(data);
-						}
-					}
+					var mymodal = $('#pkkurModal');
+					mymodal.find('.modal-body').html(data);
+					mymodal.modal('show');	
+				}
 			};
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
+		$('#pkharKapat').on('click', function(event){
+			$('#hareket-bilgi').hide();
+		});
 		
 	});
 	
@@ -375,8 +377,8 @@ animation: glyphicon-spin-r 1s infinite linear;
 				<div class="alert alert-danger" id="kurulu-bilgi3" role="alert" style="display:none;" >tanımsız paket</div>
 				<div class="alert alert-success" id="pkgun-bilgi" role="alert" style="display:none;" >Paket Veritabanı Güncellendi.</div>
 				<div class="alert alert-success" id="gitgun-bilgi" role="alert" style="display:none;" >Talimatname Güncellendi.</div>
-				<button type="button" id="kurulma-bilgi" class="btn btn-info" >
-                   Kuruluyor <span class="glyphicon glyphicon-repeat fast-right-spinner"></span>
+				<button type="button" id="hareket-bilgi" class="btn btn-info" >
+                   <span id="hareket-bilgi-durum"></span> <span class="glyphicon glyphicon-repeat fast-right-spinner"></span>
                 </button>
 		
 				<!-- paket bilgi alanı -->
@@ -411,7 +413,7 @@ animation: glyphicon-spin-r 1s infinite linear;
 						  <p></p>
 						</div>
 						<div class="modal-footer">
-						  <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+						  <button type="button" id="pkharKapat" class="btn btn-default" data-dismiss="modal">Kapat</button>
 						</div>
 					  </div>
 					  

@@ -148,32 +148,22 @@ def mpsFaal():
 		if 'faal' in request.args:
 			faal = request.args.get('faal')
 			paket=request.form["paketadi"]
-			if faal=="bilgi":
-				if paket!="":
+			if paket!="":
+				if faal=="bilgi":	
 					talimatname="/sources/milis.git/talimatname" 
 					bulkomut="find "+talimatname+" -name "+paket
 					talimat=arger.komutCalistir(bulkomut)
 					talimat=talimat.rstrip()+"/talimat"
 					rapor=open(talimat,"r").read()
-				else:
-					rapor="boş paket"
-			if faal=="kur":
-				if paket!="":
+				if faal=="kur":
 					#os.system('uxterm '+uxterm_ayar+' -e "mps -kur '+paket+' && sleep 3 && exit" ') 
-					#os.system("killall uxterm")
-					#isletilecek komut
 					rapor=mps.paket_kur(paket)
-				else:
-					rapor="boş paket"
-				
-			if faal=="sil":
-				if paket!="":
-					#os.system('uxterm '+uxterm_ayar+' -e "mps -s '+paket+' && sleep 3 && exit" ') 
-					#os.system("killall uxterm")
-					iskomut="mps sil "+paket
-					rapor="siliniyor"
-				else:
-					rapor="boş paket"
+				if faal=="sil":
+					rapor=mps.paket_sil(paket)
+				if faal=="guncelle":
+					rapor=mps.paket_guncelle(paket)
+			else:
+				rapor="boş paket"
 		else:
 			rapor="parametre eksik"
 		return Response(json.dumps(rapor),mimetype='application/json')

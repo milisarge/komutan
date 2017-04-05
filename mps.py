@@ -33,7 +33,8 @@ class Mps:
 	def paket_kur(self,paket):
 		rapor=""
 		raporgc = tempfile.mktemp()
-		arger.komutCalistir("mps kur "+paket+" &> "+raporgc)
+		komut="mps kur "+paket+" &> "+raporgc
+		arger.komutCalistir(komut)
 		with open(raporgc) as f:
 			icerik = f.readlines()
 		rapor+="<html>"
@@ -59,6 +60,57 @@ class Mps:
 				veri2=veri1.split("[0;39m")[0]
 				rapor+=veri2+"<br>"
 		rapor+="</html>"
+		os.remove(raporgc)
+		return rapor
+		
+	def paket_sil(self,paket):
+		rapor=""
+		raporgc = tempfile.mktemp()
+		komut="mps -sz "+paket+" &> "+raporgc
+		arger.komutCalistir(komut)
+		with open(raporgc) as f:
+			icerik = f.readlines()
+		rapor+="<html>"
+		for veri in icerik:
+			if "31m" in veri:
+				veri1=veri.split("31m")[1]
+				veri2=veri1.split("[0;39m")[0]
+				rapor+=veri2+"<br>"
+			if "32m" in veri:
+				veri1=veri.split("32m")[1]
+				veri2=veri1.split("[0;39m")[0]
+				rapor+=veri2+"<br>"
+			if "34m" in veri:
+				veri1=veri.split("34m")[1]
+				veri2=veri1.split("[0;39m")[0]
+				rapor+=veri2+"<br>"
+		rapor+="</html>"
+		os.remove(raporgc)
+		return rapor
+	
+	def paket_guncelle(self,paket):
+		rapor=""
+		raporgc = tempfile.mktemp()
+		komut="mps -g "+paket+" &> "+raporgc
+		arger.komutCalistir(komut)
+		with open(raporgc) as f:
+			icerik = f.readlines()
+		rapor+="<html>"
+		for veri in icerik:
+			if "31m" in veri:
+				veri1=veri.split("31m")[1]
+				veri2=veri1.split("[0;39m")[0]
+				rapor+=veri2+"<br>"
+			if "32m" in veri:
+				veri1=veri.split("32m")[1]
+				veri2=veri1.split("[0;39m")[0]
+				rapor+=veri2+"<br>"
+			if "34m" in veri:
+				veri1=veri.split("34m")[1]
+				veri2=veri1.split("[0;39m")[0]
+				rapor+=veri2+"<br>"
+		rapor+="</html>"
+		os.remove(raporgc)
 		return rapor
 		
 	def paketvt_guncelle(self):
