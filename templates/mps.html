@@ -20,6 +20,39 @@
 	href="{{url_for('static', filename='css/table2.css')}}" type="text/css"
 	id="" media="print, projection, screen">
 
+<style type="text/css">
+	
+.glyphicon.fast-right-spinner {
+-webkit-animation: glyphicon-spin-r 1s infinite linear;
+animation: glyphicon-spin-r 1s infinite linear;
+}
+
+@-webkit-keyframes glyphicon-spin-r {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+@keyframes glyphicon-spin-r {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+</style>
+
 <script>
 	$(document).ready(function() {
 		
@@ -27,6 +60,7 @@
 		$("#yukleniyor").hide();
 		$("#pkgun").hide();
 		$("#gitgun").hide();
+		$("#kurulma-bilgi").hide();
 		
 		shortcut.add("ctrl+R", function() {
 			//event.preventDefault();
@@ -165,23 +199,18 @@
 	
 		$('#mpskur').on('click', function(event){
 			event.preventDefault();
-			
+			$('[id^="kurulu-bilgi"]').hide();
+			$('#kurulma-bilgi').hide();
+			$('#kurulma-bilgi').slideDown();
 			var formOption = {
 				url : "/mpsFaal?faal=kur",
 				type			: "POST",
 				success: function (data) {
-						if(data=='tamam'){
-							//islemTamam("İŞLEM TAMAMLANDI");
-							var mymodal = $('#pkkurModal');
-							mymodal.find('.modal-body').text(data);
-							mymodal.modal('show');
-
-						}else{
-							var mymodal = $('#pkkurModal');
-							mymodal.find('.modal-body').html(data);
-							mymodal.modal('show');
-						}
-					}
+					var mymodal = $('#pkkurModal');
+					mymodal.find('.modal-body').html(data);
+					mymodal.modal('show');	
+					$('#kurulma-bilgi').hide();
+				}
 			};
 			$('#raporForm').ajaxSubmit(formOption);
 		});
@@ -346,6 +375,9 @@
 				<div class="alert alert-danger" id="kurulu-bilgi3" role="alert" style="display:none;" >tanımsız paket</div>
 				<div class="alert alert-success" id="pkgun-bilgi" role="alert" style="display:none;" >Paket Veritabanı Güncellendi.</div>
 				<div class="alert alert-success" id="gitgun-bilgi" role="alert" style="display:none;" >Talimatname Güncellendi.</div>
+				<button type="button" id="kurulma-bilgi" class="btn btn-info" >
+                   Kuruluyor <span class="glyphicon glyphicon-repeat fast-right-spinner"></span>
+                </button>
 		
 				<!-- paket bilgi alanı -->
 				<div class="form-group">

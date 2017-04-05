@@ -38,6 +38,14 @@ class Mps:
 			icerik = f.readlines()
 		rapor+="<html>"
 		for veri in icerik:
+			if "cekiliyor" in veri:
+				veri1=veri.split("33m")[1]
+				veri2=veri1.split("[0;39m")[0]
+				rapor+=veri2+"<br>"
+			if "paket sunucuda yok" in veri:
+				veri1=veri.split("31m")[1]
+				veri2=veri1.split("[0;39m")[0]
+				rapor+=veri2+"<br>"
 			if "indiriliyor" in veri:
 				veri1=veri.split("34m")[1]
 				veri2=veri1.split("[0;39m")[0]
