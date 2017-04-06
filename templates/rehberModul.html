@@ -10,6 +10,7 @@
 <script src="../static/js/jquery.tablesorter.min.js"></script>
 <script src="../static/js/jquery.blockUI.js"></script>
 <script src="../static/js/shortcut.js"></script>
+<script src="../static/bootstrap/js/bootstrap.min.js"></script>
 <script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
 <link rel="stylesheet" href="/static/css/balloon.min.css">
 <link rel="stylesheet" href="/static/js/awesomplete.css" />
@@ -104,6 +105,12 @@ hr {
 				}
 			};
 			$('#raporForm').ajaxSubmit(formOption);
+		});
+		
+		$('#deposil').on('click', function(e) {
+		  e.preventDefault();
+		   $("#deposil-onay").find('.modal-body').html($("#rehberdepo").val()+" silmek isteğinize emin misiniz?");
+		  $("#deposil-onay").modal('show');
 		});
 		
 		$('#rehbergg').on('click', function(event){
@@ -232,28 +239,47 @@ hr {
 			</div>
 			<hr>
 			<div class="form-group">
-				<div class="col-md-10">
+				<div class="col-md-8">
 					<textarea class="form-control" id="calismakod" name="calismakod" placeholder="Paket bilgileri burda..." rows="20"></textarea>
 			  </div>
 			</div>
-			
-			
-			<!-- <textarea class="form-control" id="calismakod" name="calismakod" style="font-size: 14px;width:1000px;height: 500px;"></textarea> -->
-			
-			 
-		
 			<div class="form-group">
 				<datalist id="depolarveri">
 				  {% for depo in depolar %}<option>{{depo}}</option>{% endfor %}
 				</datalist>	
 				<div class="col-md-4">	
-					<input type="text" class="form-control" name="rehberdepo" id="rehberdepo" placeholder="https://github.com/milisarge/rehberdepo" list="depolarveri" tabindex="-1" style="width: 400px;"/>
+					<label>Ek Rehber Deposu</label>
 				</div>
-				<div class="col-md-2">	
-					<input type="submit" class="btn btn-info" name="depoekle" id="depoekle" value="DEPO EKLE" tabindex="-1"/>
+				<div class="col-md-4">	
+					<input type="text" class="form-control" name="rehberdepo" id="rehberdepo" placeholder="https://github.com/milisarge/rehberdepo" list="depolarveri" tabindex="-1" style="width: 350px;"/>
+				</div>
+				<div class="col-md-4">	
+					<input type="submit" class="btn btn-info" name="depoekle" id="depoekle" value="DEPO EKLE"/>
+					<input type="submit" class="btn btn-danger" name="deposil" id="deposil" value="DEPO SİL"/>
 				</div>
 				
 			</div>	
+			<!-- Modal -->
+			<div class="modal fade" id="deposil-onay" role="dialog">
+				<div class="modal-dialog">
+
+				  <!-- Modal content-->
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <button type="button" class="close" data-dismiss="modal">&times;</button>
+					  <h4 class="modal-title">Rehber Depo Silme Onayı</h4>
+					</div>
+					<div class="modal-body">
+					  <p></p>
+					</div>
+					<div class="modal-footer">
+					  <button type="button" id="deposil-evet" class="btn btn-default" data-dismiss="modal">Evet</button>
+					  <button type="button" id="iptal" class="btn btn-default" data-dismiss="modal">İptal</button>
+					</div>
+				  </div>
+				  
+				</div>
+			</div> 
 			
 			<input id="mod" name="mod"  hidden value="{{mod}}" />
 			<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
