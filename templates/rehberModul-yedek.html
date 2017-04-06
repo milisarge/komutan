@@ -21,17 +21,16 @@
 	id="" media="print, projection, screen">
 
 <style type="text/css">
-	
-hr {
-  -moz-border-bottom-colors: none;
-  -moz-border-image: none;
-  -moz-border-left-colors: none;
-  -moz-border-right-colors: none;
-  -moz-border-top-colors: none;
-  border-color: #EEEEEE -moz-use-text-color #FFFFFF;
-  border-style: solid none;
-  border-width: 1px 0;
-  margin: 18px 0;
+
+.satir {
+	display: block;
+	min-height: 20px;
+	position: relative;
+	padding: 0px 0px 0px 5px;
+	font-style: italic;
+	font-weight: bold;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	color: black;
 }
 
 </style>
@@ -190,83 +189,53 @@ hr {
 </head>
 
 <body> 
-
-<div class="mheader" tabindex="-1">
-	<div data-balloon="Ana Menü" data-balloon-pos="down" class="col-xs-1"><a href="/"><h3><span class="glyphicon glyphicon-home beyaz"></span></h3></a></div>
-	<div data-balloon="Komuta Merkezi" data-balloon-pos="down" class="col-xs-1"><a href="/komutaModul"><h3><span class="glyphicon glyphicon-wrench beyaz"></span></h3></a></div>
-	<div data-balloon="Rehber(Wiki) Modülü" data-balloon-pos="down" class="col-xs-1"><a href="/rehberModul"><h3><span class="glyphicon glyphicon-book beyaz"></span></h3></a></div>
-	<div data-balloon="Yazılım Merkezi (MPS Web)" data-balloon-pos="down" class="col-xs-1"><a href="/mpsModul"><h3><span class="glyphicon glyphicon-briefcase beyaz"></span></h3></a></div>
-	<div data-balloon="Süreç Modülü" data-balloon-pos="down" class="col-xs-1"><a href="/surecModul"><h3><span class="glyphicon glyphicon-tasks beyaz"></span></h3></a></div>
-	<div data-balloon="Ağ Modülü" data-balloon-pos="down" class="col-xs-1"><a href="/agModul"><h3><span class="glyphicon glyphicon-signal beyaz"></span></h3></a></div>
-	<div data-balloon="Servis Modülü" data-balloon-pos="down"  class="col-xs-1"><a href="/servisModul"><h3><span class="glyphicon glyphicon-cog beyaz"></span></h3></a></div>
-	<div data-balloon="Kurulum" data-balloon-pos="down"  class="col-xs-1"><a href="/kurulum"><h3><span class="glyphicon glyphicon-download-alt beyaz"></span></h3></a></div>
-	<div data-balloon="Komutan Güncelle" data-balloon-pos="down" class="col-xs-1"><a href="/komutanGuncelle"><h3><span class="glyphicon glyphicon-refresh beyaz"></span></h3></a></div>
-	<div data-balloon="Oturumu Kapat" data-balloon-pos="down" class="col-xs-1"><a href="/cikis"><h3><span class="glyphicon glyphicon-remove beyaz"></span></h3></a></div>
-	<span class="col-xs-12"></span>
-	<br>
-</div>
-<br>
-<div class="container">
-	<div class="row">
-	  <div class="col-md-12">
-		<div class="well well-lg">
-	
-		<form id=raporForm name=raporForm action="{{ url_for('rehberModul') }}" method=post>
-		<fieldset>
-			<legend class="text-center">Milis Linux Rehberlik Sayfası</legend>
-			<div class="form-group">
-				<div class="col-md-4">	
-					<select class="form-control" name="calismalist" id="calismalist" style="width: 450px;" > 
-					{% for rehber in rehberler %}<option>{{rehber}}</option>{% endfor %}
-					</select>
-				</div>
-				<div class="col-md-2">	
-					<input type="submit" class="btn btn-info" name="guncelle" id="guncelle" value="Güncelle"  />
-				</div>	
-				<div class="col-md-4">	
-					<input type="text" class="form-control" id="yenicalisma" name="yenicalisma"  value="yeni.reh" style="width:350px;"/>
-				</div>
-				<div class="col-md-2">		
-					<input type="submit" class="btn btn-info" name="yeniKaydet" id="yeniKaydet" value="Yeni Ekle"  />
-				</div>
-			</div>
-			<hr>
-			<div class="form-group">
-				<div class="col-md-10">
-					<textarea class="form-control" id="calismakod" name="calismakod" placeholder="Paket bilgileri burda..." rows="20"></textarea>
-			  </div>
-			</div>
-			
-			
-			<!-- <textarea class="form-control" id="calismakod" name="calismakod" style="font-size: 14px;width:1000px;height: 500px;"></textarea> -->
-			
-			 
+<div class=anasablon>
+	<div class="mheader" tabindex="-1">
+		<div data-balloon="Ana Menü" data-balloon-pos="down" class="col-xs-1"><a href="/"><h3><span class="glyphicon glyphicon-home beyaz"></span></h3></a></div>
+		<div data-balloon="Komuta Merkezi" data-balloon-pos="down" class="col-xs-1"><a href="/komutaModul"><h3><span class="glyphicon glyphicon-wrench beyaz"></span></h3></a></div>
+		<div data-balloon="Rehber(Wiki) Modülü" data-balloon-pos="down" class="col-xs-1"><a href="/rehberModul"><h3><span class="glyphicon glyphicon-book beyaz"></span></h3></a></div>
+		<div data-balloon="Yazılım Merkezi (MPS Web)" data-balloon-pos="down" class="col-xs-1"><a href="/mpsModul"><h3><span class="glyphicon glyphicon-briefcase beyaz"></span></h3></a></div>
+		<div data-balloon="Süreç Modülü" data-balloon-pos="down" class="col-xs-1"><a href="/surecModul"><h3><span class="glyphicon glyphicon-tasks beyaz"></span></h3></a></div>
+		<div data-balloon="Ağ Modülü" data-balloon-pos="down" class="col-xs-1"><a href="/agModul"><h3><span class="glyphicon glyphicon-signal beyaz"></span></h3></a></div>
+		<div data-balloon="Servis Modülü" data-balloon-pos="down"  class="col-xs-1"><a href="/servisModul"><h3><span class="glyphicon glyphicon-cog beyaz"></span></h3></a></div>
+		<div data-balloon="Kurulum" data-balloon-pos="down"  class="col-xs-1"><a href="/kurulum"><h3><span class="glyphicon glyphicon-download-alt beyaz"></span></h3></a></div>
+		<div data-balloon="Komutan Güncelle" data-balloon-pos="down" class="col-xs-1"><a href="/komutanGuncelle"><h3><span class="glyphicon glyphicon-refresh beyaz"></span></h3></a></div>
+		<div data-balloon="Oturumu Kapat" data-balloon-pos="down" class="col-xs-1"><a href="/cikis"><h3><span class="glyphicon glyphicon-remove beyaz"></span></h3></a></div>
+		<span class="col-xs-12"></span>
+		<br>
+	</div><br>
+	<div class=formalan>
 		
-			<div class="form-group">
-				<datalist id="depolarveri">
-				  {% for depo in depolar %}<option>{{depo}}</option>{% endfor %}
-				</datalist>	
-				<div class="col-md-4">	
-					<input type="text" class="form-control" name="rehberdepo" id="rehberdepo" placeholder="https://github.com/milisarge/rehberdepo" list="depolarveri" tabindex="-1" style="width: 400px;"/>
-				</div>
-				<div class="col-md-2">	
-					<input type="submit" class="btn btn-info" name="depoekle" id="depoekle" value="DEPO EKLE" tabindex="-1"/>
-				</div>
-				
-			</div>	
-			
-			<input id="mod" name="mod"  hidden value="{{mod}}" />
-			<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
-		</fieldset>
-		</form>
-	
-	
-	
+		<form id=raporForm name=raporForm action="{{ url_for('rehberModul') }}" method=post>
+		<div class=satir style="margin-top: 50px;">
+			<label style="width: 150px;" class="beyaz">Rehber Listesi</label>
+			<select name="calismalist" id="calismalist" style="width: 450px;" > 
+			{% for rehber in rehberler %}<option>{{rehber}}</option>{% endfor %}
+			</select>
+			<label style="width:170px;" class="beyaz">Rehber Depo İşlemi</label>
+			<input type="text" name="rehberdepo" id="rehberdepo" value="" list="depolarveri" tabindex="-1" style="width: 400px;"/>
+			<input type="submit" name="depoekle" id="depoekle" value="DEPO EKLE" tabindex="-1"/>
 		</div>
-	  </div>
+		<datalist id="depolarveri">
+		  {% for depo in depolar %}<option>{{depo}}</option>{% endfor %}
+		</datalist>		
+		<hr noshade size=2>
+		<div class=satir style="margin-top: 30px";>
+			<input type="submit" class="btn btn-info" name="rehbergg" id="rehbergg" value="rehber"  />
+			<input type=text     class="form-control"id=yenicalisma name=yenicalisma  value=yeni.sh tabindex="-1" style="width:100px;"/>
+			<input type="submit" class="btn btn-info" name="yeniKaydet" id="yeniKaydet" value="Yeni Kayıt"  />
+			<input type="submit" class="btn btn-info" name="guncelle" id="guncelle" value="Güncelle"  />
+		</div>
+		<input id="mod" name="mod"  hidden value="{{mod}}" />
+		<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
+		<hr noshade size=2>
+		<textarea class="form-control text-center" id="calismakod" name="calismakod" style="font-size: 14px;;margin-top: 3px;width:1000px;height: 500px;"></textarea>
+		</form>
+		
+		
+		
 	</div>
-</div>
 	
-
+</div>
 </body>
 </HTML>
