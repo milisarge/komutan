@@ -494,6 +494,24 @@ def rehberModul():
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 		
+@app.route('/komutanAyarlar', methods=['GET', 'POST'])	
+def komutanAyarlar():
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		aplanlar=arger.dizin_cek(dizin="static/bootstrap/img")
+		return render_template('komutanAyarlar.html',kayitmodu='w',aplanlar=aplanlar)
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+		
+@app.route('/komutanAyarIslem', methods=['GET', 'POST'])	
+def komutanAyarIslem():
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		aplanlar=arger.dizin_cek(dizin="static/bootstrap/img")
+		return render_template('komutanAyarlar.html',kayitmodu='w',aplanlar=aplanlar)
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")	
+		
 @app.route('/rehberdepoEkle', methods=['GET', 'POST'])	
 def rehberdepoEkle():
 	if "KULL_ID" not in session:

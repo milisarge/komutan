@@ -232,6 +232,12 @@ animation: glyphicon-spin-r 1s infinite linear;
 			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
+		$('#mpssil-sor').on('click', function(e) {
+		  e.preventDefault();
+		   $("#mpssil-onay").find('.modal-body').html($("#paketadi").val()+" paketini silmek istiyor musunuz?");
+		  $("#mpssil-onay").modal('show');
+		});
+		
 		$('#mpsgun').on('click', function(event){
 			event.preventDefault();
 			$('[id^="kurulu-bilgi"]').hide();
@@ -395,7 +401,7 @@ animation: glyphicon-spin-r 1s infinite linear;
 				<div class="form-group">
 				  <div class="col-md-4">
 					<input type="submit" class="btn btn-success" name="mpskur" id="mpskur" value="KUR" />
-					<input type="submit" class="btn btn-danger" name="mpssil" id="mpssil" value="KALDIR" />
+					<input type="submit" class="btn btn-danger" name="mpssil-sor" id="mpssil-sor" value="KALDIR" />
 					<input type="submit" class="btn btn-info" name="mpsgun" id="mpsgun" value="GÜNCELLE"  />
 				  </div>
 				</div>
@@ -421,9 +427,26 @@ animation: glyphicon-spin-r 1s infinite linear;
 					  
 					</div>
 				  </div> 
-				
-				
-				
+				  
+				  <!-- Modal paketsil -->
+				<div class="modal fade" id="mpssil-onay" role="dialog">
+					<div class="modal-dialog">
+					  <!-- Modal content-->
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <button type="button" class="close" data-dismiss="modal">&times;</button>
+						  <h4 class="modal-title">Paket Silme Onayı</h4>
+						</div>
+						<div class="modal-body">
+						  <p></p>
+						</div>
+						<div class="modal-footer">
+						  <button type="button" id="mpssil" class="btn btn-danger" data-dismiss="modal">Evet</button>
+						  <button type="button" id="iptal" class="btn btn-default" data-dismiss="modal">İptal</button>
+						</div>
+					  </div> 
+					</div>
+				</div> 
 				
 			  </fieldset>
 			  </form>
