@@ -16,13 +16,18 @@
 <link rel="stylesheet" href="/static/js/awesomplete.css" />
 <link rel="stylesheet" href="./static/bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet" href="./static/bootstrap/css/styles.css" />
+<link rel="stylesheet" href="./static/bootstrap/css/ayarlar.css" />
 <script src="/static/js/awesomplete.js"></script>
 <link rel="stylesheet"
 	href="{{url_for('static', filename='css/table2.css')}}" type="text/css"
 	id="" media="print, projection, screen">
 
 <style type="text/css">
-	
+
+body {
+	background-image: url('/static/bootstrap/img/bg.jpg');
+}
+
 hr {
   -moz-border-bottom-colors: none;
   -moz-border-image: none;
@@ -46,16 +51,14 @@ hr {
 			$("#guncelle").click();
 	    });
 		
-		$('#aplanlist').change(function(){
+		$('#aplanlist').on('click', function(event){
 			islem="aplan_degistir"
 			aplan=$('#aplanlist').val();
 			$.ajax({
 				url : "/komutanAyarIslem?islem="+islem+"&dosya="+aplan,
 			}).done(function(data) {
-				islemTamam("islem tamam")
-			});
-				
-			
+				islemTamam("tamam");
+			});	
 		});
 		
 		
@@ -163,6 +166,7 @@ hr {
 			<legend class="text-center">Komutan Ayarlar Sayfası</legend>
 			<div class="form-group">
 				<div class="col-md-4">	
+					<label>Arkaplan resmi ayarlama</label>
 					<select class="form-control" name="aplanlist" id="aplanlist" style="width: 450px;" > 
 					{% for aplan in aplanlar %}<option>{{aplan}}</option>{% endfor %}
 					</select>

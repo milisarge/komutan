@@ -507,8 +507,22 @@ def komutanAyarlar():
 def komutanAyarIslem():
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
-		aplanlar=arger.dizin_cek(dizin="static/bootstrap/img")
-		return render_template('komutanAyarlar.html',kayitmodu='w',aplanlar=aplanlar)
+		ayarlar=""
+		data=""
+		islem = request.args.get('islem')
+		dosya = request.args.get('dosya')
+		if islem == "aplan_degistir":
+			if dosya != "":
+				ayarlar="body { "+"\n"
+				ayarlar+="background: url('/static/bootstrap/img/"+dosya+"') no-repeat center center fixed;"+"\n"
+				ayarlar+="-webkit-background-size: cover;" + "\n"
+				ayarlar+="-moz-background-size: cover;" + "\n"
+				ayarlar+="background-size: cover;" + "\n"
+				ayarlar+="-o-background-size: cover;" + "\n"
+				ayarlar+="margin: 20px 20px 20px 20px;" + "\n"
+				ayarlar+="}"
+				open("static/bootstrap/css/ayarlar.css","w").write(ayarlar)
+		return Response(json.dumps(data),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 		

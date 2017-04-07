@@ -1,0 +1,8 @@
+body { 
+background: url('/static/bootstrap/img/bg.jpg') no-repeat center center fixed;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+background-size: cover;
+-o-background-size: cover;
+margin: 20px 20px 20px 20px;
+}
