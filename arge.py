@@ -19,6 +19,7 @@ import subprocess
 import crypt
 import yaml
 import hashlib
+import filecmp
 
 class Arge:
 	
@@ -221,6 +222,25 @@ class Arge:
 		else:
 			return True
 	
+	def gitdepo_dosyalar(self):
+		gitdosyalar=[]
+		dosyalar=self.komutCalistir("ls -d  $PWD/rehber/depolar/*/*")
+		rehdosyalar=self.komutCalistir("find  $PWD/rehber/*  -maxdepth 1 -type f")
+		rehdosyalar=rehdosyalar.split("\n")
+		rehdosyalar=filter(None,rehdosyalar)
+		dosyalar=dosyalar.split("\n")
+		dosyalar=filter(None,dosyalar)
+		rapor=""
+		for dosya in dosyalar:
+			sonuc=True
+			for rehdosya in rehdosyalar:
+				sonuc=filecmp.cmp(dosya,rehdosya)
+				if sonuc:
+					break
+			if sonuc is False:
+				gitdosyalar.append(dosya)
+		#open("/tmp/rapor","w").write(rapor)
+		print gitdosyalar
 	def gitdepo_ekle(self,link):
 		if self.link_kontrol(link):
 			depoyer="rehber/depolar/"

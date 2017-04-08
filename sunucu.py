@@ -490,6 +490,7 @@ def rehberModul():
 		#client.publish('milislinux/komutan/rehber', kimlik+' rehberi yenilendi.')
 		rehberlist=arger.dizin_cek(dizin="rehber")
 		depolar=arger.dizin_cek(dizin="rehber/depolar")
+		
 		return render_template('rehberModul.html',rehberler=rehberlist,mod=dizin,kayitmodu='w',depolar=depolar)
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
@@ -617,10 +618,10 @@ def calismaKaydet():
 		test=codecs.open(dizin+"/"+dosya,"w","utf-8").write(komut)
 		test=codecs.open("/tmp/komutan_islem","w","utf-8").write(komut)
 		sonuc="tamam"
-		os.system("yapistir-ix.io.sh /tmp/komutan_islem > /tmp/komutan_islem_link")
-		client.connect("test.mosquitto.org",1883,60)
-		client.publish('milislinux/komutan/'+dizin, kimlik+' '+dizin+' islemi.')
-		client.publish('milislinux/komutan/'+dizin, kimlik+' '+open("/tmp/komutan_islem_link","r").read()+' linki.')
+		#os.system("yapistir-ix.io.sh /tmp/komutan_islem > /tmp/komutan_islem_link")
+		#client.connect("test.mosquitto.org",1883,60)
+		#client.publish('milislinux/komutan/'+dizin, kimlik+' '+dizin+' islemi.')
+		#client.publish('milislinux/komutan/'+dizin, kimlik+' '+open("/tmp/komutan_islem_link","r").read()+' linki.')
 		return Response(json.dumps(sonuc),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")

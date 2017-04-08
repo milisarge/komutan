@@ -114,9 +114,14 @@ hr {
 		});
 		
 		$('#deposil').on('click', function(e) {
-		  e.preventDefault();
-		   $("#deposil-onay").find('.modal-body').html($("#rehberdepo").val()+" silmek isteğinize emin misiniz?");
-		  $("#deposil-onay").modal('show');
+			e.preventDefault();
+			$("#deposil-onay").find('.modal-body').html($("#rehberdepo").val()+" silmek isteğinize emin misiniz?");
+			$("#deposil-onay").modal('show');
+		});
+		
+		$('#deposil-evet').on('click', function(e) {
+			e.preventDefault();
+			hataGoster("yapim aşamasında")
 		});
 		
 		$('#rehbergg').on('click', function(event){
