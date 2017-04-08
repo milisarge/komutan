@@ -56,11 +56,12 @@ animation: glyphicon-spin-r 1s infinite linear;
 </style>
 
 <script>
+	
 	$(document).ready(function() {
 		
+		
 		var bg = Cookies.get('mlsBg');
-		$('#arkaplansec').val(bg);
-		$('body').css({background : 'url('+bg+')  no-repeat center center fixed'});
+		$('body').css({"background" : 'url('+bg+')  no-repeat center center fixed', "-webkit-background-size":"cover", "-moz-background-size":"cover","-o-background-size":"cover","background-size":"cover","margin":"20px 20px 20px 20px"});
 		
 		$('#calismakod').hide();
 		$("#yukleniyor").hide();

@@ -10,7 +10,10 @@
 
 
 <script>
-	
+	$(document).ready(function() {
+		var bg = Cookies.get('mlsBg');
+		$('body').css({"background" : 'url('+bg+')  no-repeat center center fixed', "-webkit-background-size":"cover", "-moz-background-size":"cover","-o-background-size":"cover","background-size":"cover","margin":"20px 20px 20px 20px"});
+	});	
 </script>
 </head>
 

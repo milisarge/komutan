@@ -10,6 +10,7 @@
 <script src="../static/js/jquery.tablesorter.min.js"></script>
 <script src="../static/js/jquery.blockUI.js"></script>
 <script src="../static/js/shortcut.js"></script>
+<script src="/static/js/js.cookie.js"></script>
 <link rel="stylesheet" href="/static/css/balloon.min.css">
 <link rel="stylesheet" href="/static/js/awesomplete.css" />
 <link rel="stylesheet" href="./static/bootstrap/css/bootstrap.min.css" />
@@ -75,6 +76,9 @@
 </style>
 <script>
 	$(document).ready(function() {
+		
+		var bg = Cookies.get('mlsBg');
+		$('body').css({"background" : 'url('+bg+')  no-repeat center center fixed', "-webkit-background-size":"cover", "-moz-background-size":"cover","-o-background-size":"cover","background-size":"cover","margin":"20px 20px 20px 20px"});
 		
 		//$("#akisgoster").addClass('hidden');
 		$("#test").addClass('hidden');

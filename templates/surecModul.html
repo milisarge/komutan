@@ -15,6 +15,7 @@
 <script src="../static/js/jquery.blockUI.js"></script>
 <script src="../static/js/jquery.tablesorter.min.js"></script>
 <script src="../static/js/shortcut.js"></script>
+<script src="/static/js/js.cookie.js"></script>
 <script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
 <link rel="stylesheet"
 	href="{{url_for('static', filename='css/table2.css')}}" type="text/css"
@@ -22,7 +23,8 @@
 
 </head>
 <script>
-	
+	var bg = Cookies.get('mlsBg');
+	$('body').css({"background" : 'url('+bg+')  no-repeat center center fixed', "-webkit-background-size":"cover", "-moz-background-size":"cover","-o-background-size":"cover","background-size":"cover","margin":"20px 20px 20px 20px"});
 </script>
 <body>
 	<div class=anasablon>
