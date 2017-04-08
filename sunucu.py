@@ -499,7 +499,10 @@ def komutanAyarlar():
 	girdimi=arger.girdi_kontrol(session['KULL_ID'])
 	if ("KULL_ID" in session and girdimi) :
 		aplanlar=arger.dizin_cek(dizin="static/bootstrap/img")
-		return render_template('komutanAyarlar.html',kayitmodu='w',aplanlar=aplanlar)
+		aplanlist=[]
+		for aplan in aplanlar:
+			aplanlist.append("/static/bootstrap/img/"+aplan)
+		return render_template('komutanAyarlar.html',kayitmodu='w',aplanlar=aplanlist)
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 		
