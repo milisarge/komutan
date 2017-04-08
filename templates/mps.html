@@ -10,6 +10,7 @@
 <script src="../static/js/jquery.blockUI.js"></script>
 <script src="../static/bootstrap/js/bootstrap.min.js"></script>
 <script src="../static/js/shortcut.js"></script>
+<script src="/static/js/js.cookie.js"></script>
 <link rel="stylesheet" href="/static/css/balloon.min.css">
 <link rel="stylesheet" href="/static/js/awesomplete.css" />
 <link rel="stylesheet" href="./static/bootstrap/css/bootstrap.min.css" />
@@ -56,6 +57,10 @@ animation: glyphicon-spin-r 1s infinite linear;
 
 <script>
 	$(document).ready(function() {
+		
+		var bg = Cookies.get('mlsBg');
+		$('#arkaplansec').val(bg);
+		$('body').css({background : 'url('+bg+')  no-repeat center center fixed'});
 		
 		$('#calismakod').hide();
 		$("#yukleniyor").hide();

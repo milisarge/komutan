@@ -11,6 +11,7 @@
 <script src="../static/js/jquery.blockUI.js"></script>
 <script src="../static/js/shortcut.js"></script>
 <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+<script src="../static/js/js.cookie.js"></script>
 <script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
 <link rel="stylesheet" href="/static/css/balloon.min.css">
 <link rel="stylesheet" href="/static/js/awesomplete.css" />
@@ -45,12 +46,16 @@ hr {
 	$(document).ready(function() {
 		
 		$('#calismakod').show();
+		var bg = Cookies.get('mlsBg');
+		$('#arkaplansec').val(bg);
+		$('body').css({background : 'url('+bg+')  no-repeat center center fixed'});
+		
 		
 		shortcut.add("ctrl+K", function() {
 			//event.preventDefault();
 			$("#guncelle").click();
 	    });
-		
+		/*
 		$('#aplanlist').on('click', function(event){
 			islem="aplan_degistir"
 			aplan=$('#aplanlist').val();
@@ -60,7 +65,14 @@ hr {
 				islemTamam("tamam");
 			});	
 		});
-		
+		*/
+		$('#arkaplansec').change(function() {
+			var selectedBg = $('#arkaplansec').val();
+			console.log(selectedBg);
+			Cookies.set('mlsBg', selectedBg);
+			location.reload();
+		});
+
 		
 	});
 	
@@ -164,11 +176,33 @@ hr {
 		<form id=raporForm name=raporForm action="{{ url_for('rehberModul') }}" method=post>
 		<fieldset>
 			<legend class="text-center">Komutan Ayarlar Sayfası</legend>
+			<!---
 			<div class="form-group">
 				<div class="col-md-4">	
 					<label>Arkaplan resmi ayarlama</label>
 					<select class="form-control" name="aplanlist" id="aplanlist" style="width: 450px;" > 
 					{% for aplan in aplanlar %}<option>{{aplan}}</option>{% endfor %}
+					</select>
+				</div>
+			</div>
+			--->
+			<div class="form-group">
+				<div class="col-md-4">	
+					<label>Arkaplan resmi ayarlama</label>
+					<select name="arkaplansec" id="arkaplansec" class="form-control">
+					<option value="https://github.com/yasarciv/milis-gorsel/raw/master/komutan-arkaplan/resim-1.pjpg">resim1</option>
+					<option value="https://github.com/yasarciv/milis-gorsel/raw/master/komutan-arkaplan/resim-2.jpg">resim2</option>
+					<option value="https://github.com/yasarciv/milis-gorsel/raw/master/komutan-arkaplan/resim-3.png">resim3</option>
+					<option value="https://github.com/yasarciv/milis-gorsel/raw/master/komutan-arkaplan/resim-4.png">resim4</option>
+					<option value="https://github.com/yasarciv/milis-gorsel/raw/master/komutan-arkaplan/resim-5.png">resim5</option>
+					<option value="https://github.com/yasarciv/milis-gorsel/raw/master/komutan-arkaplan/resim-6.JPG">resim6</option>
+					<option value="https://github.com/yasarciv/milis-gorsel/raw/master/komutan-arkaplan/resim-7.png">resim7</option>
+					<option value="https://github.com/yasarciv/milis-gorsel/raw/master/komutan-arkaplan/resim-8.png">resim8</option>
+					<option value="https://github.com/yasarciv/milis-gorsel/raw/master/komutan-arkaplan/resim-9.png">resim9</option>
+					<option value="https://github.com/yasarciv/milis-gorsel/raw/master/komutan-arkaplan/resim-10.png">resim10</option>
+					<option value="https://github.com/yasarciv/milis-gorsel/raw/master/komutan-arkaplan/resim-11.png">resim11</option>
+					<option value="https://github.com/yasarciv/milis-gorsel/raw/master/komutan-arkaplan/resim-12.jpg">resim12</option>
+					<option value="https://github.com/yasarciv/milis-gorsel/raw/master/komutan-arkaplan/resim-13.png">resim13</option>
 					</select>
 				</div>
 			</div>
