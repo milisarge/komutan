@@ -232,7 +232,7 @@ class Arge:
 	
 	def gitdepo_dosyalar(self):
 		gitdosyalar=[]
-		dosyalar=self.komutCalistir("find  $PWD/rehber/depolar/*/  -maxdepth 1 -type f")
+		dosyalar=self.komutCalistir("find  $PWD/rehber/depolar/*  -maxdepth 1 -type f")
 		rehdosyalar=self.komutCalistir("find  $PWD/rehber/*  -maxdepth 1 -type f")
 		rehdosyalar=rehdosyalar.split("\n")
 		rehdosyalar=filter(None,rehdosyalar)
