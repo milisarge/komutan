@@ -25,6 +25,11 @@ class Arge:
 	
 	def komutCalistir(self,c):
 		out = subprocess.check_output(c,stderr=subprocess.STDOUT,shell=True,universal_newlines=True)
+		'''try:
+			out=subprocess.check_output(c,shell=True,stderr=subprocess.STDOUT)
+		except subprocess.CalledProcessError as e:
+			raise RuntimeError("command '{}' return with error (code {}): {}".format(e.cmd, e.returncode, e.output))
+			return (e.output).replace("\b","")'''
 		return out.replace("\b","")  #encode byte format to string, ugly hack 
 		
 	def dizin_cek(self,dizin='dizin',uzanti=""):
@@ -217,8 +222,10 @@ class Arge:
 	
 	def link_kontrol(self,link):
 		indirme_komut="curl -s "
-		sonuc=self.komutCalistir(indirme_komut+link)
-		if "Not Found" in sonuc:
+		komut=indirme_komut+link+" &> /tmp/link_kontrol" 
+		os.system(komut)
+		sonuc=open("/tmp/link_kontrol","r").read()
+		if "Not Found" in sonuc or "servis bilinmiyor" in sonuc:
 			return False
 		else:
 			return True
@@ -241,8 +248,8 @@ class Arge:
 			if sonuc is False:
 				dosya=dosya.split("depolar/")[1]
 				gitdosyalar.append(dosya)
-		#open("/tmp/rapor","w").write(rapor)
 		return gitdosyalar
+		
 	def gitdepo_ekle(self,link):
 		if self.link_kontrol(link):
 			depoyer="rehber/depolar/"
@@ -265,7 +272,6 @@ class Arge:
 					depo_ekle_komut+=depoyer+hesdep
 			else:
 				return "hesap veya depo belirsizliği!"
-			print depo_ekle_komut
 			sonuc=self.komutCalistir(depo_ekle_komut)
 			return sonuc
 		else:

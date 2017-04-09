@@ -98,22 +98,26 @@ hr {
 		
 		$('#depoekle').on('click', function(event){
 			event.preventDefault();
-			var formOption = {
-				url				: "/rehberdepoEkle",
-				type			: "POST",
-				success: function (data) {
-					if( data.indexOf('!') >= 0){
-						hataGoster(data);
-						if( data.indexOf('zaten var!') {
-							$("#depogun-onay").find('.modal-body').html($("#rehberdepo").val()+" güncellemek isteğinize emin misiniz?");
-							$("#depogun-onay").modal('show');
+			if ($('#rehberdepo').val()){
+				var formOption = {
+					url				: "/rehberdepoEkle",
+					type			: "POST",
+					success: function (data) {
+						if( data.indexOf('!') >= 0){
+							hataGoster(data);
+							if( data.indexOf('zaten var!') >= 0 ){
+								$("#depogun-onay").find('.modal-body').html($("#rehberdepo").val()+" güncellemek isteğinize emin misiniz?");
+								$("#depogun-onay").modal('show');
+							}
+						}else{
+							islemTamam(data);
 						}
-					}else{
-						islemTamam(data);
 					}
-				}
-			};
-			$('#raporForm').ajaxSubmit(formOption);
+				};
+				$('#raporForm').ajaxSubmit(formOption);
+			}else{
+				hataGoster("Rehber Depo boş olamaz!");
+			}
 			
 		});
 		
@@ -128,9 +132,20 @@ hr {
 			hataGoster("yapim aşamasında")
 		});
 		
-		$('#depogun').on('click', function(e) {
-			e.preventDefault();
-			hataGoster("yapim aşamasında")
+		$('#depogun').on('click', function(e) {	
+			event.preventDefault();
+			var formOption = {
+				url				: "/rehberdepoGuncelle",
+				type			: "POST",
+				success: function (data) {
+					if( data.indexOf('!') >= 0){
+						hataGoster(data);
+					}else{
+						islemTamam(data);
+					}
+				}
+			};
+			$('#raporForm').ajaxSubmit(formOption);
 		});
 		
 		$('#rehbergg').on('click', function(event){
@@ -272,11 +287,11 @@ hr {
 					<label>Ek Rehber Deposu</label>
 				</div>
 				<div class="col-md-4">	
-					<input type="text" class="form-control" name="rehberdepo" id="rehberdepo" placeholder="https://github.com/milisarge/rehberdepo" list="depolarveri" tabindex="-1" style="width: 350px;"/>
+					<input type="text" class="form-control" name="rehberdepo" id="rehberdepo" placeholder="https://github.com/milisarge/rehberdepo" list="depolarveri"  style="width: 350px;"/>
 				</div>
 				<div class="col-md-4">	
 					<input type="submit" class="btn btn-info" name="depoekle" id="depoekle" value="DEPO EKLE"/>
-					<input type="submit" class="btn btn-danger" name="deposil-sor" id="deposil" value="DEPO SİL"/>
+					<input type="submit" class="btn btn-danger" name="deposil-sor" id="deposil-sor" value="DEPO SİL"/>
 				</div>
 				
 			</div>	

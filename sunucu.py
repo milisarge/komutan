@@ -541,7 +541,20 @@ def rehberdepoEkle():
 		data=arger.gitdepo_ekle(depo_adres)
 		return Response(json.dumps(data),mimetype='application/json')
 	else:
-		return render_template('giris.html', error="isim ve sifre giriniz")	
+		return render_template('giris.html', error="isim ve sifre giriniz")
+
+@app.route('/rehberdepoGuncelle', methods=['GET', 'POST'])	
+def rehberdepoGuncelle():
+	if "KULL_ID" not in session:
+		session['KULL_ID']=-1
+	girdimi=arger.girdi_kontrol(session['KULL_ID'])
+	if ("KULL_ID" in session and girdimi) :
+		data=""
+		depo_adres=request.form["rehberdepo"]
+		data=arger.gitdepo_ekle(depo_adres)
+		return Response(json.dumps(data),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")		
 
 @app.route('/rehberOku', methods=['GET', 'POST'])
 def rehberOku():
