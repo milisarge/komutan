@@ -490,8 +490,8 @@ def rehberModul():
 		#client.publish('milislinux/komutan/rehber', kimlik+' rehberi yenilendi.')
 		rehberlist=arger.dizin_cek(dizin="rehber")
 		depolar=arger.dizin_cek(dizin="rehber/depolar")
-		
-		return render_template('rehberModul.html',rehberler=rehberlist,mod=dizin,kayitmodu='w',depolar=depolar)
+		rehberlist2=arger.gitdepo_dosyalar()
+		return render_template('rehberModul.html',rehberler=rehberlist,mod=dizin,kayitmodu='w',depolar=depolar,rehberler2=rehberlist2)
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
 		
@@ -542,6 +542,22 @@ def rehberdepoEkle():
 		return Response(json.dumps(data),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")	
+
+@app.route('/rehberOku', methods=['GET', 'POST'])
+def rehberOku():
+	onay=1
+	if(onay==1):
+		dizin="rehber"
+		dizin2="rehber/depolar/"
+		if "dosya" in request.args:
+			dosya = request.args.get('dosya')
+			if "/" in dosya:
+				data=codecs.open(dizin2+"/"+dosya,"r").read()
+			else:
+				data=codecs.open(dizin+"/"+dosya,"r").read()
+		return Response(json.dumps(data),mimetype='application/json')
+	else:
+		return render_template('giris.html', error="isim ve sifre giriniz")
 		
 @app.route('/komutanGuncelle', methods=['GET', 'POST'])	
 def komutanGuncelle():
@@ -584,7 +600,7 @@ def komutCalistir():
 		return render_template('giris.html', error="isim ve sifre giriniz")
 
 @app.route('/calismaAl', methods=['GET', 'POST'])
-def komutAl():
+def calismaAl():
 	onay=1
 	if(onay==1):
 		if('mod' in request.args):

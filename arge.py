@@ -31,6 +31,7 @@ class Arge:
 		#dizinyol='/'+dizin
 		flst=[]
 		lst=os.listdir(dizin)
+		lst=[x for x in lst if os.path.isfile((dizin+"/"+x))]
 		if uzanti=="":
 			return sorted(lst)
 		else:
@@ -224,7 +225,7 @@ class Arge:
 	
 	def gitdepo_dosyalar(self):
 		gitdosyalar=[]
-		dosyalar=self.komutCalistir("ls -d  $PWD/rehber/depolar/*/*")
+		dosyalar=self.komutCalistir("find  $PWD/rehber/depolar/*/  -maxdepth 1 -type f")
 		rehdosyalar=self.komutCalistir("find  $PWD/rehber/*  -maxdepth 1 -type f")
 		rehdosyalar=rehdosyalar.split("\n")
 		rehdosyalar=filter(None,rehdosyalar)
@@ -238,9 +239,10 @@ class Arge:
 				if sonuc:
 					break
 			if sonuc is False:
+				dosya=dosya.split("depolar/")[1]
 				gitdosyalar.append(dosya)
 		#open("/tmp/rapor","w").write(rapor)
-		print gitdosyalar
+		return gitdosyalar
 	def gitdepo_ekle(self,link):
 		if self.link_kontrol(link):
 			depoyer="rehber/depolar/"

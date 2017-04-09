@@ -44,7 +44,6 @@ hr {
 		var bg = Cookies.get('mlsBg');
 		$('body').css({"background" : 'url('+bg+')  no-repeat center center fixed', "-webkit-background-size":"cover", "-moz-background-size":"cover","-o-background-size":"cover","background-size":"cover","margin":"20px 20px 20px 20px"});
 		
-		
 		$('#calismakod').show();
 		
 		shortcut.add("ctrl+K", function() {
@@ -55,7 +54,7 @@ hr {
 		$('#calismalist').change(function(){
 			rehberdosya=$('#calismalist').val();
 			$.ajax({
-				url : "/calismaAl?mod="+$('#mod').val() +"&dosya="+rehberdosya,
+				url : "/rehberOku?dosya="+rehberdosya,
 			}).done(function(data) {
 				$("#calismakod").val(data);
 			});
@@ -104,22 +103,32 @@ hr {
 				type			: "POST",
 				success: function (data) {
 					if( data.indexOf('!') >= 0){
-					  hataGoster(data);
+						hataGoster(data);
+						if( data.indexOf('zaten var!') {
+							$("#depogun-onay").find('.modal-body').html($("#rehberdepo").val()+" güncellemek isteğinize emin misiniz?");
+							$("#depogun-onay").modal('show');
+						}
 					}else{
 						islemTamam(data);
 					}
 				}
 			};
 			$('#raporForm').ajaxSubmit(formOption);
+			
 		});
 		
-		$('#deposil').on('click', function(e) {
+		$('#deposil-sor').on('click', function(e) {
 			e.preventDefault();
 			$("#deposil-onay").find('.modal-body').html($("#rehberdepo").val()+" silmek isteğinize emin misiniz?");
 			$("#deposil-onay").modal('show');
 		});
 		
-		$('#deposil-evet').on('click', function(e) {
+		$('#deposil').on('click', function(e) {
+			e.preventDefault();
+			hataGoster("yapim aşamasında")
+		});
+		
+		$('#depogun').on('click', function(e) {
 			e.preventDefault();
 			hataGoster("yapim aşamasında")
 		});
@@ -236,6 +245,7 @@ hr {
 				<div class="col-md-4">	
 					<select class="form-control" name="calismalist" id="calismalist" style="width: 450px;" > 
 					{% for rehber in rehberler %}<option>{{rehber}}</option>{% endfor %}
+					{% for rehber2 in rehberler2 %}<option>{{rehber2}}</option>{% endfor %}
 					</select>
 				</div>
 				<div class="col-md-2">	
@@ -251,7 +261,7 @@ hr {
 			<hr>
 			<div class="form-group">
 				<div class="col-md-8">
-					<textarea class="form-control" id="calismakod" name="calismakod" placeholder="Paket bilgileri burda..." rows="20"></textarea>
+					<textarea class="form-control" id="calismakod" name="calismakod" placeholder="Rehber bilgileri burda..." rows="20"></textarea>
 			  </div>
 			</div>
 			<div class="form-group">
@@ -266,11 +276,11 @@ hr {
 				</div>
 				<div class="col-md-4">	
 					<input type="submit" class="btn btn-info" name="depoekle" id="depoekle" value="DEPO EKLE"/>
-					<input type="submit" class="btn btn-danger" name="deposil" id="deposil" value="DEPO SİL"/>
+					<input type="submit" class="btn btn-danger" name="deposil-sor" id="deposil" value="DEPO SİL"/>
 				</div>
 				
 			</div>	
-			<!-- Modal -->
+			<!-- Modal depo silme onay -->
 			<div class="modal fade" id="deposil-onay" role="dialog">
 				<div class="modal-dialog">
 
@@ -284,8 +294,30 @@ hr {
 					  <p></p>
 					</div>
 					<div class="modal-footer">
-					  <button type="button" id="deposil-evet" class="btn btn-default" data-dismiss="modal">Evet</button>
+					  <button type="button" id="deposil" class="btn btn-default" data-dismiss="modal">Evet</button>
 					  <button type="button" id="iptal" class="btn btn-default" data-dismiss="modal">İptal</button>
+					</div>
+				  </div>
+				  
+				</div>
+			</div> 
+			
+			<!-- Modal depo güncelleme onay -->
+			<div class="modal fade" id="depogun-onay" role="dialog">
+				<div class="modal-dialog">
+
+				  <!-- Modal content-->
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <button type="button" class="close" data-dismiss="modal">&times;</button>
+					  <h4 class="modal-title">Rehber Depo Güncelleme Onayı</h4>
+					</div>
+					<div class="modal-body">
+					  <p></p>
+					</div>
+					<div class="modal-footer">
+					  <button type="button" id="depogun" class="btn btn-default" data-dismiss="modal">Evet</button>
+					  <button type="button" id="iptal2" class="btn btn-default" data-dismiss="modal">İptal</button>
 					</div>
 				  </div>
 				  

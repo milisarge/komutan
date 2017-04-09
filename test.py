@@ -27,4 +27,4 @@ for dosya in dosyalar:
 		print(rapor)
 '''
 arger=Arge()
-arger.gitdepo_dosyalar()
+print arger.dizin_cek("rehber")
