@@ -551,7 +551,7 @@ def rehberdepoGuncelle():
 	if ("KULL_ID" in session and girdimi) :
 		data=""
 		depo_adres=request.form["rehberdepo"]
-		data=arger.gitdepo_ekle(depo_adres)
+		data=arger.gitdepo_ekle(depo_adres,mod="g")
 		return Response(json.dumps(data),mimetype='application/json')
 	else:
 		return render_template('giris.html', error="isim ve sifre giriniz")		

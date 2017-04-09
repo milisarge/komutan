@@ -250,7 +250,7 @@ class Arge:
 				gitdosyalar.append(dosya)
 		return gitdosyalar
 		
-	def gitdepo_ekle(self,link):
+	def gitdepo_ekle(self,link,mod="e"):
 		if self.link_kontrol(link):
 			depoyer="rehber/depolar/"
 			sonuc="" 
@@ -267,7 +267,14 @@ class Arge:
 			depo_ekle_komut+=link+" "
 			if hesap != "" and depo != "":
 				if os.path.exists(depoyer+hesdep):
-					return "depo zaten var!"
+					if mod =="e":
+						return "depo zaten var!"
+					if mod=="g":
+						sonuc=self.komutCalistir("cd "+depoyer+hesdep+" && git pull")
+						if "up-to-date." in sonuc:
+							return hesdep+"rehber deposu zaten güncel."
+						else:
+							return hesdep+"rehber deposu güncellendi."
 				else:
 					depo_ekle_komut+=depoyer+hesdep
 			else:

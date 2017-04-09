@@ -127,12 +127,12 @@ hr {
 			$("#deposil-onay").modal('show');
 		});
 		
-		$('#deposil').on('click', function(e) {
-			e.preventDefault();
+		$('#deposil').on('click', function(event) {
+			event.preventDefault();
 			hataGoster("yapim aşamasında")
 		});
 		
-		$('#depogun').on('click', function(e) {	
+		$('#depogun').on('click', function(event) {	
 			event.preventDefault();
 			var formOption = {
 				url				: "/rehberdepoGuncelle",
