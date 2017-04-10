@@ -12,6 +12,7 @@
 <script src="../static/js/shortcut.js"></script>
 <script src="../static/bootstrap/js/bootstrap.min.js"></script>
 <script src="../static/js/js.cookie.js"></script>
+
 <script src="{{url_for('static', filename='js/jquery.tablesorter.min.js')}}"></script>
 <link rel="stylesheet" href="/static/css/balloon.min.css">
 <link rel="stylesheet" href="/static/js/awesomplete.css" />
@@ -70,6 +71,15 @@ hr {
 			console.log(selectedBg);
 			Cookies.set('mlsBg', selectedBg);
 			location.reload();
+		});
+		
+		$('#test').on('click', function(event){
+			event.preventDefault();
+			//console.log($('#tinypic_plugin_333').contents().find('#direct-link').val());
+			var iframe = document.getElementById('tinypic_plugin_333');
+			var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+			var input = innerDoc.getElementById('direct-link');
+			console.log(input);
 		});
 
 		
@@ -146,8 +156,9 @@ hr {
             }
         });
 	}
-	
+
 </script>
+
 </head>
 
 <body> 
@@ -197,6 +208,9 @@ hr {
 					</select>
 				</div>
 			</div>
+			<div class="col-md-10">	
+			 <input type="submit" class="btn btn-info" name="test" id="test" value="test"  />
+			 </div>
 			<input id="mod" name="mod"  hidden value="{{mod}}" />
 			<input id="kayitmodu" name="kayitmodu"  hidden value="{{kayitmodu}}" />
 		</fieldset>
@@ -209,6 +223,6 @@ hr {
 	</div>
 </div>
 	
-
+<script src="../static/js/tinypic.js"></script>
 </body>
 </HTML>
