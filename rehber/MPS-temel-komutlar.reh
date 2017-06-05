@@ -1,0 +1,28 @@
+Milis Paket Sistemi
+
+Aşağıda bazı temel komutlar ve kullanımlarını görebilirsiniz:
+
+İkili paket veritabanını ve talimatnameyi güncellemek için:
+
+$ mps guncelle
+
+Dosyadan ya da depodan yazılım paketi kurmak için:
+
+$ mps kur paket_adi
+$ mps kur paket_adi.mps.lz
+
+Paket silmek için:
+
+$ mps sil paket_adi
+
+Paket güncellemek için:
+
+$ mps -g paket_adi
+
+Paket aramak için:
+
+$ mps ara paket_adi
+
+Sistem genelinde güncelleme:
+
+$ mps -GS

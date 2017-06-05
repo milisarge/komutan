@@ -1,0 +1,57 @@
+API Parametreler
+
+Milis Paket Sistemi (MPS) Bash tabanlıdır ve modüler şekilde tasarlanmıştır. Yani her bir işlevi yerine getiren bağımsız bir modül vardır ve bir modül diğer modülleri geliştirmek için kullanılabilir. Bu modüller sistemde kayıtlı parametreleri kullanılarak recursive olarak çağırılırlar. Modülleri çağıran parametrelere "API Parametreler" adı verilir ve tire işaretiyle başladığından son kullanıcı parametrelerinden ayrılırlar. Bu parametreleri geliştirme dışında ileri kullanım ya da hata ayıklama amacı ile de kullanabilirsiniz.
+
+Aşağıda bazı API Parametreleri ve kullanımlarını görebilirsiniz:
+
+İkili paket veritabanini gunceller:
+
+$ mps -G
+
+Git sunucusundan talimatname ve sistem günceller:
+
+$ mps -GG
+
+İlgili paketi bağimlılıklarıyla ağdan çekip kurar:
+
+$ mps kur paket_ismi
+
+İlgili paketi kaldırır:
+
+$ mps sil paket_ismi
+
+sadece ilgili paketi günceller:
+
+$ mps -g paket_ismi
+
+ilgili paketi tüm bağımlılıklarıyla günceller:
+
+$ mps -go paket_ismi
+
+ilgili paketin ana bağımlılıklarını siler.(masaüstü veya blok programları kaldırmak için):
+
+$ mps -S paket_ismi
+
+Yereldeki paketi bagimliliksiz kurar:
+
+$ mps -k paket_ismi
+
+Kurulu paket listesini verir:
+
+$ mps -kl
+
+İlgili paketin kurulu olma durumunu verir:
+
+$ mps -kk paket_ismi
+
+İlgili paketin talimat dosyasına göre bağımlıksız derler,paketler:
+
+$ mps -d paket_ismi
+
+İlgili paketin talimat dosyasına göre bağımlıklarıyla derler,paketler:
+
+$ mps -derle paket_ismi
+
+İlgili paketin talimat dosyasına göre bağımlıkları kontrol eder kurar olmayanı paketler:
+
+$ mps odkp paket_ismi
